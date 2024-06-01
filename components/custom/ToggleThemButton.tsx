@@ -24,7 +24,7 @@ export default function ToggleThemButton() {
   return (
     <Button
         variant='ghost'
-        className="absolute top-5 right-5 dark:text-white"
+        className="absolute top-2 right-1 dark:text-white md:top-5 md:right-5"
         aria-label="Change theme"
         onClick={handleClick}
     >

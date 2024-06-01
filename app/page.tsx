@@ -2,9 +2,9 @@ import ToggleThemButton from "@/components/custom/ToggleThemButton";
 
 export default function Home() {
   return (
-    <main className="py-20 max-w-xl mx-auto">
+    <main className="py-20 max-w-xl mx-auto px-4 md:px-0">
       <ToggleThemButton />
-      
+
       <h1 className="font-semibold">Mario Gueyraud</h1>
       <h2 className="font-light mt-1 dark:text-gray-300">Senior Front-End & Design Engineer</h2>
       <p className="mt-7 font-light dark:text-gray-300">
