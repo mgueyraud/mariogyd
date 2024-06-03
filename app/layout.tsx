@@ -31,8 +31,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" data-theme="dark">
-      <body className={cn(inter.className, 'bg-white text-neutral-900 dark:bg-neutral-900 dark:text-white')}>
-        {children}
+      <body className={cn(inter.className, 'bg-neutral-900 text-white')}>
+        <main className="py-20 max-w-xl mx-auto px-4 md:px-0">
+          {children}
+        </main>
       </body>
     </html>
   );
