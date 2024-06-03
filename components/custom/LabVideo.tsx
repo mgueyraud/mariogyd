@@ -8,15 +8,21 @@ type Props = {
 
 export default function LabVideo({ src }: Props) {
   return (
-    <div className='rounded-lg border-white hover:border'>
+    <motion.div 
+        initial={{ boxShadow: "none" }}
+        whileHover={{ boxShadow: "0 0 20px rgba(255, 255, 255, 0.3)", }}
+        whileTap={{ boxShadow: "0 0 12px rgba(255, 255, 255, 0.2)" }}
+        className='rounded-lg overflow-hidden'
+    >
         <video
             loop 
             muted
             autoPlay
+            
             src={src}
             controls={false}
-            className='rounded-md touch-none select-none'
+            className='touch-none select-none'
         ></video>
-    </div>
+    </motion.div>
   )
 }
