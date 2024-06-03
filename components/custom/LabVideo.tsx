@@ -14,7 +14,8 @@ export default function LabVideo({ src }: Props) {
             muted
             autoPlay
             src={src}
-            className='rounded-md'
+            controls={false}
+            className='rounded-md touch-none select-none'
         ></video>
     </div>
   )
