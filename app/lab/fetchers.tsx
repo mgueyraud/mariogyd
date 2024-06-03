@@ -13,7 +13,13 @@ export async function getLabPostBySlug(slug: string){
     const { frontmatter, content } = await compileMDX<{title: string, author: string, publishedDate: string, video: string}>({
         source: fileContent, 
         options: { parseFrontmatter: true},
-        components: labComponents
+        components: {
+            h1: (props) => <h2 {...props} className="font-semibold mb-2"/>,
+            p: (props) => <p {...props} className="font-light mb-1"/>,
+            a: (props) => <a {...props} className="font-light underline" target="_blank"/>,
+            li: (props) => <li {...props} className="font-light list-disc"/>,
+            ...labComponents
+        }
     });
 
     return {

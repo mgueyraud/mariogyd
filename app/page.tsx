@@ -65,7 +65,7 @@ export default function Home() {
       <p className="font-light mt-2 text-gray-300">
         In my proccess of learning design engineering and crafting animations, 
         I&apos;ve built this section to have a curated list of designs to showcase my skills, 
-        as well as learning them. I share them <Link href="/lab" className="underline">here</Link>.
+        as well as learning them. I share my journey as a design engineer <Link href="/lab" className="underline">here</Link>.
       </p>
 
       <h2 className="font-semibold mt-16">Get in touch</h2>

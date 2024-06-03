@@ -8,12 +8,7 @@ type Props = {
 
 export default function LabVideo({ src }: Props) {
   return (
-    <motion.div
-        initial={{ borderWidth: 0, padding: 0 }} 
-        whileHover={{ borderWidth: 2, padding: 5}}
-        transition={{ type: 'tween', ease: 'easeOut' }}
-        className='rounded-lg border-white'
-    >
+    <div className='rounded-lg border-white hover:border'>
         <video
             loop 
             muted
@@ -21,6 +16,6 @@ export default function LabVideo({ src }: Props) {
             src={src}
             className='rounded-md'
         ></video>
-    </motion.div>
+    </div>
   )
 }

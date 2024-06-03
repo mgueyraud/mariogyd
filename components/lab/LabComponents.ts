@@ -3,7 +3,7 @@ import FamilyTransaction from "./FamilyTransaction";
 
 const labComponents = {
     EmailClient,
-    FamilyTransaction
+    FamilyTransaction,
 }
 
 export default labComponents;

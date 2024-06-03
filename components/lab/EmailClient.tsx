@@ -1,6 +1,7 @@
 "use client";
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import ComponentWrapper from "../custom/ComponentWrapper";
 
 let titles = [
   ["Apple's newest iPhone is here", "Watch our July event"],
@@ -27,8 +28,8 @@ export default function EmailClient() {
   }
 
   return (
-    <div className="flex h-screen flex-col items-center justify-center overscroll-y-contain bg-gradient-to-br from-slate-700 to-slate-900 py-8 px-6 text-slate-600">
-      <div className="mx-auto flex w-full max-w-3xl flex-1 overflow-hidden rounded-2xl bg-white ">
+    <ComponentWrapper>
+      <div className="mx-auto flex w-full max-w-3xl flex-1 overflow-hidden rounded-2xl bg-white h-80">
         <div className="flex w-[45%] flex-col bg-slate-50 py-2">
           <div className="border-b px-5">
             <div className="flex justify-between py-2 text-right">
@@ -82,6 +83,6 @@ export default function EmailClient() {
           </div>
         </div>
       </div>
-    </div>
+    </ComponentWrapper>
   );
 }
