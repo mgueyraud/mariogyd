@@ -21,7 +21,7 @@ export default function LabVideo({ src }: Props) {
             playsInline
             src={src}
             controls={false}
-            className='touch-none select-none'
+            className='touch-none select-none pointer-events-none'
         ></video>
     </motion.div>
   )
