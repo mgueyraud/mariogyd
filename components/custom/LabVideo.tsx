@@ -18,7 +18,7 @@ export default function LabVideo({ src }: Props) {
             loop 
             muted
             autoPlay
-            
+            playsInline
             src={src}
             controls={false}
             className='touch-none select-none'
