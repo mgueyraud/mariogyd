@@ -6,19 +6,21 @@ import { cn } from "@/lib/utils";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://mariogyd.com"),
   title: "Mario Gueyraud",
-  description: "Passionate digital experience creator learning design engineering. Focused on simplicity, modernist design, and great taste.",
+  description:
+    "Passionate digital experience creator learning design engineering. Focused on simplicity, modernist design, and great taste.",
   icons: {
     icon: [
       {
-        media: '(prefers-color-scheme: light)',
-        url: '/circle-black.svg',
-        href: '/circle-black.svg',
+        media: "(prefers-color-scheme: light)",
+        url: "/circle-black.svg",
+        href: "/circle-black.svg",
       },
       {
-        media: '(prefers-color-scheme: dark)',
-        url: '/circle-white.svg',
-        href: '/circle-white.svg',
+        media: "(prefers-color-scheme: dark)",
+        url: "/circle-white.svg",
+        href: "/circle-white.svg",
       },
     ],
   },
@@ -31,10 +33,8 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" data-theme="dark">
-      <body className={cn(inter.className, 'bg-neutral-900 text-white')}>
-        <main className="py-20 max-w-xl mx-auto px-4 md:px-0">
-          {children}
-        </main>
+      <body className={cn(inter.className, "bg-neutral-900 text-white")}>
+        <main className="py-20 max-w-xl mx-auto px-4 md:px-0">{children}</main>
       </body>
     </html>
   );
