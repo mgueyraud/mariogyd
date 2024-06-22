@@ -136,7 +136,7 @@ export default function Home() {
           </div>
         </div>
         <Link
-          href="/resume.pdf"
+          href="https://read.cv/mariogyd"
           className="w-fit p-2 rounded-md bg-white text-black flex gap-1 items-center mt-1"
         >
           <LuNewspaper />
