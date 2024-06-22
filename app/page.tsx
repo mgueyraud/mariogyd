@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { CSSProperties } from "react";
+import { LuNewspaper } from "react-icons/lu";
 
 export default function Home() {
   return (
@@ -134,6 +135,13 @@ export default function Home() {
             </p>
           </div>
         </div>
+        <Link
+          href="/resume.pdf"
+          className="w-fit p-2 rounded-md bg-white text-black flex gap-1 items-center mt-1"
+        >
+          <LuNewspaper />
+          <span className="text-xs">View Resume</span>
+        </Link>
       </div>
 
       <h2
