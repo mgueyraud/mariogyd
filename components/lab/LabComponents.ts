@@ -4,6 +4,7 @@ import ShareInvite from "./ShareInvite";
 import FamilyTray from "./FamilyTray";
 import DownloadInteraction from "./DownloadInteraction";
 import TagsUI from "./TagsUI";
+import TrashInteraction from "./TrashInteraction";
 
 const labComponents = {
   EmailClient,
@@ -12,6 +13,7 @@ const labComponents = {
   FamilyTray,
   DownloadInteraction,
   TagsUI,
+  TrashInteraction,
 };
 
 export default labComponents;
