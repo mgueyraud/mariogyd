@@ -5,6 +5,7 @@ import FamilyTray from "./FamilyTray";
 import DownloadInteraction from "./DownloadInteraction";
 import TagsUI from "./TagsUI";
 import TrashInteraction from "./TrashInteraction";
+import MemoryCards from "./MemoryCards";
 
 const labComponents = {
   EmailClient,
@@ -14,6 +15,7 @@ const labComponents = {
   DownloadInteraction,
   TagsUI,
   TrashInteraction,
+  MemoryCards,
 };
 
 export default labComponents;
