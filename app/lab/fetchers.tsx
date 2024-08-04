@@ -36,7 +36,7 @@ export async function getLabPostBySlug(slug: string) {
   };
 }
 
-export async function getLabPosts() {
+export async function getLabPosts(pageNum = 1) {
   const files = fs.readdirSync(contentDir);
   const posts = await Promise.all(
     files.map(async (file) => await getLabPostBySlug(path.parse(file).name))
@@ -48,5 +48,9 @@ export async function getLabPosts() {
       new Date(a.frontmatter.publishedDate).getTime()
   );
 
-  return sortedPosts;
+  const startPage = (pageNum - 1) * 4;
+
+  const postsToShow = sortedPosts.slice(startPage, startPage + 4);
+
+  return { posts: postsToShow, numOfPages: Math.ceil(sortedPosts.length / 4) };
 }
