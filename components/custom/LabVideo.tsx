@@ -1,28 +1,41 @@
 "use client";
-import { motion } from 'framer-motion'
-import React from 'react'
+import React, { useRef } from "react";
+import { GoLinkExternal } from "react-icons/go";
 
 type Props = {
-    src: string
-}
+  src: string;
+};
 
 export default function LabVideo({ src }: Props) {
+  const refVideo = useRef<HTMLVideoElement>(null);
+
+  const stopVideo = () => {
+    refVideo.current?.pause();
+  };
+
+  const playVideo = () => {
+    refVideo.current?.play();
+  };
+
   return (
-    <motion.div 
-        initial={{ boxShadow: "none" }}
-        whileHover={{ boxShadow: "0 0 20px rgba(255, 255, 255, 0.3)", }}
-        whileTap={{ boxShadow: "0 0 12px rgba(255, 255, 255, 0.2)" }}
-        className='rounded-lg overflow-hidden'
+    <div
+      className="rounded-lg overflow-hidden relative group"
+      onMouseEnter={() => stopVideo()}
+      onMouseLeave={() => playVideo()}
     >
-        <video
-            loop 
-            muted
-            autoPlay
-            playsInline
-            src={src}
-            controls={false}
-            className='touch-none select-none pointer-events-none'
-        ></video>
-    </motion.div>
-  )
+      <video
+        ref={refVideo}
+        loop
+        muted
+        autoPlay
+        playsInline
+        src={src}
+        controls={false}
+        className="touch-none select-none pointer-events-none"
+      ></video>
+      <div className="absolute inset-0 bg-black/80 opacity-0 group-hover:opacity-100 grid place-items-center transition duration-300">
+        <GoLinkExternal className="size-8" />
+      </div>
+    </div>
+  );
 }
