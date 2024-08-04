@@ -15,6 +15,7 @@ export async function getLabPostBySlug(slug: string) {
     author: string;
     publishedDate: string;
     video: string;
+    githubLink?: string;
   }>({
     source: fileContent,
     options: { parseFrontmatter: true },
