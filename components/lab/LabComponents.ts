@@ -6,6 +6,7 @@ import DownloadInteraction from "./DownloadInteraction";
 import TagsUI from "./TagsUI";
 import TrashInteraction from "./TrashInteraction";
 import MemoryCards from "./MemoryCards";
+import Stepper from "./Stepper";
 
 const labComponents = {
   EmailClient,
@@ -16,6 +17,7 @@ const labComponents = {
   TagsUI,
   TrashInteraction,
   MemoryCards,
+  Stepper
 };
 
 export default labComponents;
