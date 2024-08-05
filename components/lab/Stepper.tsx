@@ -28,7 +28,7 @@ export default function Stepper() {
         >
           <LuMinus />
         </button>
-        <div className="flex items-center">
+        <div className="flex items-center tabular-nums">
           <AnimatePresence
             initial={false}
             mode="popLayout"
@@ -65,7 +65,6 @@ export default function Stepper() {
                   animate="presence"
                   exit="exit"
                   transition={{ type: "spring", duration: 0.7, bounce: 0.4 }}
-                  className="w-[1ch]"
                 >
                   {char}
                 </motion.span>
