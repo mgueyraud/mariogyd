@@ -7,6 +7,7 @@ import TagsUI from "./TagsUI";
 import TrashInteraction from "./TrashInteraction";
 import MemoryCards from "./MemoryCards";
 import Stepper from "./Stepper";
+import LoginLinkButton from "./LoginLinkButton";
 
 const labComponents = {
   EmailClient,
@@ -17,7 +18,8 @@ const labComponents = {
   TagsUI,
   TrashInteraction,
   MemoryCards,
-  Stepper
+  Stepper,
+  LoginLinkButton,
 };
 
 export default labComponents;
