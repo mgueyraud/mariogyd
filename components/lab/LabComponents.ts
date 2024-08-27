@@ -8,6 +8,7 @@ import TrashInteraction from "./TrashInteraction";
 import MemoryCards from "./MemoryCards";
 import Stepper from "./Stepper";
 import LoginLinkButton from "./LoginLinkButton";
+import DynamicIsland from "./DynamicIsland";
 
 const labComponents = {
   EmailClient,
@@ -20,6 +21,7 @@ const labComponents = {
   MemoryCards,
   Stepper,
   LoginLinkButton,
+  DynamicIsland
 };
 
 export default labComponents;
