@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { getLabPostBySlug } from "../fetchers";
+import { getAllLabPosts, getLabPostBySlug } from "../fetchers";
 import { CgArrowLeft } from "react-icons/cg";
 import { GoArrowUpRight } from "react-icons/go";
 
@@ -11,6 +11,14 @@ export const revalidate = 3600;
 // If a request comes in for a path that hasn't been generated,
 // Next.js will server-render the page on-demand.
 export const dynamicParams = true;
+
+export async function generateStaticParams() {
+  const { posts } = await getAllLabPosts();
+
+  return posts.map((post) => ({
+    slug: post.slug,
+  }));
+}
 
 export default async function LabComponentPage({
   params,

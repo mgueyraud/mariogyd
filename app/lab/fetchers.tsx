@@ -55,3 +55,18 @@ export async function getLabPosts(pageNum = 1) {
 
   return { posts: postsToShow, numOfPages: Math.ceil(sortedPosts.length / 4) };
 }
+
+export async function getAllLabPosts() {
+  const files = fs.readdirSync(contentDir);
+  const posts = await Promise.all(
+    files.map(async (file) => await getLabPostBySlug(path.parse(file).name))
+  );
+
+  const sortedPosts = posts.sort(
+    (a, b) =>
+      new Date(b.frontmatter.publishedDate).getTime() -
+      new Date(a.frontmatter.publishedDate).getTime()
+  );
+
+  return { posts: sortedPosts };
+}
