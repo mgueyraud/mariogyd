@@ -3,6 +3,8 @@ import { getLabPostBySlug } from "../fetchers";
 import { CgArrowLeft } from "react-icons/cg";
 import { GoArrowUpRight } from "react-icons/go";
 
+export const revalidate = 3600;
+
 export default async function LabComponentPage({
   params,
 }: {

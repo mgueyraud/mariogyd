@@ -4,6 +4,8 @@ import LabVideo from "@/components/custom/LabVideo";
 import { CSSProperties } from "react";
 import { MdKeyboardArrowRight, MdKeyboardArrowLeft } from "react-icons/md";
 
+export const revalidate = 300;
+
 export default async function Lab({
   searchParams,
 }: {
