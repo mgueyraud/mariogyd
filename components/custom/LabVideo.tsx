@@ -31,7 +31,7 @@ export default function LabVideo({ src }: Props) {
         playsInline
         src={src}
         controls={false}
-        className="touch-none select-none pointer-events-none"
+        className="touch-none select-none pointer-events-none w-full"
       ></video>
       <div className="absolute inset-0 bg-black/80 opacity-0 group-hover:opacity-100 grid place-items-center transition duration-300">
         <GoLinkExternal className="size-8" />
