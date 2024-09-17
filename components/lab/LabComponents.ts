@@ -10,6 +10,7 @@ import Stepper from "./Stepper";
 import LoginLinkButton from "./LoginLinkButton";
 import DynamicIsland from "./DynamicIsland";
 import ReactEmailFolders from "./ReactEmailFolders";
+import ResendBentoGrid from "./ResendBentoGrid";
 
 const labComponents = {
   EmailClient,
@@ -23,7 +24,8 @@ const labComponents = {
   Stepper,
   LoginLinkButton,
   DynamicIsland,
-  ReactEmailFolders
+  ReactEmailFolders,
+  ResendBentoGrid,
 };
 
 export default labComponents;
