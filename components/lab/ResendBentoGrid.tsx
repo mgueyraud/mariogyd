@@ -80,16 +80,20 @@ export default function ResendBentoGrid() {
                 </Select.Content>
               </Select.Portal>
               <motion.button
-                initial={{
-                  "--angle": "0deg",
-                  "--color": "#FFFFFFFF",
-                  transition: { duration: 0 },
-                }}
-                whileHover={{
-                  "--angle": "360deg",
-                  "--color": "#00000000",
-                  transition: { duration: 1.5 },
-                }}
+                initial={
+                  {
+                    "--angle": "0deg",
+                    "--color": "#FFFFFFFF",
+                    transition: { duration: 0 },
+                  } as any
+                }
+                whileHover={
+                  {
+                    "--angle": "360deg",
+                    "--color": "#00000000",
+                    transition: { duration: 1.5 },
+                  } as any
+                }
                 aria-label="Send test email"
                 className="btn-resend-grid text-sm flex gap-2 px-3 py-1 items-center hover:scale-105 active:scale-95 border border-[#ddf3ff2f] rounded-full transition"
                 onClick={() =>
