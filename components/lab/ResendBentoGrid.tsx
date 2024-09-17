@@ -125,7 +125,7 @@ export default function ResendBentoGrid() {
                   y: 0,
                   opacity: 1,
                 }}
-                transition={{ duration: 0.6, type: "spring", bounce: 0.5 }}
+                transition={{ duration: 0.85, type: "spring", bounce: 0.5 }}
                 layout
                 className="mb-2 flex gap-4 text-[#f1f7ffb5] text-sm"
                 key={item}
