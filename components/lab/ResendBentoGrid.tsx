@@ -5,16 +5,17 @@ import { useState } from "react";
 import { cn } from "@/lib/utils";
 import { MdOutlineKeyboardArrowDown } from "react-icons/md";
 import { IoMdCheckmark } from "react-icons/io";
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 
 type Status = "bounced" | "delivered" | "complained";
 
 export default function ResendBentoGrid() {
   const [statusTest, setStatusTest] = useState<Status>("delivered");
+  const [responseItems, setResponseItems] = useState([1, 2, 3, 4]);
 
   return (
     <ComponentWrapper>
-      <div>
+      <div className="selection:bg-[#00fff61d] selection:text-[#67ffded2] flex flex-col items-center">
         <Select.Root
           value={statusTest}
           onValueChange={(v) => setStatusTest(v as Status)}
@@ -35,7 +36,7 @@ export default function ResendBentoGrid() {
                   <motion.div
                     initial={{ opacity: 0, scale: 0.95 }}
                     animate={{ opacity: 1, scale: 1 }}
-                    className="bg-black rounded-md p-2 border border-slate-700"
+                    className="bg-black rounded-md p-2 border border-[#ddf3ff2f]"
                   >
                     <Select.Viewport>
                       <Select.Item
@@ -91,6 +92,9 @@ export default function ResendBentoGrid() {
                 }}
                 aria-label="Send test email"
                 className="btn-resend-grid text-sm flex gap-2 px-3 py-1 items-center hover:scale-105 active:scale-95 border border-[#ddf3ff2f] rounded-full transition"
+                onClick={() =>
+                  setResponseItems((arr) => [...arr, arr[arr.length - 1] + 1])
+                }
               >
                 <svg
                   fill="none"
@@ -108,6 +112,33 @@ export default function ResendBentoGrid() {
             </div>
           </div>
         </Select.Root>
+        <div className="mt-12 h-[7.5em] overflow-hidden relative">
+          <AnimatePresence initial={false}>
+            {[...responseItems].reverse().map((item) => (
+              <motion.div
+                initial={{ y: -30, opacity: 0 }}
+                animate={{
+                  y: 0,
+                  opacity: 1,
+                }}
+                transition={{ duration: 0.6, type: "spring", bounce: 0.5 }}
+                layout
+                className="mb-2 flex gap-4 text-[#f1f7ffb5] text-sm"
+                key={item}
+              >
+                <pre>HTTP 200:</pre>
+                <pre className="truncate">
+                  {`{ "id": `}
+                  <span className="text-[#e8f1ff79]">
+                    {`"7f9d5394-e576-4220-9279-cfba31cd762a"`}
+                  </span>
+                  {`}`}
+                </pre>
+              </motion.div>
+            ))}
+          </AnimatePresence>
+          <div className="bg-gradient-to-b from-transparent to-black absolute inset-0" />
+        </div>
       </div>
     </ComponentWrapper>
   );
