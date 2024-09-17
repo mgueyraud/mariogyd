@@ -15,13 +15,13 @@ export default function ResendBentoGrid() {
 
   return (
     <ComponentWrapper>
-      <div className="selection:bg-[#00fff61d] selection:text-[#67ffded2] flex flex-col items-center">
+      <div className="selection:bg-[#00fff61d] selection:text-[#67ffded2] overflow-hidden flex flex-col md:items-center">
         <Select.Root
           value={statusTest}
           onValueChange={(v) => setStatusTest(v as Status)}
         >
           <div className="border border-[#ddf3ff2f] rounded-lg overflow-hidden">
-            <div className="bg-gradient-to-b from-[rgba(255,255,255,0.12)] to-black px-2 pt-1 pb-1.5 w-[25.625rem] flex justify-between">
+            <div className="bg-gradient-to-b from-[rgba(255,255,255,0.12)] to-black px-2 pt-1 pb-1.5 flex justify-between md:w-[25.625rem]">
               <Select.Trigger className="flex gap-2 items-center focus-visible:rounded-md focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#ddf3ff2f]">
                 <StatusBadge type={statusTest} />
                 <Select.Value asChild>
@@ -152,7 +152,7 @@ function StatusBadge({ type }: { type: Status }) {
   return (
     <span
       className={cn(
-        "h-7 px-2 grid place-items-center text-xs capitalize rounded-md",
+        "h-7 px-2 hidden place-items-center text-xs capitalize rounded-md md:grid",
         {
           "bg-[#00ff9f1d] text-[#3dd68c]": type === "delivered",
           "bg-[#ff003b28] text-[#ff8a88]": type === "bounced",
