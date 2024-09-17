@@ -141,7 +141,7 @@ export default function ResendBentoGrid() {
               </motion.div>
             ))}
           </AnimatePresence>
-          <div className="bg-gradient-to-b from-transparent to-black absolute inset-0" />
+          <div className="bg-gradient-to-b from-transparent to-stone-950 absolute inset-0" />
         </div>
       </div>
     </ComponentWrapper>
