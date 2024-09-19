@@ -11,6 +11,7 @@ import LoginLinkButton from "./LoginLinkButton";
 import DynamicIsland from "./DynamicIsland";
 import ReactEmailFolders from "./ReactEmailFolders";
 import ResendBentoGrid from "./ResendBentoGrid";
+import DynamicSettings from "./DynamicSettings";
 
 const labComponents = {
   EmailClient,
@@ -26,6 +27,7 @@ const labComponents = {
   DynamicIsland,
   ReactEmailFolders,
   ResendBentoGrid,
+  DynamicSettings,
 };
 
 export default labComponents;
