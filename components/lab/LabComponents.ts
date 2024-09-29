@@ -12,6 +12,7 @@ import DynamicIsland from "./DynamicIsland";
 import ReactEmailFolders from "./ReactEmailFolders";
 import ResendBentoGrid from "./ResendBentoGrid";
 import DynamicSettings from "./DynamicSettings";
+import DynamicVercelToolbar from "./DynamicVercelToolbar";
 
 const labComponents = {
   EmailClient,
@@ -28,6 +29,7 @@ const labComponents = {
   ReactEmailFolders,
   ResendBentoGrid,
   DynamicSettings,
+  DynamicVercelToolbar,
 };
 
 export default labComponents;
