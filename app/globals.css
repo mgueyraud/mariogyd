@@ -184,11 +184,15 @@
   }
 }
 
-
 /* Resend Bento Grid */
 
-.btn-resend-grid:hover{
-  --border-color: conic-gradient(from var(--angle) at 50% 50%, #00000000 0%, #00000000 80%, var(--color) 100%);
+.btn-resend-grid:hover {
+  --border-color: conic-gradient(
+    from var(--angle) at 50% 50%,
+    #00000000 0%,
+    #00000000 80%,
+    var(--color) 100%
+  );
   --bg-color: linear-gradient(#000, #000);
-  background: padding-box var(--bg-color),border-box var(--border-color);
+  background: padding-box var(--bg-color), border-box var(--border-color);
 }

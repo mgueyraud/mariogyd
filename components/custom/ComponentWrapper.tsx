@@ -1,20 +1,22 @@
 "use client";
 import clsx from "clsx";
 import { AnimatePresence, motion } from "framer-motion";
-import { createContext, useContext, useState } from "react";
+import { createContext, forwardRef, useContext, useState } from "react";
 import { IoSunnyOutline, IoMoonOutline } from "react-icons/io5";
+
+type Props = {
+  children: React.ReactElement;
+  hasLightMode?: boolean;
+};
 
 type ThemeContextType = "light" | "dark";
 
 const ThemeContext = createContext<ThemeContextType>("light");
 
-export default function ComponentWrapper({
-  children,
-  hasLightMode = false,
-}: {
-  children: React.ReactElement;
-  hasLightMode?: boolean;
-}) {
+const ComponentWrapper = forwardRef<HTMLDivElement, Props>(function Wrapper(
+  { children, hasLightMode = false },
+  ref
+) {
   const [theme, setTheme] = useState<"light" | "dark">("dark");
 
   const toggleTheme = () => {
@@ -27,9 +29,10 @@ export default function ComponentWrapper({
         "border border-stone-800 p-5 rounded-md aspect-square flex justify-center items-center my-6 relative transition",
         theme === "dark" ? "bg-stone-950" : "bg-slate-200"
       )}
+      ref={ref}
     >
       {hasLightMode ? (
-        <button className="absolute top-5 right-6" onClick={toggleTheme}>
+        <button className="absolute top-5 right-6 z-50" onClick={toggleTheme}>
           <div className="relative">
             <AnimatePresence initial={false} mode="wait">
               <motion.span
@@ -62,7 +65,7 @@ export default function ComponentWrapper({
       <ThemeContext.Provider value={theme}>{children}</ThemeContext.Provider>
     </div>
   );
-}
+});
 
 export const useTheme = () => {
   const theme = useContext(ThemeContext);
@@ -73,3 +76,5 @@ export const useTheme = () => {
 
   return theme;
 };
+
+export default ComponentWrapper;
