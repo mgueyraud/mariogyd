@@ -133,7 +133,7 @@ export default function DynamicVercelToolbar() {
                 initial={{ opacity: 0, filter: "blur(4px)" }}
                 animate={{ opacity: 1, filter: "blur(0px)" }}
                 transition={{ delay: 0.15 }}
-                className="w-full p-6"
+                className="w-full h-full p-6 overflow-y-auto"
               >
                 <span className="px-2 py-1 rounded-sm text-[#747475] bg-[#1b1a1b] text-xs border border-[#2b2b2b]">
                   Vercel Toolbar
