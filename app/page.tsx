@@ -158,7 +158,7 @@ export default function Home() {
         I&apos;ve built this section to have a curated list of designs to
         showcase my skills, as well as learning them. I share my journey as a
         design engineer{" "}
-        <Link href="/lab" className="underline">
+        <Link prefetch href="/lab" className="underline">
           here
         </Link>
         .
