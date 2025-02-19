@@ -43,6 +43,23 @@ export default function Home() {
           </div>
           <div className="flex-1">
             <p>
+              Senior Frontend Engineer at{" "}
+              <a
+                className="underline"
+                target="_blank"
+                href="https://binti.com/"
+              >
+                Binti
+              </a>
+            </p>
+          </div>
+        </div>
+        <div className="flex">
+          <div className="flex-1">
+            <p className="font-light text-gray-300">2024</p>
+          </div>
+          <div className="flex-1">
+            <p>
               Full Stack Engineer at{" "}
               <a
                 className="underline"
