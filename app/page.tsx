@@ -39,6 +39,23 @@ export default function Home() {
       >
         <div className="flex">
           <div className="flex-1">
+            <p className="font-light text-gray-300">2025-2026</p>
+          </div>
+          <div className="flex-1">
+            <p>
+              Senior Fullstack Engineer at{" "}
+              <a
+                className="underline"
+                target="_blank"
+                href="http://vibrantpractice.com/"
+              >
+                Vibrant
+              </a>
+            </p>
+          </div>
+        </div>
+        <div className="flex">
+          <div className="flex-1">
             <p className="font-light text-gray-300">2024</p>
           </div>
           <div className="flex-1">
