@@ -18,7 +18,24 @@ const config = {
       },
     },
     extend: {
+      fontFamily: {
+        sans: ['"Helvetica Neue"', "Helvetica", "Arial", "sans-serif"],
+        serif: ["var(--font-newsreader)", "Georgia", "serif"],
+        mono: ["ui-monospace", '"SF Mono"', "Menlo", "Consolas", "monospace"],
+      },
       colors: {
+        // Design system palette (warm paper / ink)
+        paper: "#FCFCFA",
+        ink: "#1C1C1A",
+        subtle: "#75756E",
+        faint: "#97978F",
+        line: "#ECECE5",
+        "line-strong": "#C9C9C0",
+        hover: "#F4F4EE",
+        hatch: {
+          light: "#F1F1EB",
+          dark: "#E9E9E2",
+        },
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",

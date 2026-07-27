@@ -17,6 +17,7 @@
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
     "cmdk": "^1.0.0",
+    "cuelume": "^0.1.2",
     "framer-motion": "^11.2.10",
     "lucide-react": "^0.381.0",
     "next": "14.2.3",
@@ -25,6 +26,7 @@
     "react-dom": "^18",
     "react-icons": "^5.2.1",
     "react-use-measure": "^2.1.1",
+    "svg-dotted-map": "^2.1.0",
     "tailwind-merge": "^2.3.0",
     "tailwindcss-animate": "^1.0.7"
   },

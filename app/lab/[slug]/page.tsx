@@ -1,6 +1,5 @@
 import Link from "next/link";
-import { getAllLabPosts, getLabPostBySlug } from "../fetchers";
-import { CgArrowLeft } from "react-icons/cg";
+import { getAllLabMeta, getLabPostBySlug } from "../fetchers";
 import { GoArrowUpRight } from "react-icons/go";
 
 // Next.js will invalidate the cache when a
@@ -12,12 +11,8 @@ export const revalidate = 3600;
 // Next.js will server-render the page on-demand.
 export const dynamicParams = true;
 
-export async function generateStaticParams() {
-  const { posts } = await getAllLabPosts();
-
-  return posts.map((post) => ({
-    slug: post.slug,
-  }));
+export function generateStaticParams() {
+  return getAllLabMeta().map((post) => ({ slug: post.slug }));
 }
 
 export default async function LabComponentPage({
@@ -29,21 +24,25 @@ export default async function LabComponentPage({
 
   return (
     <article>
-      <Link href="/lab" className="mb-8 flex items-center gap-2 w-fit">
-        <CgArrowLeft />
-        <span className="text-sm">Go Back</span>
+      <Link
+        href="/lab"
+        className="text-xs text-subtle no-underline transition-colors hover:text-ink"
+      >
+        ← All experiments
       </Link>
-      <h1 className="font-semibold mb-4">{labPost.frontmatter.title}</h1>
+      <h1 className="mt-5 mb-4 font-serif text-[30px] font-medium tracking-[-0.01em]">
+        {labPost.frontmatter.title}
+      </h1>
       {labPost.content}
       {labPost.frontmatter.githubLink ? (
         <div className="flex justify-end">
           <Link
             href={labPost.frontmatter.githubLink}
             target="_blank"
-            className="underline text-sm flex items-center"
+            className="flex items-center text-sm text-subtle underline decoration-line-strong underline-offset-[3px] hover:text-ink hover:decoration-ink"
           >
             <span>View source</span>
-            <GoArrowUpRight className="text-zinc-500 relative top-[1.5px]" />
+            <GoArrowUpRight className="relative top-[1.5px] text-faint" />
           </Link>
         </div>
       ) : null}

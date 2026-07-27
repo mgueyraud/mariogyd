@@ -13,6 +13,7 @@ import ReactEmailFolders from "./ReactEmailFolders";
 import ResendBentoGrid from "./ResendBentoGrid";
 import DynamicSettings from "./DynamicSettings";
 import DynamicVercelToolbar from "./DynamicVercelToolbar";
+import FormCircleInteraction from "./FormCircleInteraction";
 
 const labComponents = {
   EmailClient,
@@ -30,6 +31,7 @@ const labComponents = {
   ResendBentoGrid,
   DynamicSettings,
   DynamicVercelToolbar,
+  FormCircleInteraction
 };
 
 export default labComponents;

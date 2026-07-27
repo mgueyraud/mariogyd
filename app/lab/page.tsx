@@ -1,12 +1,12 @@
 import Link from "next/link";
-import { getLabPosts } from "./fetchers";
 import { CSSProperties } from "react";
+import { getLabMetaPage } from "./fetchers";
 import Pagination from "@/components/custom/Pagination";
 import LabVideo from "@/components/custom/LabVideo";
 
 export const revalidate = 300;
 
-export default async function Lab({
+export default function Lab({
   searchParams,
 }: {
   searchParams?: { [key: string]: string | string[] | undefined };
@@ -14,37 +14,50 @@ export default async function Lab({
   const page = searchParams?.page;
   const pageNum = page ? Number(page) : 1;
 
-  const { posts, numOfPages } = await getLabPosts(pageNum);
+  const { posts, numOfPages, total } = getLabMetaPage(pageNum);
 
   return (
     <>
-      <h1
-        className="font-semibold animate-enter"
+      <header
+        className="animate-enter flex items-baseline gap-3"
         style={{ "--stagger": 1 } as CSSProperties}
       >
-        Lab
-      </h1>
+        <h1 className="font-serif text-[32px] font-medium tracking-[-0.01em]">
+          Lab
+        </h1>
+        <span className="font-mono text-xs text-faint">{total}</span>
+      </header>
       <p
-        className="font-light mt-2 text-gray-300 animate-enter"
+        className="animate-enter mt-3.5 max-w-[52ch] text-subtle [text-wrap:pretty]"
         style={{ "--stagger": 2 } as CSSProperties}
       >
         A creative hub for UI experiments, component explorations, and
-        interaction design. Discover innovative ideas and cutting-edge
-        techniques that push the boundaries of digital experiences.
+        interaction design.
       </p>
-      <div className="mt-6 grid grid-cols-1 gap-5 md:grid-cols-2">
+
+      <div className="mt-14 grid grid-cols-2 gap-[22px]">
         {posts.map((post, i) => (
           <Link
             key={post.slug}
-            href={`lab/${post.slug}`}
-            aria-label={post.frontmatter.title}
-            className="block aspect-square focus-visible:outline-1 focus-visible:outline-offset-4 focus-visible:outline-white animate-enter"
+            href={`/lab/${post.slug}`}
+            prefetch
+            aria-label={post.title}
+            className="animate-enter block overflow-hidden rounded-lg border border-line transition-colors hover:border-line-strong"
             style={{ "--stagger": i + 3 } as CSSProperties}
           >
-            <LabVideo src={post.frontmatter.video} />
+            <div className="aspect-[16/10] border-b border-line">
+              <LabVideo src={post.video} />
+            </div>
+            <div className="px-3.5 pb-3.5 pt-3">
+              <div className="text-[13px] font-[550]">{post.title}</div>
+              <div className="mt-0.5 text-xs text-subtle">
+                {post.description}
+              </div>
+            </div>
           </Link>
         ))}
       </div>
+
       {numOfPages > 1 ? (
         <Pagination numOfPages={numOfPages} pageNum={pageNum} />
       ) : null}

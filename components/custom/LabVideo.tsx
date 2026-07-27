@@ -19,7 +19,7 @@ export default function LabVideo({ src }: Props) {
 
   return (
     <div
-      className="rounded-lg overflow-hidden relative group"
+      className="relative h-full w-full overflow-hidden group"
       onMouseEnter={() => stopVideo()}
       onMouseLeave={() => playVideo()}
     >
@@ -31,10 +31,10 @@ export default function LabVideo({ src }: Props) {
         playsInline
         src={src}
         controls={false}
-        className="touch-none select-none pointer-events-none w-full"
+        className="pointer-events-none h-full w-full touch-none select-none object-cover"
       ></video>
-      <div className="absolute inset-0 bg-black/80 opacity-0 group-hover:opacity-100 grid place-items-center transition duration-300">
-        <GoLinkExternal className="size-8" />
+      <div className="absolute inset-0 grid place-items-center bg-black/70 text-white opacity-0 transition duration-300 group-hover:opacity-100">
+        <GoLinkExternal className="size-6" />
       </div>
     </div>
   );

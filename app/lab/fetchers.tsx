@@ -5,6 +5,66 @@ import labComponents from "@/components/lab/LabComponents";
 
 const contentDir = path.join(process.cwd(), "app/lab/_lab-content");
 
+const PER_PAGE = 4;
+
+export type LabMeta = {
+  slug: string;
+  title: string;
+  description: string;
+  video: string;
+  publishedDate: string;
+  githubLink?: string;
+};
+
+// Minimal frontmatter reader — fields are simple `key: "value"` pairs.
+// Avoids compiling MDX bodies just to build the index / home preview.
+function parseFrontmatter(raw: string): Record<string, string> {
+  const match = raw.match(/^---\s*\n([\s\S]*?)\n---/);
+  if (!match) return {};
+  const out: Record<string, string> = {};
+  for (const line of match[1].split("\n")) {
+    const kv = line.match(/^(\w+):\s*(.*)$/);
+    if (!kv) continue;
+    out[kv[1]] = kv[2].trim().replace(/^["']|["']$/g, "");
+  }
+  return out;
+}
+
+function readMeta(slug: string): LabMeta {
+  const raw = fs.readFileSync(path.join(contentDir, slug + ".mdx"), "utf8");
+  const fm = parseFrontmatter(raw);
+  return {
+    slug,
+    title: fm.title ?? slug,
+    description: fm.description ?? "",
+    video: fm.video ?? "",
+    publishedDate: fm.publishedDate ?? "",
+    githubLink: fm.githubLink,
+  };
+}
+
+export function getAllLabMeta(): LabMeta[] {
+  return fs
+    .readdirSync(contentDir)
+    .filter((f) => f.endsWith(".mdx"))
+    .map((f) => readMeta(path.parse(f).name))
+    .sort(
+      (a, b) =>
+        new Date(b.publishedDate).getTime() -
+        new Date(a.publishedDate).getTime()
+    );
+}
+
+export function getLabMetaPage(pageNum = 1) {
+  const all = getAllLabMeta();
+  const start = (pageNum - 1) * PER_PAGE;
+  return {
+    posts: all.slice(start, start + PER_PAGE),
+    numOfPages: Math.ceil(all.length / PER_PAGE),
+    total: all.length,
+  };
+}
+
 export async function getLabPostBySlug(slug: string) {
   const fileName = slug + ".mdx";
   const filePath = path.join(contentDir, fileName);
@@ -12,6 +72,7 @@ export async function getLabPostBySlug(slug: string) {
 
   const { frontmatter, content } = await compileMDX<{
     title: string;
+    description: string;
     author: string;
     publishedDate: string;
     video: string;
@@ -35,38 +96,4 @@ export async function getLabPostBySlug(slug: string) {
     content,
     slug: path.parse(fileName).name,
   };
-}
-
-export async function getLabPosts(pageNum = 1) {
-  const files = fs.readdirSync(contentDir);
-  const posts = await Promise.all(
-    files.map(async (file) => await getLabPostBySlug(path.parse(file).name))
-  );
-
-  const sortedPosts = posts.sort(
-    (a, b) =>
-      new Date(b.frontmatter.publishedDate).getTime() -
-      new Date(a.frontmatter.publishedDate).getTime()
-  );
-
-  const startPage = (pageNum - 1) * 4;
-
-  const postsToShow = sortedPosts.slice(startPage, startPage + 4);
-
-  return { posts: postsToShow, numOfPages: Math.ceil(sortedPosts.length / 4) };
-}
-
-export async function getAllLabPosts() {
-  const files = fs.readdirSync(contentDir);
-  const posts = await Promise.all(
-    files.map(async (file) => await getLabPostBySlug(path.parse(file).name))
-  );
-
-  const sortedPosts = posts.sort(
-    (a, b) =>
-      new Date(b.frontmatter.publishedDate).getTime() -
-      new Date(a.frontmatter.publishedDate).getTime()
-  );
-
-  return { posts: sortedPosts };
 }

@@ -1,9 +1,17 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Newsreader } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/lib/utils";
+import Nav from "@/components/custom/Nav";
 
-const inter = Inter({ subsets: ["latin"] });
+const newsreader = Newsreader({
+  subsets: ["latin"],
+  style: ["normal", "italic"],
+  weight: ["400", "500"],
+  variable: "--font-newsreader",
+  display: "swap",
+  adjustFontFallback: false,
+});
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://mariogyd.com"),
@@ -32,9 +40,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" data-theme="dark">
-      <body className={cn(inter.className, "bg-neutral-900 text-white")}>
-        <main className="py-20 max-w-xl mx-auto px-4 md:px-0">{children}</main>
+    <html lang="en" className={newsreader.variable}>
+      <body className={cn("bg-paper text-ink font-sans antialiased")}>
+        <div className="px-6 pt-[88px] pb-24">
+          <div className="max-w-[600px] ml-[clamp(0px,14vw,260px)]">
+            <Nav />
+            {children}
+          </div>
+        </div>
       </body>
     </html>
   );
