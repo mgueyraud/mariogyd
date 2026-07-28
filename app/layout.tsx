@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { Newsreader } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/lib/utils";
-import Nav from "@/components/custom/Nav";
 
 const newsreader = Newsreader({
   subsets: ["latin"],
@@ -42,12 +41,7 @@ export default function RootLayout({
   return (
     <html lang="en" className={newsreader.variable}>
       <body className={cn("bg-paper text-ink font-sans antialiased")}>
-        <div className="px-6 pt-[88px] pb-24">
-          <div className="max-w-[600px] ml-[clamp(0px,14vw,260px)]">
-            <Nav />
-            {children}
-          </div>
-        </div>
+        {children}
       </body>
     </html>
   );

@@ -1,8 +1,9 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
-import { TRIPS } from "@/lib/trips";
+import { TRIPS, coverPhoto } from "@/lib/trips";
 
 const HATCH =
   "repeating-linear-gradient(45deg,#F1F1EB 0 6px,#E9E9E2 6px 12px)";
@@ -13,7 +14,7 @@ export default function TripsFan() {
   return (
     <div
       onMouseLeave={() => setHovered(-1)}
-      className="relative flex min-h-[170px] items-center pl-[26px] pt-11 pb-[26px]"
+      className="relative flex min-h-[170px] max-w-full flex-nowrap items-center pl-[26px] pt-11 pb-[26px]"
     >
       {TRIPS.map((trip, i) => {
         const isHovered = hovered === i;
@@ -31,7 +32,7 @@ export default function TripsFan() {
             href={`/trips/${trip.slug}`}
             onMouseEnter={() => setHovered(i)}
             aria-label={trip.city}
-            className="relative -ml-[42px] block w-[106px] flex-none bg-white px-[7px] pt-[7px] pb-6 no-underline shadow-[0_1px_3px_rgba(28,28,26,0.14),0_10px_24px_rgba(28,28,26,0.07)]"
+            className="relative block w-[clamp(76px,17vw,106px)] min-w-0 flex-[0_1_auto] ml-[clamp(-42px,-8vw,-28px)] bg-white px-[7px] pt-[7px] pb-6 no-underline shadow-[0_1px_3px_rgba(28,28,26,0.14),0_10px_24px_rgba(28,28,26,0.07)]"
             style={{
               transform,
               zIndex: isHovered ? 20 : i + 1,
@@ -45,10 +46,16 @@ export default function TripsFan() {
               {trip.city.toLowerCase()}
             </span>
             <span
-              className="flex h-[92px] items-center justify-center font-mono text-[9px] text-faint"
+              className="relative block aspect-square w-full overflow-hidden"
               style={{ background: HATCH }}
             >
-              photo
+              <Image
+                src={coverPhoto(trip).src}
+                alt=""
+                fill
+                sizes="106px"
+                className="object-cover"
+              />
             </span>
           </Link>
         );

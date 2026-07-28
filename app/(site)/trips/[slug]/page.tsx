@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
-import { TRIPS, getTripBySlug } from "@/lib/trips";
+import { TRIPS, getTripBySlug, longDate } from "@/lib/trips";
 import PhotoLightbox from "@/components/trips/PhotoLightbox";
 
 export const dynamicParams = false;
@@ -41,7 +41,7 @@ export default function TripDetail({ params }: { params: { slug: string } }) {
           {trip.city}
         </h1>
         <div className="mt-2 font-mono text-xs tracking-[0.08em] text-faint">
-          {trip.monthYear} · {trip.country.toUpperCase()} ·{" "}
+          {longDate(trip.date)} · {trip.country.toUpperCase()} ·{" "}
           {trip.photos.length} PHOTOS
         </div>
       </header>
@@ -50,7 +50,7 @@ export default function TripDetail({ params }: { params: { slug: string } }) {
         {trip.blurb}
       </p>
 
-      <PhotoLightbox photos={trip.photos} />
+      <PhotoLightbox photos={trip.photos} city={trip.city} />
     </article>
   );
 }

@@ -97,6 +97,25 @@
   }
 }
 
+/* 404 — breathing period */
+@keyframes breathe {
+  0%,
+  100% {
+    opacity: 0.35;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+.animate-breathe {
+  animation: breathe 3s ease-in-out infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .animate-breathe {
+    animation: none;
+  }
+}
+
 /* Spinner for login link button */
 
 .lds-spinner {

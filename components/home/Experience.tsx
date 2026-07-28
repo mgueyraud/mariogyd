@@ -10,7 +10,7 @@ export default function Experience() {
   const visible = showOlder ? ROLES : ROLES.slice(0, 4);
 
   return (
-    <section className="mt-24">
+    <section className="mt-[clamp(64px,12vw,96px)]">
       <h2 className="mb-[22px] font-mono text-[11px] font-normal tracking-[0.14em] text-faint">
         EXPERIENCE
       </h2>
@@ -22,7 +22,7 @@ export default function Experience() {
             <div
               key={`${r.company}-${r.years}`}
               onClick={() => setOpen((s) => ({ ...s, [i]: !s[i] }))}
-              className="grid cursor-pointer grid-cols-[104px_1fr] gap-[18px] rounded-lg -mx-3.5 px-3.5 py-3 transition-colors hover:bg-hover"
+              className="grid cursor-pointer grid-cols-[clamp(72px,16vw,104px)_1fr] gap-[18px] rounded-lg -mx-3.5 px-3.5 py-3 transition-colors hover:bg-hover"
             >
               <div className="whitespace-nowrap pt-0.5 font-mono text-xs tracking-[0.05em] text-faint">
                 {r.years}

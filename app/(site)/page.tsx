@@ -3,8 +3,13 @@ import { CSSProperties } from "react";
 import Experience from "@/components/home/Experience";
 import TripsFan from "@/components/home/TripsFan";
 import NowPlaying from "@/components/home/NowPlaying";
-import { getAllLabMeta } from "@/app/lab/fetchers";
+import { getAllLabMeta } from "@/app/(site)/lab/fetchers";
+import { getNowPlaying } from "@/lib/spotify";
 import { TRIPS } from "@/lib/trips";
+
+// ISR: the footer's Spotify state is the only time-sensitive thing on this
+// page. Everything else is build-time data.
+export const revalidate = 30;
 
 const SOCIALS = [
   {
@@ -42,9 +47,12 @@ const SOCIALS = [
   },
 ];
 
-export default function Home() {
+export default async function Home() {
   const labs = getAllLabMeta();
   const labPreview = labs.slice(0, 4);
+  // Matches the segment's revalidate window so the page stays ISR rather than
+  // going dynamic on every request.
+  const nowPlaying = await getNowPlaying({ revalidate: 30 });
 
   return (
     <>
@@ -64,10 +72,7 @@ export default function Home() {
       >
         Passionate digital experience creator learning design engineering.
         Focused on simplicity, modernist design, and{" "}
-        <em className="font-serif text-[15px] italic text-ink">
-          great taste
-        </em>
-        .
+        <em className="font-serif text-[15px] italic text-ink">great taste</em>.
       </p>
 
       <div className="animate-enter" style={{ "--stagger": 3 } as CSSProperties}>
@@ -76,7 +81,7 @@ export default function Home() {
 
       {/* Lab — real data */}
       <section
-        className="animate-enter mt-24"
+        className="animate-enter mt-[clamp(64px,12vw,96px)]"
         style={{ "--stagger": 4 } as CSSProperties}
       >
         <div className="mb-6 flex items-baseline justify-between">
@@ -91,7 +96,7 @@ export default function Home() {
             All experiments ↗
           </Link>
         </div>
-        <div className="grid grid-cols-2 gap-x-9 gap-y-5">
+        <div className="grid grid-cols-[repeat(auto-fit,minmax(200px,1fr))] gap-x-9 gap-y-5">
           {labPreview.map((lab) => (
             <div key={lab.slug}>
               <Link
@@ -109,9 +114,9 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Trips — fake data */}
+      {/* Trips */}
       <section
-        className="animate-enter mt-24"
+        className="animate-enter mt-[clamp(64px,12vw,96px)]"
         style={{ "--stagger": 5 } as CSSProperties}
       >
         <div className="mb-2 flex items-baseline justify-between">
@@ -131,7 +136,7 @@ export default function Home() {
 
       {/* Elsewhere */}
       <section
-        className="animate-enter mt-24"
+        className="animate-enter mt-[clamp(64px,12vw,96px)]"
         style={{ "--stagger": 6 } as CSSProperties}
       >
         <h2 className="mb-5 font-mono text-[11px] font-normal tracking-[0.14em] text-faint">
@@ -201,7 +206,7 @@ export default function Home() {
       </section>
 
       <div className="animate-enter" style={{ "--stagger": 7 } as CSSProperties}>
-        <NowPlaying />
+        <NowPlaying initial={nowPlaying} />
       </div>
     </>
   );

@@ -5,7 +5,10 @@ import { useCallback, useMemo, useRef, useState } from "react";
 import { createMap } from "svg-dotted-map";
 import { play } from "cuelume";
 import { DottedMap, type Marker } from "@/components/ui/dotted-map";
-import { TRIPS } from "@/lib/trips";
+import { getMapTrips } from "@/lib/trips";
+
+// One dot per city; repeat visits point at the most recent trip.
+const MAP_TRIPS = getMapTrips();
 
 const MAP_WIDTH = 165;
 const MAP_HEIGHT = 75;
@@ -18,7 +21,7 @@ const clamp = (v: number, lo: number, hi: number) =>
 
 export default function TripsMap() {
   const markers = useMemo<Marker[]>(
-    () => TRIPS.map((t) => ({ lat: t.lat, lng: t.lng, size: 0.9 })),
+    () => MAP_TRIPS.map((t) => ({ lat: t.lat, lng: t.lng, size: 0.9 })),
     []
   );
 
@@ -29,8 +32,10 @@ export default function TripsMap() {
       height: MAP_HEIGHT,
       mapSamples: MAP_SAMPLES,
     });
-    const projected = addMarkers(TRIPS.map((t) => ({ lat: t.lat, lng: t.lng })));
-    const pts = TRIPS.map((trip, i) => ({
+    const projected = addMarkers(
+      MAP_TRIPS.map((t) => ({ lat: t.lat, lng: t.lng }))
+    );
+    const pts = MAP_TRIPS.map((trip, i) => ({
       trip,
       x: projected[i].x,
       y: projected[i].y,

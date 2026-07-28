@@ -16,7 +16,7 @@ export default function Nav() {
     href === "/" ? pathname === "/" : pathname.startsWith(href);
 
   return (
-    <nav className="flex gap-5 text-[13px] mb-[84px]">
+    <nav className="flex gap-5 text-[13px] mb-[clamp(56px,10vw,84px)]">
       {LINKS.map(({ href, label }) => (
         <Link
           key={href}

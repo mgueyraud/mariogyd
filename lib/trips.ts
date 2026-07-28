@@ -1,219 +1,247 @@
 export type TripPhoto = {
-  caption: string;
+  src: string;
+  width: number;
+  height: number;
+  /** Grid columns the photo occupies — landscape shots run full width */
   span: 1 | 2;
-  ar: string;
 };
 
 export type Trip = {
   slug: string;
   city: string;
   country: string;
-  /** Short mono label, e.g. "JUL 24" */
+  /** ISO year-month, e.g. "2024-01" — the source of truth for order and labels */
   date: string;
-  /** Detail-header label, e.g. "JUL 2024" */
-  monthYear: string;
   lat: number;
   lng: number;
   /** Polaroid tilt in degrees for the home fan */
   rotation: number;
+  /** Which photo fronts the home fan, numbered like the files (1 = 01.jpg) */
+  cover: number;
   blurb: string;
   photos: TripPhoto[];
 };
 
-// Placeholder photo layout shared across trips (fake data / mockup).
-const LAYOUT: Pick<TripPhoto, "span" | "ar">[] = [
-  { span: 2, ar: "21/10" },
-  { span: 1, ar: "3/4" },
-  { span: 1, ar: "3/4" },
-  { span: 1, ar: "3/2" },
-  { span: 1, ar: "3/2" },
-  { span: 2, ar: "21/10" },
-  { span: 1, ar: "3/4" },
-  { span: 1, ar: "3/4" },
+const MONTHS = [
+  "JAN",
+  "FEB",
+  "MAR",
+  "APR",
+  "MAY",
+  "JUN",
+  "JUL",
+  "AUG",
+  "SEP",
+  "OCT",
+  "NOV",
+  "DEC",
 ];
 
-const photoSet = (captions: string[]): TripPhoto[] =>
-  captions.map((caption, i) => ({ caption, ...LAYOUT[i % LAYOUT.length] }));
+const parse = (date: string) => {
+  const [year, month] = date.split("-");
+  return { year, month: MONTHS[Number(month) - 1] };
+};
 
+/** Short mono label, e.g. "JAN 24" */
+export function shortDate(date: string): string {
+  const { year, month } = parse(date);
+  return `${month} ${year.slice(2)}`;
+}
+
+/** Detail-header label, e.g. "JAN 2024" */
+export function longDate(date: string): string {
+  const { year, month } = parse(date);
+  return `${month} ${year}`;
+}
+
+const BLOB = "https://k5c5brlnuchluhwp.public.blob.vercel-storage.com/trips";
+
+/** Real pixel dimensions of the web exports (see scripts/photos-web.py). */
+const DIMS = {
+  p: { width: 1350, height: 1800 },
+  l: { width: 1800, height: 1350 },
+  s: { width: 961, height: 961 },
+} as const;
+
+/**
+ * `shape` is one letter per photo in filename order — p portrait, l landscape,
+ * s square — which is enough to derive the URL, the real aspect ratio, and the
+ * grid span for every photo in a trip.
+ */
+const photoSet = (slug: string, shape: string): TripPhoto[] =>
+  shape.split("").map((k, i) => ({
+    src: `${BLOB}/${slug}/${String(i + 1).padStart(2, "0")}.jpg`,
+    ...DIMS[k as keyof typeof DIMS],
+    span: k === "l" ? (2 as const) : (1 as const),
+  }));
+
+/** Newest first. Cities visited more than once carry the year in their slug. */
 export const TRIPS: Trip[] = [
+  {
+    slug: "florianopolis",
+    city: "Florianópolis",
+    country: "Brazil",
+    date: "2026-01",
+    lat: -27.6,
+    lng: -48.55,
+    rotation: -5,
+    cover: 4,
+    blurb:
+      "A week on the island with my padel friends — beaches in the morning, nothing scheduled after that. Somewhere in the middle of it I told the love of my life how I felt about her.",
+    photos: photoSet("florianopolis", "pppppppppp"),
+  },
   {
     slug: "miami",
     city: "Miami",
     country: "USA",
-    date: "MAR 26",
-    monthYear: "MAR 2026",
+    date: "2025-12",
     lat: 25.76,
     lng: -80.19,
     rotation: -7,
+    cover: 10,
     blurb:
-      "A few bright days on the beach and in Wynwood. Shot on a Fujifilm X100V — pastel facades, palm shadows, and neon after dark.",
-    photos: photoSet([
-      "south beach at noon",
-      "wynwood walls",
-      "art deco facade",
-      "little havana",
-      "ocean drive neon",
-      "biscayne bay",
-      "lifeguard tower",
-      "palm shadows",
-    ]),
+      "A trip back to where I spent part of my childhood, before my family moved home when my father got sick. I saw the friends and family I grew up around and walked the streets I still remember.",
+    photos: photoSet("miami", "ppppplplps"),
   },
   {
     slug: "san-francisco",
     city: "San Francisco",
     country: "USA",
-    date: "NOV 25",
-    monthYear: "NOV 2025",
+    date: "2025-12",
     lat: 37.77,
     lng: -122.42,
     rotation: 4,
+    cover: 4,
     blurb:
-      "Cold, foggy November. Steep streets and cable cars, the Golden Gate half-hidden in mist, and coffee to keep warm.",
-    photos: photoSet([
-      "golden gate in fog",
-      "painted ladies",
-      "cable car",
-      "mission murals",
-      "the embarcadero",
-      "twin peaks view",
-      "chinatown alley",
-      "ferry building",
-    ]),
-  },
-  {
-    slug: "medellin",
-    city: "Medellín",
-    country: "Colombia",
-    date: "AUG 25",
-    monthYear: "AUG 2025",
-    lat: 6.24,
-    lng: -75.57,
-    rotation: -3,
-    blurb:
-      "The city of eternal spring. Cable cars up the hills, Comuna 13 in full color, and long green afternoons in El Poblado.",
-    photos: photoSet([
-      "comuna 13 stairs",
-      "metrocable view",
-      "botero plaza",
-      "el poblado café",
-      "street graffiti",
-      "valley at dusk",
-      "flower market",
-      "guatapé day trip",
-    ]),
-  },
-  {
-    slug: "santiago",
-    city: "Santiago",
-    country: "Chile",
-    date: "MAY 25",
-    monthYear: "MAY 2025",
-    lat: -33.45,
-    lng: -70.65,
-    rotation: 6,
-    blurb:
-      "Autumn under the Andes. Clear cold mornings, the funicular up San Cristóbal, and empanadas in Bellavista.",
-    photos: photoSet([
-      "andes skyline",
-      "cerro san cristóbal",
-      "bellavista street",
-      "plaza de armas",
-      "central market",
-      "sunset over the city",
-      "barrio lastarria",
-      "metro tiles",
-    ]),
-  },
-  {
-    slug: "florianopolis",
-    city: "Florianópolis",
-    country: "Brazil",
-    date: "JAN 25",
-    monthYear: "JAN 2025",
-    lat: -27.6,
-    lng: -48.55,
-    rotation: -5,
-    blurb:
-      "Island summer. Forty-something beaches, warm rain in the afternoons, and açaí on the sand.",
-    photos: photoSet([
-      "praia mole",
-      "lagoa da conceição",
-      "dunes at joaquina",
-      "island bridge",
-      "surf at noon",
-      "sunset over the lagoon",
-      "beach boardwalk",
-      "green hills",
-    ]),
-  },
-  {
-    slug: "camboriu",
-    city: "Camboriú",
-    country: "Brazil",
-    date: "JAN 25",
-    monthYear: "JAN 2025",
-    lat: -26.99,
-    lng: -48.63,
-    rotation: 3,
-    blurb:
-      "Skyline on the sand — the 'Brazilian Dubai'. Cable car across the bay and a long hot beach day.",
-    photos: photoSet([
-      "central beach",
-      "the skyline",
-      "cable car over the bay",
-      "unipraias park",
-      "beachfront towers",
-      "sunset from the hill",
-      "boardwalk crowd",
-      "warm ocean",
-    ]),
+      "Onsite with the Ultralight team, formerly Vibrant. A week of meeting the people I work with every day and getting a much closer look at how the developer ecosystem actually moves.",
+    photos: photoSet("san-francisco", "pppppppplp"),
   },
   {
     slug: "montevideo",
     city: "Montevideo",
     country: "Uruguay",
-    date: "OCT 24",
-    monthYear: "OCT 2024",
+    date: "2025-12",
     lat: -34.9,
     lng: -56.19,
     rotation: -4,
+    cover: 9,
     blurb:
-      "Spring on the Rambla. Mate in the park, the old city at golden hour, and the widest river in the world.",
-    photos: photoSet([
-      "the rambla",
-      "ciudad vieja",
-      "mercado del puerto",
-      "plaza independencia",
-      "río de la plata",
-      "sunset walk",
-      "art nouveau doorway",
-      "parque rodó",
-    ]),
+      "Time with a coworker and one of my closest friends — one of the best people I know, and someone I've learned a lot from. Slow days on the Rambla and long conversations.",
+    photos: photoSet("montevideo", "plpppppppp"),
   },
   {
-    slug: "buenos-aires",
+    slug: "medellin-2024",
+    city: "Medellín",
+    country: "Colombia",
+    date: "2024-12",
+    lat: 6.24,
+    lng: -75.57,
+    rotation: 2,
+    cover: 6,
+    blurb:
+      "Back to Medellín, this time with my closest friends and nothing on the calendar. Green afternoons in El Poblado and the kind of week that doesn't need a plan.",
+    photos: photoSet("medellin-2024", "pppppppplp"),
+  },
+  {
+    slug: "buenos-aires-2024",
     city: "Buenos Aires",
     country: "Argentina",
-    date: "JUL 24",
-    monthYear: "JUL 2024",
+    date: "2024-01",
     lat: -34.6,
     lng: -58.38,
     rotation: 5,
+    cover: 4,
     blurb:
-      "A week in July, cold and clear. Shot on a Fujifilm X100V and a Canon AE-1 loaded with Portra 400 — cafés, bookstores, and long walks from San Telmo up to Palermo.",
-    photos: photoSet([
-      "obelisco at dusk",
-      "café tortoni",
-      "el ateneo bookstore",
-      "san telmo market",
-      "caminito, la boca",
-      "puerto madero bridge",
-      "palermo streets at night",
-      "recoleta rooftops",
-    ]),
+      "A return to Buenos Aires with my best friends, this time with no reason other than to be there. Long dinners, longer walks, and a very good week.",
+    photos: photoSet("buenos-aires-2024", "pppppppppp"),
+  },
+  {
+    slug: "medellin-2023",
+    city: "Medellín",
+    country: "Colombia",
+    date: "2023-11",
+    lat: 6.24,
+    lng: -75.57,
+    rotation: -3,
+    cover: 8,
+    blurb:
+      "JSConf Medellín. I went for the community more than the talks — to meet the educators whose work I'd been learning from for years.",
+    photos: photoSet("medellin-2023", "ppplpppppp"),
+  },
+  {
+    slug: "santiago",
+    city: "Santiago",
+    country: "Chile",
+    date: "2023-02",
+    lat: -33.45,
+    lng: -70.65,
+    rotation: 6,
+    cover: 5,
+    blurb:
+      "JSConf Chile, and the first time I met in person coworkers I'd only known through a screen. Clear mornings under the Andes between sessions.",
+    photos: photoSet("santiago", "lpppplpppl"),
+  },
+  {
+    slug: "camboriu",
+    city: "Balneário Camboriú",
+    country: "Brazil",
+    date: "2022-12",
+    lat: -26.99,
+    lng: -48.63,
+    rotation: 3,
+    cover: 5,
+    blurb:
+      "New Year's on the coast. Fireworks over the bay at midnight, with the skyline lit up behind the beach.",
+    photos: photoSet("camboriu", "ppppppplpp"),
+  },
+  {
+    slug: "foz-do-iguacu",
+    city: "Foz do Iguaçu",
+    country: "Brazil",
+    date: "2022-12",
+    lat: -25.54,
+    lng: -54.59,
+    rotation: -6,
+    cover: 4,
+    blurb:
+      "I tagged along on my brother's school trip. The falls are the kind of thing a photo can't really hold — I tried anyway.",
+    photos: photoSet("foz-do-iguacu", "pppppppppp"),
+  },
+  {
+    slug: "buenos-aires-2022",
+    city: "Buenos Aires",
+    country: "Argentina",
+    date: "2022-05",
+    lat: -34.6,
+    lng: -58.38,
+    rotation: 7,
+    cover: 8,
+    blurb:
+      "My first trip. I flew down with friends for a concert and spent the rest of the days walking a city I'd never seen before.",
+    photos: photoSet("buenos-aires-2022", "pppppppplp"),
   },
 ];
 
+/** The photo that fronts a trip on the home fan. Falls back to the first. */
+export function coverPhoto(trip: Trip): TripPhoto {
+  return trip.photos[trip.cover - 1] ?? trip.photos[0];
+}
+
 export function getTripBySlug(slug: string): Trip | undefined {
   return TRIPS.find((t) => t.slug === slug);
+}
+
+/**
+ * One trip per city for the map — repeat visits collapse onto a single dot
+ * that points at the most recent trip. TRIPS is newest first, so the first
+ * match for a city wins.
+ */
+export function getMapTrips(): Trip[] {
+  const seen = new Set<string>();
+  return TRIPS.filter((trip) => {
+    const key = `${trip.city}, ${trip.country}`;
+    if (seen.has(key)) return false;
+    seen.add(key);
+    return true;
+  });
 }

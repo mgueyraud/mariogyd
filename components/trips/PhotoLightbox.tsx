@@ -1,14 +1,21 @@
 "use client";
 
+import Image from "next/image";
 import { useCallback, useEffect, useState } from "react";
 import type { TripPhoto } from "@/lib/trips";
 
+// Shown under each photo while it loads, so empty cells read as intentional
+// rather than broken.
 const HATCH_LIGHT =
   "repeating-linear-gradient(45deg,#F1F1EB 0 7px,#E9E9E2 7px 14px)";
-const HATCH_DARK =
-  "repeating-linear-gradient(45deg,#2A2A27 0 7px,#242422 7px 14px)";
 
-export default function PhotoLightbox({ photos }: { photos: TripPhoto[] }) {
+export default function PhotoLightbox({
+  photos,
+  city,
+}: {
+  photos: TripPhoto[];
+  city: string;
+}) {
   const [index, setIndex] = useState(-1);
 
   const isOpen = index >= 0;
@@ -38,22 +45,35 @@ export default function PhotoLightbox({ photos }: { photos: TripPhoto[] }) {
 
   return (
     <>
-      <div className="mt-14 grid grid-cols-2 gap-3.5">
+      <div className="mt-14 grid grid-cols-2 gap-[clamp(10px,2vw,14px)]">
         {photos.map((photo, i) => (
           <button
-            key={photo.caption}
+            key={photo.src}
             onClick={() => setIndex(i)}
-            aria-label={`Open photo: ${photo.caption}`}
-            className="flex cursor-zoom-in items-center justify-center rounded-sm outline-none transition-[outline] hover:outline hover:outline-1 hover:outline-line-strong focus-visible:outline focus-visible:outline-1 focus-visible:outline-ink"
+            aria-label={`Open photo ${i + 1} of ${photos.length}`}
+            className="group relative cursor-zoom-in overflow-hidden rounded-sm outline-none transition-[outline] hover:outline hover:outline-1 hover:outline-line-strong focus-visible:outline focus-visible:outline-1 focus-visible:outline-ink"
             style={{
               gridColumn: `span ${photo.span}`,
-              aspectRatio: photo.ar,
+              // Single-column cells share one 3:4 box so a row never goes
+              // ragged when a photo isn't the usual portrait shape. Full-width
+              // cells have no row partner, so they keep their true ratio.
+              aspectRatio:
+                photo.span === 2 ? `${photo.width} / ${photo.height}` : "3 / 4",
               background: HATCH_LIGHT,
             }}
           >
-            <span className="px-3 text-center font-mono text-[10px] text-faint">
-              {photo.caption}
-            </span>
+            <Image
+              src={photo.src}
+              fill
+              alt={`${city} — photo ${i + 1}`}
+              sizes={
+                photo.span === 2
+                  ? "(max-width: 640px) 92vw, 600px"
+                  : "(max-width: 640px) 46vw, 293px"
+              }
+              priority={i < 2}
+              className="object-cover transition-transform duration-300 group-hover:scale-[1.02]"
+            />
           </button>
         ))}
       </div>
@@ -63,7 +83,7 @@ export default function PhotoLightbox({ photos }: { photos: TripPhoto[] }) {
           onClick={close}
           role="dialog"
           aria-modal="true"
-          aria-label="Photo lightbox"
+          aria-label={`${city} photos`}
           className="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-[rgba(22,22,20,0.95)] px-6 py-12"
         >
           <button
@@ -93,20 +113,17 @@ export default function PhotoLightbox({ photos }: { photos: TripPhoto[] }) {
           >
             ›
           </button>
-          <div
+          <Image
             onClick={(e) => e.stopPropagation()}
-            className="flex max-h-[72vh] w-[min(820px,84vw)] items-center justify-center rounded-sm"
-            style={{ aspectRatio: current.ar, background: HATCH_DARK }}
-          >
-            <span className="font-mono text-[11px] text-[#8A8A82]">
-              {current.caption}
-            </span>
-          </div>
-          <div className="mt-4 flex items-baseline gap-3.5 font-mono text-xs text-[#B9B9B2]">
-            <span>{current.caption}</span>
-            <span className="text-subtle">
-              {index + 1} / {photos.length}
-            </span>
+            src={current.src}
+            width={current.width}
+            height={current.height}
+            alt={`${city} — photo ${index + 1}`}
+            sizes="(max-width: 980px) 84vw, 820px"
+            className="max-h-[72vh] w-[min(820px,84vw)] rounded-sm object-contain"
+          />
+          <div className="mt-4 font-mono text-xs text-[#B9B9B2]">
+            {index + 1} / {photos.length}
           </div>
         </div>
       ) : null}

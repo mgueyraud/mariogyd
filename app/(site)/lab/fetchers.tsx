@@ -3,7 +3,7 @@ import { compileMDX } from "next-mdx-remote/rsc";
 import path from "path";
 import labComponents from "@/components/lab/LabComponents";
 
-const contentDir = path.join(process.cwd(), "app/lab/_lab-content");
+const contentDir = path.join(process.cwd(), "app/(site)/lab/_lab-content");
 
 const PER_PAGE = 4;
 

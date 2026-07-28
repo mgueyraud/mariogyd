@@ -35,7 +35,7 @@ export default function Lab({
         interaction design.
       </p>
 
-      <div className="mt-14 grid grid-cols-2 gap-[22px]">
+      <div className="mt-14 grid grid-cols-[repeat(auto-fill,minmax(220px,1fr))] gap-[22px]">
         {posts.map((post, i) => (
           <Link
             key={post.slug}
