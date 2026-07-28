@@ -36,7 +36,9 @@ export default function ResendBentoGrid() {
                   <motion.div
                     initial={{ opacity: 0, scale: 0.95 }}
                     animate={{ opacity: 1, scale: 1 }}
-                    className="bg-black rounded-md p-2 border border-[#ddf3ff2f]"
+                    // Radix portals this outside <ComponentWrapper>, so it has
+                    // to carry its own text color instead of inheriting one.
+                    className="bg-black text-paper rounded-md p-2 border border-[#ddf3ff2f]"
                   >
                     <Select.Viewport>
                       <Select.Item
@@ -141,7 +143,7 @@ export default function ResendBentoGrid() {
               </motion.div>
             ))}
           </AnimatePresence>
-          <div className="bg-gradient-to-b from-transparent to-stone-950 absolute inset-0" />
+          <div className="bg-gradient-to-b from-transparent to-ink absolute inset-0" />
         </div>
       </div>
     </ComponentWrapper>

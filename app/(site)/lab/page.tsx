@@ -39,7 +39,11 @@ export default function Lab({
         {posts.map((post, i) => (
           <Link
             key={post.slug}
-            href={`/lab/${post.slug}`}
+            href={
+              pageNum > 1
+                ? `/lab/${post.slug}?page=${pageNum}`
+                : `/lab/${post.slug}`
+            }
             prefetch
             aria-label={post.title}
             className="animate-enter block overflow-hidden rounded-lg border border-line transition-colors hover:border-line-strong"

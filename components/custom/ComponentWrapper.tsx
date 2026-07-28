@@ -26,8 +26,13 @@ const ComponentWrapper = forwardRef<HTMLDivElement, Props>(function Wrapper(
   return (
     <div
       className={clsx(
-        "border border-stone-800 p-5 rounded-md aspect-square flex justify-center items-center my-6 relative transition",
-        theme === "dark" ? "bg-stone-950" : "bg-slate-200"
+        "border p-5 rounded-md aspect-square flex justify-center items-center my-6 relative transition",
+        // Demos are built for a dark canvas, so the wrapper owns the text color
+        // too — children that don't set one would otherwise inherit the page's
+        // `text-ink` and disappear against the dark background.
+        theme === "dark"
+          ? "border-ink bg-ink text-paper"
+          : "border-line bg-paper text-ink"
       )}
       ref={ref}
     >
@@ -51,10 +56,7 @@ const ComponentWrapper = forwardRef<HTMLDivElement, Props>(function Wrapper(
                 exit="hidden"
                 key={theme}
                 transition={{ duration: 0.3, type: "spring", bounce: 0.5 }}
-                className={clsx(
-                  "block",
-                  theme === "dark" ? "text-white" : "text-black"
-                )}
+                className="block"
               >
                 {theme === "dark" ? <IoSunnyOutline /> : <IoMoonOutline />}
               </motion.span>

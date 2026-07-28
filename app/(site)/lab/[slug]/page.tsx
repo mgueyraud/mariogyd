@@ -1,5 +1,7 @@
 import Link from "next/link";
+import { Suspense } from "react";
 import { getAllLabMeta, getLabPostBySlug } from "../fetchers";
+import BackToLab, { BackToLabFallback } from "@/components/custom/BackToLab";
 import { GoArrowUpRight } from "react-icons/go";
 
 // Next.js will invalidate the cache when a
@@ -24,12 +26,9 @@ export default async function LabComponentPage({
 
   return (
     <article>
-      <Link
-        href="/lab"
-        className="text-xs text-subtle no-underline transition-colors hover:text-ink"
-      >
-        ← All experiments
-      </Link>
+      <Suspense fallback={<BackToLabFallback />}>
+        <BackToLab />
+      </Suspense>
       <h1 className="mt-5 mb-4 font-serif text-[30px] font-medium tracking-[-0.01em]">
         {labPost.frontmatter.title}
       </h1>
