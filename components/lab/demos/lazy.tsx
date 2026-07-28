@@ -5,7 +5,7 @@ import dynamic from "next/dynamic";
 /*
  * The lazy boundary has to live in a client module. `dynamic()` called from a
  * server module still resolves every demo into the page's client manifest, so
- * each experiment page downloaded all sixteen — the split only happens once
+ * each experiment page downloaded all fifteen — the split only happens once
  * webpack sees the `import()` inside the client graph. SSR stays on, so the
  * prerendered HTML still contains the demo.
  */
@@ -28,7 +28,4 @@ export const ResendBentoGrid = dynamic(() => import("./ResendBentoGrid"));
 export const DynamicSettings = dynamic(() => import("./DynamicSettings"));
 export const DynamicVercelToolbar = dynamic(
   () => import("./DynamicVercelToolbar")
-);
-export const FormCircleInteraction = dynamic(
-  () => import("./FormCircleInteraction")
 );

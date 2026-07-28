@@ -17,6 +17,10 @@ export const metadata: Metadata = {
   title: "Mario Gueyraud",
   description:
     "Passionate digital experience creator learning design engineering. Focused on simplicity, modernist design, and great taste.",
+  twitter: {
+    card: "summary_large_image",
+    creator: "@mariogyd",
+  },
   icons: {
     icon: [
       {
