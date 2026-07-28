@@ -66,12 +66,17 @@ export function DottedMap<M extends Marker = Marker>({
   style,
   ...svgProps
 }: DottedMapProps<M>) {
-  const { points, addMarkers } = createMap({
-    width,
-    height,
-    mapSamples,
-  })
-  const processedMarkers = addMarkers(markers)
+  // Sampling the map is the expensive part and depends only on the grid
+  // geometry — keep it (and the addMarkers closure it returns) across the
+  // renders that pan/zoom produce.
+  const { points, addMarkers } = React.useMemo(
+    () => createMap({ width, height, mapSamples }),
+    [width, height, mapSamples]
+  )
+  const processedMarkers = React.useMemo(
+    () => addMarkers(markers),
+    [addMarkers, markers]
+  )
 
   // Zoom scales positions around the origin; radii are left untouched.
   const ox = zoomOrigin?.x ?? width / 2

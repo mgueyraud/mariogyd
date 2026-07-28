@@ -132,7 +132,7 @@ export default function NowPlaying({ initial }: { initial: NowPlayingState }) {
               <a
                 href={track.url}
                 target="_blank"
-                rel="noopener"
+                rel="noopener noreferrer"
                 className="no-underline transition-colors hover:text-ink"
               >
                 {label}
