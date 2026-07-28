@@ -2,20 +2,18 @@ export type Role = {
   years: string;
   company: string;
   role: string;
-  current?: boolean;
   desc: string;
   site: string;
   url: string;
 };
 
-// Real experience. Descriptions authored for the redesign; URLs are the live sites.
+// Real experience. Descriptions condensed from the resume; URLs are the live sites.
 export const ROLES: Role[] = [
   {
-    years: "2025 ··· NOW",
+    years: "2025 ··· 2026",
     company: "Vibrant",
     role: "Senior Fullstack Engineer",
-    current: true,
-    desc: "Leading front-end architecture for a healthcare platform — the design system, performance budgets, and the interaction details in between.",
+    desc: "Scheduling, real-time AI scribing, and clinical records for a healthcare platform. Grew from 6 to 65 practices in a year, through a $9M raise.",
     site: "vibrantpractice.com",
     url: "https://vibrantpractice.com",
   },
@@ -23,7 +21,7 @@ export const ROLES: Role[] = [
     years: "2024",
     company: "Binti",
     role: "Senior Frontend Engineer",
-    desc: "Built adoption and foster-care workflows in React; shipped accessibility fixes across the whole intake flow.",
+    desc: "React work behind an eight-figure state contract, including the intake screening tool and profile pages.",
     site: "binti.com",
     url: "https://binti.com",
   },
@@ -31,7 +29,7 @@ export const ROLES: Role[] = [
     years: "2024",
     company: "Saagas.ai",
     role: "Full Stack Engineer",
-    desc: "Full-stack product work on an early AI storytelling tool — from the Postgres schema to the final polish.",
+    desc: "Built the MVP app and landing page in Next.js and React, with Python and FastAPI lambdas behind them.",
     site: "saagas.ai",
     url: "https://saagas.ai",
   },
@@ -39,7 +37,7 @@ export const ROLES: Role[] = [
     years: "2023",
     company: "Tinloof",
     role: "Senior Front-End Engineer",
-    desc: "Marketing sites and e-commerce for clients on Next.js and Sanity, with a focus on Core Web Vitals.",
+    desc: "Led SoleRetriever's blog MVP on Next.js and Sanity, and moved their Webflow content across with custom scrapers.",
     site: "tinloof.com",
     url: "https://tinloof.com",
   },
@@ -47,7 +45,7 @@ export const ROLES: Role[] = [
     years: "2023",
     company: "Belk",
     role: "Front-End Engineer",
-    desc: "Front-end on the product listing and checkout experience for a large retail platform.",
+    desc: "Front end of belk.com for millions of shoppers. Cut server-side render time by close to half.",
     site: "belk.com",
     url: "https://www.belk.com",
   },
@@ -55,7 +53,7 @@ export const ROLES: Role[] = [
     years: "2022",
     company: "Tonic 3",
     role: "Lead Front-End Engineer",
-    desc: "Led a small front-end team building white-label banking UI; owned the shared component library.",
+    desc: "Built Avery Dennison's dashboard in React and TypeScript, with charts, Mapbox maps, and filterable tables.",
     site: "tonic3.com",
     url: "https://www.tonic3.com",
   },
@@ -63,7 +61,7 @@ export const ROLES: Role[] = [
     years: "2021",
     company: "Teixido",
     role: "React.js & UI Developer",
-    desc: "React and UI development across client projects; motion and micro-interactions.",
+    desc: "Maintained a newspaper's design system in SASS, and cut load time with lazy-loaded React components.",
     site: "teixido.co",
     url: "https://teixido.co",
   },
@@ -71,7 +69,7 @@ export const ROLES: Role[] = [
     years: "2020",
     company: "Teixido",
     role: "Software Engineer Intern",
-    desc: "Started as an intern shipping production UI within the first month.",
+    desc: "Started as an intern and was shipping production UI within the first month.",
     site: "teixido.co",
     url: "https://teixido.co",
   },

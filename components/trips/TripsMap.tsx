@@ -15,36 +15,54 @@ const MAP_HEIGHT = 75;
 const MAP_SAMPLES = 7000;
 const MIN_ZOOM = 1;
 const MAX_ZOOM = 6;
+/** Degrees to step a marker when two cities collide on the same dot. */
+const NUDGE_DEG = 0.25;
 
 const clamp = (v: number, lo: number, hi: number) =>
   Math.min(hi, Math.max(lo, v));
 
 export default function TripsMap() {
-  const markers = useMemo<Marker[]>(
-    () => MAP_TRIPS.map((t) => ({ lat: t.lat, lng: t.lng, size: 0.9 })),
-    []
-  );
-
   // Project trips onto the same grid the dotted map uses (viewBox units).
-  const { pins, origin } = useMemo(() => {
+  const { pins, markers, origin } = useMemo(() => {
     const { addMarkers } = createMap({
       width: MAP_WIDTH,
       height: MAP_HEIGHT,
       mapSamples: MAP_SAMPLES,
     });
-    const projected = addMarkers(
-      MAP_TRIPS.map((t) => ({ lat: t.lat, lng: t.lng }))
-    );
-    const pts = MAP_TRIPS.map((trip, i) => ({
-      trip,
-      x: projected[i].x,
-      y: projected[i].y,
-    }));
+    const project = (lat: number, lng: number) => addMarkers([{ lat, lng }])[0];
+    const cell = (p: { x: number; y: number }) => `${p.x},${p.y}`;
+
+    // Cities closer together than one dot land on the same grid point and hide
+    // each other — Florianópolis and Balneário Camboriú are ~75km apart. Walk
+    // the second one out to a free dot, along the bearing it really sits on.
+    const taken = new Map<string, { lat: number; lng: number }>();
+    const pts = MAP_TRIPS.map((trip) => {
+      let { lat, lng } = trip;
+      let point = project(lat, lng);
+      const occupant = taken.get(cell(point));
+      if (occupant) {
+        const dLat = trip.lat - occupant.lat;
+        const dLng = trip.lng - occupant.lng;
+        const mag = Math.hypot(dLat, dLng) || 1;
+        for (let n = 1; n <= 20 && taken.has(cell(point)); n++) {
+          lat = trip.lat + (dLat / mag) * n * NUDGE_DEG;
+          lng = trip.lng + (dLng / mag) * n * NUDGE_DEG;
+          point = project(lat, lng);
+        }
+      }
+      taken.set(cell(point), { lat: trip.lat, lng: trip.lng });
+      return { trip, lat, lng, x: point.x, y: point.y };
+    });
+
     // Zoom around the centroid of the trips (the Americas), not the canvas
     // center, so zooming keeps the markers in frame.
     const ox = pts.reduce((s, p) => s + p.x, 0) / pts.length;
     const oy = pts.reduce((s, p) => s + p.y, 0) / pts.length;
-    return { pins: pts, origin: { x: ox, y: oy } };
+    return {
+      pins: pts,
+      markers: pts.map<Marker>((p) => ({ lat: p.lat, lng: p.lng, size: 0.9 })),
+      origin: { x: ox, y: oy },
+    };
   }, []);
 
   const [zoom, setZoom] = useState(1);
