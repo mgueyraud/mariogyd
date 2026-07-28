@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import ComponentWrapper from "../custom/ComponentWrapper";
+import ComponentWrapper from "../ComponentWrapper";
 import { Command } from "cmdk";
 import { AnimatePresence, motion, Variants } from "framer-motion";
 import { BiMessageRounded } from "react-icons/bi";

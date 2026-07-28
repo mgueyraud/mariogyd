@@ -1,5 +1,5 @@
-import Link from "next/link";
-import LorenzButterflies from "@/components/custom/LorenzButterflies";
+import LorenzButterflies from "@/components/site/LorenzButterflies";
+import TextLink from "@/components/site/TextLink";
 
 export default function NotFound() {
   return (
@@ -19,12 +19,9 @@ export default function NotFound() {
           what happens, even the dead ends.
         </p>
 
-        <Link
-          href="/"
-          className="mt-8 text-[13px] underline decoration-line-strong underline-offset-[3px] transition-colors hover:decoration-ink"
-        >
+        <TextLink href="/" variant="underline" className="mt-8 text-[13px]">
           Return home
-        </Link>
+        </TextLink>
       </div>
 
       <div className="absolute bottom-6 font-mono text-[10px] tracking-[0.1em] text-line-strong">

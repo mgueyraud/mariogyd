@@ -1,32 +1,41 @@
 import * as React from "react"
-import { createMap } from "svg-dotted-map"
 
 import { cn } from "@/lib/utils"
 
+/**
+ * Presentational only — the dot grid and the marker positions are sampled on
+ * the server (see `lib/trips-map.ts`) and arrive already projected into viewBox
+ * units. This component must not import `svg-dotted-map`: it renders inside a
+ * client component, and pulling the sampler back in here would ship the world
+ * map data to the browser again.
+ */
+
 export interface Marker {
-  lat: number
-  lng: number
+  /** viewBox units, already projected */
+  x: number
+  y: number
   size?: number
   pulse?: boolean
 }
 
-/** addMarkers returns markers with lat/lng removed; only x, y and other props (e.g. size) remain */
-type MapMarker<M extends Marker> = Omit<M, "lat" | "lng"> & {
-  x: number
-  y: number
+/** Cell (col, row) sits at (x0 + col * stepX, y0 + row * stepY). */
+export interface DotGrid {
+  x0: number
+  y0: number
+  stepX: number
+  stepY: number
 }
 
-export interface DottedMapProps<
-  M extends Marker = Marker,
-> extends React.SVGProps<SVGSVGElement> {
+export interface DottedMapProps extends React.SVGProps<SVGSVGElement> {
   width?: number
   height?: number
-  mapSamples?: number
-  markers?: M[]
+  /** Flat [col0, row0, col1, row1, …] into `grid` */
+  dots: number[]
+  grid: DotGrid
+  markers?: Marker[]
   dotColor?: string
   markerColor?: string
   dotRadius?: number
-  stagger?: boolean
   pulse?: boolean
 
   /**
@@ -38,76 +47,47 @@ export interface DottedMapProps<
   zoomOrigin?: { x: number; y: number }
   /** Pan offset in viewBox units — shifts the viewBox window over the dots. */
   pan?: { x: number; y: number }
-
-  renderMarkerOverlay?: (args: {
-    marker: MapMarker<M>
-    index: number
-    x: number
-    y: number
-    r: number
-  }) => React.ReactNode
 }
 
-export function DottedMap<M extends Marker = Marker>({
+export function DottedMap({
   width = 150,
   height = 75,
-  mapSamples = 5000,
+  dots,
+  grid,
   markers = [],
   dotColor = "currentColor",
   markerColor = "#FF6900",
   dotRadius = 0.2,
-  stagger = true,
   pulse = false,
   zoom = 1,
   zoomOrigin,
   pan = { x: 0, y: 0 },
-  renderMarkerOverlay,
   className,
   style,
   ...svgProps
-}: DottedMapProps<M>) {
-  // Sampling the map is the expensive part and depends only on the grid
-  // geometry — keep it (and the addMarkers closure it returns) across the
-  // renders that pan/zoom produce.
-  const { points, addMarkers } = React.useMemo(
-    () => createMap({ width, height, mapSamples }),
-    [width, height, mapSamples]
-  )
-  const processedMarkers = React.useMemo(
-    () => addMarkers(markers),
-    [addMarkers, markers]
-  )
-
-  // Zoom scales positions around the origin; radii are left untouched.
+}: DottedMapProps) {
+  // Zoom scales positions around the origin; radii are left untouched. The
+  // result is rounded because it goes straight into an SVG attribute ~2,400
+  // times — 0.01 of a 165-unit viewBox is far below a device pixel, and full
+  // float precision would add tens of kB to the prerendered markup.
   const ox = zoomOrigin?.x ?? width / 2
   const oy = zoomOrigin?.y ?? height / 2
-  const zx = (x: number) => (x - ox) * zoom + ox
-  const zy = (y: number) => (y - oy) * zoom + oy
+  const round = (n: number) => Math.round(n * 100) / 100
+  const zx = (x: number) => round((x - ox) * zoom + ox)
+  const zy = (y: number) => round((y - oy) * zoom + oy)
 
-  // Compute stagger helpers in a single, simple pass
-  const { xStep, yToRowIndex } = React.useMemo(() => {
-    const sorted = [...points].sort((a, b) => a.y - b.y || a.x - b.x)
-    const rowMap = new Map<number, number>()
-    let step = 0
-    let prevY = Number.NaN
-    let prevXInRow = Number.NaN
-
-    for (const p of sorted) {
-      if (p.y !== prevY) {
-        // new row
-        prevY = p.y
-        prevXInRow = Number.NaN
-        if (!rowMap.has(p.y)) rowMap.set(p.y, rowMap.size)
-      }
-      if (!Number.isNaN(prevXInRow)) {
-        const delta = p.x - prevXInRow
-        if (delta > 0) step = step === 0 ? delta : Math.min(step, delta)
-      }
-      prevXInRow = p.x
-    }
-
-    return { xStep: step || 1, yToRowIndex: rowMap }
-  }, [points])
+  const circles: React.ReactNode[] = []
+  for (let i = 0; i < dots.length; i += 2) {
+    circles.push(
+      <circle
+        cx={zx(grid.x0 + dots[i] * grid.stepX)}
+        cy={zy(grid.y0 + dots[i + 1] * grid.stepY)}
+        r={dotRadius}
+        fill={dotColor}
+        key={i}
+      />
+    )
+  }
 
   return (
     <svg
@@ -116,25 +96,10 @@ export function DottedMap<M extends Marker = Marker>({
       style={{ width: "100%", height: "100%", ...style }}
       {...svgProps}
     >
-      {points.map((point, index) => {
-        const rowIndex = yToRowIndex.get(point.y) ?? 0
-        const offsetX = stagger && rowIndex % 2 === 1 ? xStep / 2 : 0
-        return (
-          <circle
-            cx={zx(point.x + offsetX)}
-            cy={zy(point.y)}
-            r={dotRadius}
-            fill={dotColor}
-            key={`${point.x}-${point.y}-${index}`}
-          />
-        )
-      })}
+      {circles}
 
-      {processedMarkers.map((marker, index) => {
-        const rowIndex = yToRowIndex.get(marker.y) ?? 0
-        const offsetX = stagger && rowIndex % 2 === 1 ? xStep / 2 : 0
-
-        const x = zx(marker.x + offsetX)
+      {markers.map((marker, index) => {
+        const x = zx(marker.x)
         const y = zy(marker.y)
         const r = marker.size ?? dotRadius
         const shouldPulse = pulse
@@ -196,14 +161,6 @@ export function DottedMap<M extends Marker = Marker>({
                 </circle>
               </g>
             ) : null}
-
-            {renderMarkerOverlay?.({
-              marker: { ...marker, x, y },
-              index,
-              x,
-              y,
-              r,
-            })}
           </g>
         )
       })}

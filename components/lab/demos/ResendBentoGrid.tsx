@@ -1,6 +1,6 @@
 "use client";
 import * as Select from "@radix-ui/react-select";
-import ComponentWrapper from "../custom/ComponentWrapper";
+import ComponentWrapper from "../ComponentWrapper";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
 import { MdOutlineKeyboardArrowDown } from "react-icons/md";

@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import ComponentWrapper from "../custom/ComponentWrapper";
+import ComponentWrapper from "../ComponentWrapper";
 
 let titles = [
   ["Apple's newest iPhone is here", "Watch our July event"],

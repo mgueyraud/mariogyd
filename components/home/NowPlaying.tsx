@@ -46,7 +46,7 @@ export default function NowPlaying({ initial }: { initial: NowPlayingState }) {
     const controller = new AbortController();
     let timer: ReturnType<typeof setInterval> | undefined;
 
-    const refresh = async () => {
+    const refresh = async (): Promise<void> => {
       lastFetchedAt.current = Date.now();
       try {
         const res = await fetch("/api/now-playing", {
@@ -82,7 +82,13 @@ export default function NowPlaying({ initial }: { initial: NowPlayingState }) {
       }
     };
 
-    if (document.visibilityState === "visible") start();
+    if (document.visibilityState === "visible") {
+      // The page is ISR with a long window, so `initial` can be minutes old.
+      // One fetch on mount corrects it within a round trip; the route's
+      // s-maxage=30 header keeps this off Spotify for most visitors.
+      refresh();
+      start();
+    }
     document.addEventListener("visibilitychange", onVisibility);
 
     return () => {

@@ -1,4 +1,4 @@
-import Nav from "@/components/custom/Nav";
+import Nav from "@/components/site/Nav";
 
 // Shell for the main site pages: fluid page padding + the left-offset
 // 600px content column with the shared nav. The 404 lives outside this

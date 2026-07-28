@@ -2,68 +2,29 @@
 
 import Link from "next/link";
 import { useCallback, useMemo, useRef, useState } from "react";
-import { createMap } from "svg-dotted-map";
 import { play } from "cuelume";
 import { DottedMap, type Marker } from "@/components/ui/dotted-map";
-import { getMapTrips } from "@/lib/trips";
+// Type-only — importing a value from lib/trips-map would drag the map sampler
+// (and its world data) into this client bundle.
+import type { MapGeometry } from "@/lib/trips-map";
 
-// One dot per city; repeat visits point at the most recent trip.
-const MAP_TRIPS = getMapTrips();
-
-const MAP_WIDTH = 165;
-const MAP_HEIGHT = 75;
-const MAP_SAMPLES = 7000;
 const MIN_ZOOM = 1;
 const MAX_ZOOM = 6;
-/** Degrees to step a marker when two cities collide on the same dot. */
-const NUDGE_DEG = 0.25;
 
 const clamp = (v: number, lo: number, hi: number) =>
   Math.min(hi, Math.max(lo, v));
 
-export default function TripsMap() {
-  // Project trips onto the same grid the dotted map uses (viewBox units).
-  const { pins, markers, origin } = useMemo(() => {
-    const { addMarkers } = createMap({
-      width: MAP_WIDTH,
-      height: MAP_HEIGHT,
-      mapSamples: MAP_SAMPLES,
-    });
-    const project = (lat: number, lng: number) => addMarkers([{ lat, lng }])[0];
-    const cell = (p: { x: number; y: number }) => `${p.x},${p.y}`;
+/**
+ * `geometry` is sampled and projected on the server — one pin per city, repeat
+ * visits pointing at the most recent trip. Everything here is view state.
+ */
+export default function TripsMap({ geometry }: { geometry: MapGeometry }) {
+  const { width, height, grid, dots, pins, origin } = geometry;
 
-    // Cities closer together than one dot land on the same grid point and hide
-    // each other — Florianópolis and Balneário Camboriú are ~75km apart. Walk
-    // the second one out to a free dot, along the bearing it really sits on.
-    const taken = new Map<string, { lat: number; lng: number }>();
-    const pts = MAP_TRIPS.map((trip) => {
-      let { lat, lng } = trip;
-      let point = project(lat, lng);
-      const occupant = taken.get(cell(point));
-      if (occupant) {
-        const dLat = trip.lat - occupant.lat;
-        const dLng = trip.lng - occupant.lng;
-        const mag = Math.hypot(dLat, dLng) || 1;
-        for (let n = 1; n <= 20 && taken.has(cell(point)); n++) {
-          lat = trip.lat + (dLat / mag) * n * NUDGE_DEG;
-          lng = trip.lng + (dLng / mag) * n * NUDGE_DEG;
-          point = project(lat, lng);
-        }
-      }
-      taken.set(cell(point), { lat: trip.lat, lng: trip.lng });
-      return { trip, lat, lng, x: point.x, y: point.y };
-    });
-
-    // Zoom around the centroid of the trips (the Americas), not the canvas
-    // center, so zooming keeps the markers in frame.
-    const ox = pts.reduce((s, p) => s + p.x, 0) / pts.length;
-    const oy = pts.reduce((s, p) => s + p.y, 0) / pts.length;
-    return {
-      pins: pts,
-      markers: pts.map<Marker>((p) => ({ lat: p.lat, lng: p.lng, size: 0.9 })),
-      origin: { x: ox, y: oy },
-    };
-  }, []);
+  const markers = useMemo<Marker[]>(
+    () => pins.map((p) => ({ x: p.x, y: p.y, size: 0.9 })),
+    [pins]
+  );
 
   const [zoom, setZoom] = useState(1);
   const [pan, setPan] = useState({ x: 0, y: 0 });
@@ -82,12 +43,12 @@ export default function TripsMap() {
   const clampPan = useCallback(
     (p: { x: number; y: number }, z: number) => {
       const minX = origin.x * (1 - z);
-      const maxX = (MAP_WIDTH - origin.x) * z + origin.x - MAP_WIDTH;
+      const maxX = (width - origin.x) * z + origin.x - width;
       const minY = origin.y * (1 - z);
-      const maxY = (MAP_HEIGHT - origin.y) * z + origin.y - MAP_HEIGHT;
+      const maxY = (height - origin.y) * z + origin.y - height;
       return { x: clamp(p.x, minX, maxX), y: clamp(p.y, minY, maxY) };
     },
-    [origin]
+    [origin, width, height]
   );
 
   const zoomBy = useCallback(
@@ -108,14 +69,14 @@ export default function TripsMap() {
 
   const onPointerDown = (e: React.PointerEvent) => {
     if (zoom <= 1) return;
-    const w = containerRef.current?.getBoundingClientRect().width ?? MAP_WIDTH;
+    const w = containerRef.current?.getBoundingClientRect().width ?? width;
     moved.current = false;
     drag.current = {
       x: e.clientX,
       y: e.clientY,
       panX: pan.x,
       panY: pan.y,
-      unitsPerPx: MAP_WIDTH / w,
+      unitsPerPx: width / w,
     };
     setDragging(true);
   };
@@ -142,8 +103,9 @@ export default function TripsMap() {
   return (
     <div
       ref={containerRef}
-      className="relative w-full overflow-hidden aspect-[165/75]"
+      className="relative w-full overflow-hidden"
       style={{
+        aspectRatio: `${width} / ${height}`,
         cursor: zoom > 1 ? (dragging ? "grabbing" : "grab") : "default",
         touchAction: zoom > 1 ? "none" : "auto",
       }}
@@ -153,10 +115,10 @@ export default function TripsMap() {
       onPointerLeave={endDrag}
     >
       <DottedMap
-        width={MAP_WIDTH}
-        height={MAP_HEIGHT}
-        mapSamples={MAP_SAMPLES}
-        stagger={false}
+        width={width}
+        height={height}
+        dots={dots}
+        grid={grid}
         dotColor="#D8D8CF"
         markers={markers}
         markerColor="#1C1C1A"
@@ -167,11 +129,11 @@ export default function TripsMap() {
         className="absolute inset-0"
       />
 
-      {pins.map(({ trip, x, y }) => {
-        const zx = (x - origin.x) * zoom + origin.x;
-        const zy = (y - origin.y) * zoom + origin.y;
-        const left = ((zx - pan.x) / MAP_WIDTH) * 100;
-        const top = ((zy - pan.y) / MAP_HEIGHT) * 100;
+      {pins.map((trip) => {
+        const zx = (trip.x - origin.x) * zoom + origin.x;
+        const zy = (trip.y - origin.y) * zoom + origin.y;
+        const left = ((zx - pan.x) / width) * 100;
+        const top = ((zy - pan.y) / height) * 100;
         if (left < 0 || left > 100 || top < 0 || top > 100) return null;
         return (
           <Link

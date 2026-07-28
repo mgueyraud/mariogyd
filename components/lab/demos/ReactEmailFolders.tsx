@@ -1,6 +1,6 @@
 "use client";
 import React, { useState } from "react";
-import ComponentWrapper from "../custom/ComponentWrapper";
+import ComponentWrapper from "../ComponentWrapper";
 import { MdOutlineKeyboardArrowDown } from "react-icons/md";
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";

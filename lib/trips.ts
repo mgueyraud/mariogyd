@@ -68,7 +68,13 @@ const DIMS = {
  * s square — which is enough to derive the URL, the real aspect ratio, and the
  * grid span for every photo in a trip.
  */
-const photoSet = (slug: string, shape: string): TripPhoto[] =>
+const photoSet = ({
+  slug,
+  shape,
+}: {
+  slug: string;
+  shape: string;
+}): TripPhoto[] =>
   shape.split("").map((k, i) => ({
     src: `${BLOB}/${slug}/${String(i + 1).padStart(2, "0")}.jpg`,
     ...DIMS[k as keyof typeof DIMS],
@@ -88,7 +94,7 @@ export const TRIPS: Trip[] = [
     cover: 4,
     blurb:
       "A week on the island with my padel friends — beaches in the morning, nothing scheduled after that. Somewhere in the middle of it I told the love of my life how I felt about her.",
-    photos: photoSet("florianopolis", "pppppppppp"),
+    photos: photoSet({ slug: "florianopolis", shape: "pppppppppp" }),
   },
   {
     slug: "miami",
@@ -101,7 +107,7 @@ export const TRIPS: Trip[] = [
     cover: 10,
     blurb:
       "A trip back to where I spent part of my childhood, before my family moved home when my father got sick. I saw the friends and family I grew up around and walked the streets I still remember.",
-    photos: photoSet("miami", "ppppplplps"),
+    photos: photoSet({ slug: "miami", shape: "ppppplplps" }),
   },
   {
     slug: "san-francisco",
@@ -114,7 +120,7 @@ export const TRIPS: Trip[] = [
     cover: 4,
     blurb:
       "Onsite with the Ultralight team, formerly Vibrant. A week of meeting the people I work with every day and getting a much closer look at how the developer ecosystem actually moves.",
-    photos: photoSet("san-francisco", "pppppppplp"),
+    photos: photoSet({ slug: "san-francisco", shape: "pppppppplp" }),
   },
   {
     slug: "montevideo",
@@ -127,7 +133,7 @@ export const TRIPS: Trip[] = [
     cover: 9,
     blurb:
       "Time with a coworker and one of my closest friends — one of the best people I know, and someone I've learned a lot from. Slow days on the Rambla and long conversations.",
-    photos: photoSet("montevideo", "plpppppppp"),
+    photos: photoSet({ slug: "montevideo", shape: "plpppppppp" }),
   },
   {
     slug: "medellin-2024",
@@ -140,7 +146,7 @@ export const TRIPS: Trip[] = [
     cover: 6,
     blurb:
       "Back to Medellín, this time with my closest friends and nothing on the calendar. Green afternoons in El Poblado and the kind of week that doesn't need a plan.",
-    photos: photoSet("medellin-2024", "pppppppplp"),
+    photos: photoSet({ slug: "medellin-2024", shape: "pppppppplp" }),
   },
   {
     slug: "buenos-aires-2024",
@@ -153,7 +159,7 @@ export const TRIPS: Trip[] = [
     cover: 4,
     blurb:
       "A return to Buenos Aires with my best friends, this time with no reason other than to be there. Long dinners, longer walks, and a very good week.",
-    photos: photoSet("buenos-aires-2024", "pppppppppp"),
+    photos: photoSet({ slug: "buenos-aires-2024", shape: "pppppppppp" }),
   },
   {
     slug: "medellin-2023",
@@ -166,7 +172,7 @@ export const TRIPS: Trip[] = [
     cover: 8,
     blurb:
       "JSConf Medellín. I went for the community more than the talks — to meet the educators whose work I'd been learning from for years.",
-    photos: photoSet("medellin-2023", "ppplpppppp"),
+    photos: photoSet({ slug: "medellin-2023", shape: "ppplpppppp" }),
   },
   {
     slug: "santiago",
@@ -179,7 +185,7 @@ export const TRIPS: Trip[] = [
     cover: 5,
     blurb:
       "JSConf Chile, and the first time I met in person coworkers I'd only known through a screen. Clear mornings under the Andes between sessions.",
-    photos: photoSet("santiago", "lpppplpppl"),
+    photos: photoSet({ slug: "santiago", shape: "lpppplpppl" }),
   },
   {
     slug: "camboriu",
@@ -192,7 +198,7 @@ export const TRIPS: Trip[] = [
     cover: 5,
     blurb:
       "New Year's on the coast. Fireworks over the bay at midnight, with the skyline lit up behind the beach.",
-    photos: photoSet("camboriu", "ppppppplpp"),
+    photos: photoSet({ slug: "camboriu", shape: "ppppppplpp" }),
   },
   {
     slug: "foz-do-iguacu",
@@ -205,7 +211,7 @@ export const TRIPS: Trip[] = [
     cover: 4,
     blurb:
       "I tagged along on my brother's school trip. The falls are the kind of thing a photo can't really hold — I tried anyway.",
-    photos: photoSet("foz-do-iguacu", "pppppppppp"),
+    photos: photoSet({ slug: "foz-do-iguacu", shape: "pppppppppp" }),
   },
   {
     slug: "buenos-aires-2022",
@@ -218,7 +224,7 @@ export const TRIPS: Trip[] = [
     cover: 8,
     blurb:
       "My first trip. I flew down with friends for a concert and spent the rest of the days walking a city I'd never seen before.",
-    photos: photoSet("buenos-aires-2022", "pppppppplp"),
+    photos: photoSet({ slug: "buenos-aires-2022", shape: "pppppppplp" }),
   },
 ];
 
@@ -236,7 +242,7 @@ export function getTripBySlug(slug: string): Trip | undefined {
  * that points at the most recent trip. TRIPS is newest first, so the first
  * match for a city wins.
  */
-export function getMapTrips(): Trip[] {
+function getMapTrips(): Trip[] {
   const seen = new Set<string>();
   return TRIPS.filter((trip) => {
     const key = `${trip.city}, ${trip.country}`;
@@ -244,4 +250,47 @@ export function getMapTrips(): Trip[] {
     seen.add(key);
     return true;
   });
+}
+
+/*
+ * Selectors for the client components below. They exist so a page can hand a
+ * `"use client"` component exactly the fields it renders — importing TRIPS
+ * from a client file would serialize every blurb and all ~110 photo URLs into
+ * the browser bundle.
+ */
+
+/** A polaroid in the home fan. */
+export type FanCard = {
+  slug: string;
+  city: string;
+  rotation: number;
+  cover: string;
+};
+
+export function getFanCards(): FanCard[] {
+  return TRIPS.map((trip) => ({
+    slug: trip.slug,
+    city: trip.city,
+    rotation: trip.rotation,
+    cover: coverPhoto(trip).src,
+  }));
+}
+
+/** A dot on the trips map. */
+export type MapPin = {
+  slug: string;
+  city: string;
+  country: string;
+  lat: number;
+  lng: number;
+};
+
+export function getMapPins(): MapPin[] {
+  return getMapTrips().map(({ slug, city, country, lat, lng }) => ({
+    slug,
+    city,
+    country,
+    lat,
+    lng,
+  }));
 }

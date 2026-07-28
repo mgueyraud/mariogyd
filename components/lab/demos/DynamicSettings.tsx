@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
-import ComponentWrapper from "../custom/ComponentWrapper";
+import ComponentWrapper from "../ComponentWrapper";
 import { AnimatePresence, motion, MotionConfig } from "framer-motion";
 import * as Tabs from "@radix-ui/react-tabs";
 import * as Slider from "@radix-ui/react-slider";

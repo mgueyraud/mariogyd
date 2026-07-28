@@ -32,10 +32,13 @@ export type NowPlayingState =
  */
 export type CacheMode = "no-store" | { revalidate: number };
 
-function cacheInit(mode: CacheMode): RequestInit {
-  return mode === "no-store"
+/** Every internal call passes the mode along under the same `cache` key. */
+type CacheArg = { cache: CacheMode };
+
+function cacheInit({ cache }: CacheArg): RequestInit {
+  return cache === "no-store"
     ? { cache: "no-store" }
-    : ({ next: { revalidate: mode.revalidate } } as RequestInit);
+    : ({ next: { revalidate: cache.revalidate } } as RequestInit);
 }
 
 /* ------------------------------------------------------------------ tokens */
@@ -52,7 +55,7 @@ function env(name: string): string {
   return value;
 }
 
-async function requestAccessToken(mode: CacheMode): Promise<string> {
+async function requestAccessToken({ cache }: CacheArg): Promise<string> {
   const basic = Buffer.from(
     `${env("SPOTIFY_CLIENT_ID")}:${env("SPOTIFY_CLIENT_SECRET")}`
   ).toString("base64");
@@ -69,7 +72,7 @@ async function requestAccessToken(mode: CacheMode): Promise<string> {
     }),
     // POSTs are never stored in Next's data cache; this only keeps the call
     // from forcing the enclosing segment dynamic.
-    ...cacheInit(mode),
+    ...cacheInit({ cache }),
     signal: AbortSignal.timeout(TIMEOUT_MS),
   });
 
@@ -85,12 +88,12 @@ async function requestAccessToken(mode: CacheMode): Promise<string> {
   return body.access_token;
 }
 
-async function getAccessToken(mode: CacheMode): Promise<string> {
+async function getAccessToken({ cache }: CacheArg): Promise<string> {
   // Refresh when missing or within 60s of expiry.
   if (cached && cached.expiresAt - 60_000 > Date.now()) return cached.token;
   // De-dupe concurrent refreshes behind a single in-flight promise.
   if (!inFlight) {
-    inFlight = requestAccessToken(mode).finally(() => {
+    inFlight = requestAccessToken({ cache }).finally(() => {
       inFlight = null;
     });
   }
@@ -101,15 +104,15 @@ async function getAccessToken(mode: CacheMode): Promise<string> {
 
 type ApiResult = { status: number; body: any };
 
-async function apiGet(
-  path: string,
-  mode: CacheMode,
-  retryOn401 = true
-): Promise<ApiResult> {
-  const token = await getAccessToken(mode);
+async function apiGet({
+  path,
+  cache,
+  retryOn401 = true,
+}: CacheArg & { path: string; retryOn401?: boolean }): Promise<ApiResult> {
+  const token = await getAccessToken({ cache });
   const res = await fetch(`${API_BASE}${path}`, {
     headers: { Authorization: `Bearer ${token}` },
-    ...cacheInit(mode),
+    ...cacheInit({ cache }),
     signal: AbortSignal.timeout(TIMEOUT_MS),
   });
 
@@ -118,7 +121,7 @@ async function apiGet(
   // the data cache, otherwise it would replay the same stale 401 response.
   if (res.status === 401 && retryOn401) {
     cached = null;
-    return apiGet(path, "no-store", false);
+    return apiGet({ path, cache: "no-store", retryOn401: false });
   }
 
   if (res.status === 204) return { status: 204, body: null };
@@ -172,11 +175,13 @@ function toTrack(item: any): NowPlayingTrack | null {
 /* -------------------------------------------------------------- public api */
 
 /** null means "fall through to recently-played". */
-async function getCurrentlyPlaying(mode: CacheMode): Promise<NowPlayingState | null> {
-  const { status, body } = await apiGet(
-    "/me/player/currently-playing?additional_types=track,episode",
-    mode
-  );
+async function getCurrentlyPlaying({
+  cache,
+}: CacheArg): Promise<NowPlayingState | null> {
+  const { status, body } = await apiGet({
+    path: "/me/player/currently-playing?additional_types=track,episode",
+    cache,
+  });
 
   // 204: nothing active, or a private session.
   if (status === 204 || !body) return null;
@@ -188,8 +193,13 @@ async function getCurrentlyPlaying(mode: CacheMode): Promise<NowPlayingState | n
   return track ? { status: "playing", track } : null;
 }
 
-async function getRecentlyPlayed(mode: CacheMode): Promise<NowPlayingState | null> {
-  const { body } = await apiGet("/me/player/recently-played?limit=1", mode);
+async function getRecentlyPlayed({
+  cache,
+}: CacheArg): Promise<NowPlayingState | null> {
+  const { body } = await apiGet({
+    path: "/me/player/recently-played?limit=1",
+    cache,
+  });
   const entry = body?.items?.[0];
   const track = toTrack(entry?.track);
   if (!track) return null;
@@ -204,13 +214,13 @@ async function getRecentlyPlayed(mode: CacheMode): Promise<NowPlayingState | nul
   };
 }
 
-export async function getNowPlaying(
-  mode: CacheMode = "no-store"
-): Promise<NowPlayingState> {
+export async function getNowPlaying({
+  cache = "no-store",
+}: Partial<CacheArg> = {}): Promise<NowPlayingState> {
   try {
-    const current = await getCurrentlyPlaying(mode);
+    const current = await getCurrentlyPlaying({ cache });
     if (current) return current;
-    return (await getRecentlyPlayed(mode)) ?? { status: "unavailable" };
+    return (await getRecentlyPlayed({ cache })) ?? { status: "unavailable" };
   } catch {
     // Timeout, 429, revoked token, malformed payload — all the same to the UI.
     return { status: "unavailable" };

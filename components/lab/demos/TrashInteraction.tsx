@@ -2,9 +2,9 @@
 
 import { AnimatePresence, MotionConfig, motion } from "framer-motion";
 import { useEffect, useState } from "react";
-import { TrashBack, TrashFront } from "../../lib/trash-assets";
+import { TrashBack, TrashFront } from "./trash-assets";
 import clsx from "clsx";
-import ComponentWrapper from "../custom/ComponentWrapper";
+import ComponentWrapper from "../ComponentWrapper";
 
 const IMAGES = ["1", "2", "3", "4"];
 

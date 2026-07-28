@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
-import ComponentWrapper from "../custom/ComponentWrapper";
-import { Button } from "../ui/button";
+import ComponentWrapper from "../ComponentWrapper";
+import { Button } from "@/components/ui/button";
 import { AnimatePresence, motion } from "framer-motion";
 import { LuLock, LuAlertTriangle, LuNewspaper } from "react-icons/lu";
 import useMeasure from "react-use-measure";

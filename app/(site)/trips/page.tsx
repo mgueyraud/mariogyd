@@ -1,8 +1,9 @@
 import Link from "next/link";
-import { CSSProperties } from "react";
 import type { Metadata } from "next";
+import Reveal from "@/components/site/Reveal";
 import TripsMap from "@/components/trips/TripsMap";
 import { TRIPS, shortDate } from "@/lib/trips";
+import { getMapGeometry } from "@/lib/trips-map";
 
 export const metadata: Metadata = {
   title: "Trips — Mario Gueyraud",
@@ -12,34 +13,27 @@ export const metadata: Metadata = {
 export default function Trips() {
   return (
     <>
-      <header
-        className="animate-enter flex items-baseline gap-3"
-        style={{ "--stagger": 1 } as CSSProperties}
-      >
+      <Reveal step={1} as="header" className="flex items-baseline gap-3">
         <h1 className="font-serif text-[32px] font-medium tracking-[-0.01em]">
           Trips
         </h1>
         <span className="font-mono text-xs text-faint">{TRIPS.length}</span>
-      </header>
-      <p
-        className="animate-enter mt-3.5 max-w-[52ch] text-subtle [text-wrap:pretty]"
-        style={{ "--stagger": 2 } as CSSProperties}
+      </Reveal>
+
+      <Reveal
+        step={2}
+        as="p"
+        className="mt-3.5 max-w-[52ch] text-subtle [text-wrap:pretty]"
       >
         I&apos;m not a photographer — just someone who travels a lot and takes
         photos on his phone. Hover a dot for a city, or scan the list below.
-      </p>
+      </Reveal>
 
-      <div
-        className="animate-enter mt-14"
-        style={{ "--stagger": 3 } as CSSProperties}
-      >
-        <TripsMap />
-      </div>
+      <Reveal step={3} className="mt-14">
+        <TripsMap geometry={getMapGeometry()} />
+      </Reveal>
 
-      <div
-        className="animate-enter mt-16 flex flex-col"
-        style={{ "--stagger": 4 } as CSSProperties}
-      >
+      <Reveal step={4} className="mt-16 flex flex-col">
         {TRIPS.map((trip) => (
           <Link
             key={trip.slug}
@@ -55,7 +49,7 @@ export default function Trips() {
             </span>
           </Link>
         ))}
-      </div>
+      </Reveal>
     </>
   );
 }

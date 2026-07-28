@@ -4,8 +4,8 @@ import { useState } from "react";
 import { FaCheckCircle } from "react-icons/fa";
 import { CgSpinner } from "react-icons/cg";
 import { cn } from "@/lib/utils";
-import { Button } from "../ui/button";
-import ComponentWrapper from "../custom/ComponentWrapper";
+import { Button } from "@/components/ui/button";
+import ComponentWrapper from "../ComponentWrapper";
 
 const statusVariants: Record<string, { icon: React.ReactElement }> = {
   analyzing: {

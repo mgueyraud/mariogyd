@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
-import ComponentWrapper from "../custom/ComponentWrapper";
+import ComponentWrapper from "../ComponentWrapper";
 import { GrDocumentPdf, GrTicket } from "react-icons/gr";
 import { RiTreeFill } from "react-icons/ri";
 import { PiBackpack } from "react-icons/pi";

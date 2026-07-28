@@ -1,6 +1,6 @@
 "use client";
 import { motion } from "framer-motion";
-import ComponentWrapper from "../custom/ComponentWrapper";
+import ComponentWrapper from "../ComponentWrapper";
 
 export default function FormCircleInteraction() {
   return (

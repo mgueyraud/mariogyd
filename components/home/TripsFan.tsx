@@ -3,12 +3,12 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
-import { TRIPS, coverPhoto } from "@/lib/trips";
+import type { FanCard } from "@/lib/trips";
 
 const HATCH =
   "repeating-linear-gradient(45deg,#F1F1EB 0 6px,#E9E9E2 6px 12px)";
 
-export default function TripsFan() {
+export default function TripsFan({ trips }: { trips: FanCard[] }) {
   const [hovered, setHovered] = useState(-1);
 
   return (
@@ -16,7 +16,7 @@ export default function TripsFan() {
       onMouseLeave={() => setHovered(-1)}
       className="relative flex min-h-[170px] max-w-full flex-nowrap items-center pl-[26px] pt-11 pb-[26px]"
     >
-      {TRIPS.map((trip, i) => {
+      {trips.map((trip, i) => {
         const isHovered = hovered === i;
         let transform: string;
         if (isHovered) {
@@ -50,7 +50,7 @@ export default function TripsFan() {
               style={{ background: HATCH }}
             >
               <Image
-                src={coverPhoto(trip).src}
+                src={trip.cover}
                 alt=""
                 fill
                 sizes="106px"

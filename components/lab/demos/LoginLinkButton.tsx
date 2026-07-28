@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-import ComponentWrapper from "../custom/ComponentWrapper";
+import ComponentWrapper from "../ComponentWrapper";
 import { AnimatePresence, motion } from "framer-motion";
 
 const copy = {

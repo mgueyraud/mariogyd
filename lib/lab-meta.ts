@@ -1,9 +1,21 @@
 import fs from "fs";
-import { compileMDX } from "next-mdx-remote/rsc";
+import { cache } from "react";
 import path from "path";
-import labComponents from "@/components/lab/LabComponents";
 
-const contentDir = path.join(process.cwd(), "app/(site)/lab/_lab-content");
+/*
+ * Frontmatter only — deliberately free of any component import.
+ *
+ * `lib/lab.tsx` pulls in the demo barrel to compile MDX, and every demo is a
+ * `"use client"` island. Anything that imports it registers all sixteen of them
+ * as client entry points, which is how the home page and the lab index ended up
+ * shipping framer-motion and the whole demo library to render a list of titles.
+ * Keep this file importing nothing but `fs`, `path`, and `react`.
+ */
+
+export const contentDir = path.join(
+  process.cwd(),
+  "app/(site)/lab/_lab-content"
+);
 
 const PER_PAGE = 4;
 
@@ -43,7 +55,12 @@ function readMeta(slug: string): LabMeta {
   };
 }
 
-export function getAllLabMeta(): LabMeta[] {
+/**
+ * Newest first. Wrapped in `cache()` because a single render can ask for the
+ * index several times (home preview, lab index, generateStaticParams) and each
+ * call would otherwise re-read and re-parse every file on disk.
+ */
+export const getAllLabMeta = cache(function getAllLabMeta(): LabMeta[] {
   return fs
     .readdirSync(contentDir)
     .filter((f) => f.endsWith(".mdx"))
@@ -53,47 +70,14 @@ export function getAllLabMeta(): LabMeta[] {
         new Date(b.publishedDate).getTime() -
         new Date(a.publishedDate).getTime()
     );
-}
+});
 
-export function getLabMetaPage(pageNum = 1) {
+export function getLabMetaPage({ page = 1 }: { page?: number } = {}) {
   const all = getAllLabMeta();
-  const start = (pageNum - 1) * PER_PAGE;
+  const start = (page - 1) * PER_PAGE;
   return {
     posts: all.slice(start, start + PER_PAGE),
     numOfPages: Math.ceil(all.length / PER_PAGE),
     total: all.length,
-  };
-}
-
-export async function getLabPostBySlug(slug: string) {
-  const fileName = slug + ".mdx";
-  const filePath = path.join(contentDir, fileName);
-  const fileContent = fs.readFileSync(filePath, "utf8");
-
-  const { frontmatter, content } = await compileMDX<{
-    title: string;
-    description: string;
-    author: string;
-    publishedDate: string;
-    video: string;
-    githubLink?: string;
-  }>({
-    source: fileContent,
-    options: { parseFrontmatter: true },
-    components: {
-      h1: (props) => <h2 {...props} className="font-semibold mb-2" />,
-      p: (props) => <p {...props} className="font-light mb-1" />,
-      a: (props) => (
-        <a {...props} className="font-light underline" target="_blank" />
-      ),
-      li: (props) => <li {...props} className="font-light list-disc" />,
-      ...labComponents,
-    },
-  });
-
-  return {
-    frontmatter,
-    content,
-    slug: path.parse(fileName).name,
   };
 }

@@ -1,6 +1,6 @@
 "use client";
 import { useRef, useState } from "react";
-import ComponentWrapper from "../custom/ComponentWrapper";
+import ComponentWrapper from "../ComponentWrapper";
 import { LuMinus, LuPlus } from "react-icons/lu";
 import { AnimatePresence, motion } from "framer-motion";
 

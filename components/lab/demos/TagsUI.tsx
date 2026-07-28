@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-import ComponentWrapper from "../custom/ComponentWrapper";
+import ComponentWrapper from "../ComponentWrapper";
 import { FaCircleCheck } from "react-icons/fa6";
 import { motion } from "framer-motion";
 

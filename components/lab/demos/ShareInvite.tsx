@@ -1,10 +1,10 @@
 "use client";
-import ComponentWrapper from "../custom/ComponentWrapper";
+import ComponentWrapper from "../ComponentWrapper";
 import { TbWorld } from "react-icons/tb";
 import { MdOutlineContentCopy } from "react-icons/md";
 import { FaCheck } from "react-icons/fa6";
-import { Switch } from "../ui/switch";
-import { Button } from "../ui/button";
+import { Switch } from "@/components/ui/switch";
+import { Button } from "@/components/ui/button";
 import { BsFillSendArrowDownFill } from "react-icons/bs";
 import { useRef, useState } from "react";
 import { AnimatePresence, MotionConfig, motion } from "framer-motion";

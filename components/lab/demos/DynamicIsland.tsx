@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useMemo, useState } from "react";
-import ComponentWrapper, { useTheme } from "../custom/ComponentWrapper";
-import { Button } from "../ui/button";
+import ComponentWrapper, { useTheme } from "../ComponentWrapper";
+import { Button } from "@/components/ui/button";
 import { AnimatePresence, motion } from "framer-motion";
 
 const BOUNCE_VARIANTS: Record<string, number> = {
