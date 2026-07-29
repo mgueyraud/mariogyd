@@ -49,9 +49,9 @@ export default function Experience({ roles }: { roles: Role[] }) {
                 onClick={() => toggle(id)}
                 aria-expanded={isOpen}
                 aria-controls={`role-${id}`}
-                className="grid w-full grid-cols-[clamp(72px,16vw,104px)_1fr] gap-[18px] text-left"
+                className="grid w-full grid-cols-1 gap-0.5 text-left sm:grid-cols-[104px_1fr] sm:gap-[18px]"
               >
-                <span className="whitespace-nowrap pt-0.5 font-mono text-xs tracking-[0.05em] text-faint">
+                <span className="whitespace-nowrap font-mono text-xs tracking-[0.05em] text-faint sm:pt-0.5">
                   {r.years}
                 </span>
                 <span className="block">
@@ -64,10 +64,12 @@ export default function Experience({ roles }: { roles: Role[] }) {
 
               <div
                 id={`role-${id}`}
-                className="grid grid-cols-[clamp(72px,16vw,104px)_1fr] gap-[18px] transition-[grid-template-rows] [transition-duration:350ms] ease-in-out"
+                className="grid grid-cols-1 transition-[grid-template-rows] [transition-duration:350ms] ease-in-out sm:grid-cols-[104px_1fr] sm:gap-x-[18px]"
                 style={{ gridTemplateRows: isOpen ? "1fr" : "0fr" }}
               >
-                <div aria-hidden />
+                {/* Spacer aligning the body with the company column — only exists
+                    at sm+, since a second child would split the animated row. */}
+                <div aria-hidden className="hidden sm:block" />
                 <div className="min-h-0 overflow-hidden">
                   <p className="mt-2 max-w-[46ch] text-[13px] leading-relaxed text-subtle [text-wrap:pretty]">
                     {r.desc}
