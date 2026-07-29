@@ -23,7 +23,7 @@ export default function TripsMap({ geometry }: { geometry: MapGeometry }) {
 
   const markers = useMemo<Marker[]>(
     () => pins.map((p) => ({ x: p.x, y: p.y, size: 0.9 })),
-    [pins]
+    [pins],
   );
 
   const [zoom, setZoom] = useState(1);
@@ -48,7 +48,7 @@ export default function TripsMap({ geometry }: { geometry: MapGeometry }) {
       const maxY = (height - origin.y) * z + origin.y - height;
       return { x: clamp(p.x, minX, maxX), y: clamp(p.y, minY, maxY) };
     },
-    [origin, width, height]
+    [origin, width, height],
   );
 
   const zoomBy = useCallback(
@@ -59,7 +59,7 @@ export default function TripsMap({ geometry }: { geometry: MapGeometry }) {
         return next;
       });
     },
-    [clampPan]
+    [clampPan],
   );
 
   const reset = useCallback(() => {
@@ -119,7 +119,11 @@ export default function TripsMap({ geometry }: { geometry: MapGeometry }) {
         height={height}
         dots={dots}
         grid={grid}
-        dotColor="#D8D8CF"
+        // The sampled lattice has a ~1.35-unit pitch, so r=0.4 fills a little
+        // over half a cell — the continents read as solid landmass while the
+        // gaps keep the dotted texture.
+        dotColor="#CACAC0"
+        dotRadius={0.33}
         markers={markers}
         markerColor="#1C1C1A"
         pulse
