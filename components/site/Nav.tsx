@@ -2,6 +2,8 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { linkStyles, tapTarget } from "@/components/site/TextLink";
+import { cn } from "@/lib/utils";
 
 const LINKS = [
   { href: "/", label: "Home" },
@@ -22,11 +24,11 @@ export default function Nav() {
           key={href}
           href={href}
           prefetch
-          className={
-            isActive(href)
-              ? "text-ink no-underline"
-              : "text-subtle no-underline transition-colors hover:text-ink"
-          }
+          className={cn(
+            tapTarget,
+            isActive(href) ? "text-ink no-underline" : linkStyles.muted
+          )}
+          aria-current={isActive(href) ? "page" : undefined}
         >
           {label}
         </Link>

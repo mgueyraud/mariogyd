@@ -3,7 +3,7 @@ import Experience from "@/components/home/Experience";
 import NowPlaying from "@/components/home/NowPlaying";
 import TripsFan from "@/components/home/TripsFan";
 import Reveal from "@/components/site/Reveal";
-import TextLink from "@/components/site/TextLink";
+import TextLink, { tapTarget } from "@/components/site/TextLink";
 import { ROLES } from "@/lib/experience";
 import { getAllLabMeta } from "@/lib/lab-meta";
 import { getNowPlaying } from "@/lib/spotify";
@@ -54,7 +54,7 @@ export default async function Home() {
           <h2 className={SECTION_TITLE}>
             LAB <span className="text-ink">{labs.length}</span>
           </h2>
-          <TextLink href="/lab" prefetch className="text-xs">
+          <TextLink href="/lab" prefetch className={`text-xs ${tapTarget}`}>
             All experiments ↗
           </TextLink>
         </div>
@@ -82,7 +82,7 @@ export default async function Home() {
           <h2 className={SECTION_TITLE}>
             TRIPS <span className="text-ink">{TRIPS.length}</span>
           </h2>
-          <TextLink href="/trips" prefetch className="text-xs">
+          <TextLink href="/trips" prefetch className={`text-xs ${tapTarget}`}>
             All trips ↗
           </TextLink>
         </div>

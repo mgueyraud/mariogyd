@@ -9,20 +9,23 @@ const HATCH =
   "repeating-linear-gradient(45deg,#F1F1EB 0 6px,#E9E9E2 6px 12px)";
 
 export default function TripsFan({ trips }: { trips: FanCard[] }) {
-  const [hovered, setHovered] = useState(-1);
+  // The raised card. Driven by focus as well as hover, so tabbing through the
+  // fan lifts each card and shows its city label — the label is otherwise
+  // invisible to anyone not using a mouse.
+  const [active, setActive] = useState(-1);
 
   return (
     <div
-      onMouseLeave={() => setHovered(-1)}
+      onMouseLeave={() => setActive(-1)}
       className="relative flex min-h-[170px] max-w-full flex-nowrap items-center pl-[26px] pt-11 pb-[26px]"
     >
       {trips.map((trip, i) => {
-        const isHovered = hovered === i;
+        const isHovered = active === i;
         let transform: string;
         if (isHovered) {
           transform = "translateY(-16px) rotate(0deg) scale(1.08)";
         } else {
-          const away = hovered < 0 ? 0 : i < hovered ? -20 : 20;
+          const away = active < 0 ? 0 : i < active ? -20 : 20;
           transform = `translateX(${away}px) rotate(${trip.rotation}deg)`;
         }
 
@@ -30,13 +33,14 @@ export default function TripsFan({ trips }: { trips: FanCard[] }) {
           <Link
             key={trip.slug}
             href={`/trips/${trip.slug}`}
-            onMouseEnter={() => setHovered(i)}
+            onMouseEnter={() => setActive(i)}
+            onFocus={() => setActive(i)}
+            onBlur={() => setActive(-1)}
             aria-label={trip.city}
-            className="relative block w-[clamp(76px,17vw,106px)] min-w-0 flex-[0_1_auto] ml-[clamp(-42px,-8vw,-28px)] bg-white px-[7px] pt-[7px] pb-6 no-underline shadow-[0_1px_3px_rgba(28,28,26,0.14),0_10px_24px_rgba(28,28,26,0.07)]"
+            className="relative block w-[clamp(76px,17vw,106px)] min-w-0 flex-[0_1_auto] ml-[clamp(-42px,-8vw,-28px)] bg-white px-[7px] pt-[7px] pb-6 no-underline shadow-[0_1px_3px_rgba(28,28,26,0.14),0_10px_24px_rgba(28,28,26,0.07)] transition-transform duration-300 ease-[cubic-bezier(0.2,0.7,0.3,1)] motion-reduce:transition-none"
             style={{
               transform,
               zIndex: isHovered ? 20 : i + 1,
-              transition: "transform 0.3s cubic-bezier(0.2,0.7,0.3,1)",
             }}
           >
             <span

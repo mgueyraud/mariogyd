@@ -1,8 +1,9 @@
 "use client";
 
 import { useState } from "react";
-import TextLink from "@/components/site/TextLink";
+import TextLink, { tapTarget } from "@/components/site/TextLink";
 import type { Role } from "@/lib/experience";
+import { cn } from "@/lib/utils";
 
 /**
  * Stable across the "Show older" toggle, unlike the array index, and safe to
@@ -37,7 +38,7 @@ export default function Experience({ roles }: { roles: Role[] }) {
           return (
             <div
               key={id}
-              className="-mx-3.5 rounded-lg px-3.5 py-3 transition-colors hover:bg-hover"
+              className="-mx-3.5 rounded-lg px-3.5 py-3 transition-colors hoverable:bg-hover"
             >
               {/*
                 A real button, so the row is reachable by keyboard. The company
@@ -91,8 +92,13 @@ export default function Experience({ roles }: { roles: Role[] }) {
       </div>
 
       <button
+        type="button"
         onClick={() => setShowOlder((v) => !v)}
-        className="mt-3.5 border-b border-dotted border-line-strong font-mono text-xs text-faint transition-colors hover:border-ink hover:text-ink"
+        aria-expanded={showOlder}
+        className={cn(
+          "mt-3.5 border-b border-dotted border-line-strong font-mono text-xs text-faint transition-colors hoverable:border-ink hoverable:text-ink",
+          tapTarget
+        )}
       >
         {showOlder ? "Show fewer" : "Show older"}
       </button>

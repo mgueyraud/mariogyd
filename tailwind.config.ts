@@ -1,4 +1,5 @@
 import type { Config } from "tailwindcss"
+import plugin from "tailwindcss/plugin"
 
 const config = {
   darkMode: ['selector', '[data-theme="dark"]'],
@@ -49,7 +50,27 @@ const config = {
       },
     },
   },
-  plugins: [],
+  plugins: [
+    /*
+     * `hoverable:` — hover, but only on devices that can actually hover. Touch
+     * browsers fire `:hover` on tap and leave it stuck there until you tap
+     * something else, so every hover treatment on the site pages goes through
+     * this instead of bare `hover:`.
+     *
+     * Scoped as an opt-in variant rather than Tailwind's global
+     * `hoverOnlyWhenSupported` flag, so the lab demos keep the hover behaviour
+     * they were built with.
+     */
+    plugin(({ addVariant }) => {
+      addVariant("hoverable", "@media (hover: hover) and (pointer: fine) { &:hover }")
+      addVariant("group-hoverable", [
+        "@media (hover: hover) and (pointer: fine) { .group:hover & }",
+      ])
+      /* `coarse:` — thumbs. For controls that have to grow to 44px on touch
+       * rather than being padded out on every pointer type. */
+      addVariant("coarse", "@media (pointer: coarse)")
+    }),
+  ],
 } satisfies Config
 
 export default config

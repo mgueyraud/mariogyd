@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import PhotoLightbox from "@/components/trips/PhotoLightbox";
-import TextLink from "@/components/site/TextLink";
+import TextLink, { tapTarget } from "@/components/site/TextLink";
 import { TRIPS, getTripBySlug, longDate } from "@/lib/trips";
 
 export const dynamicParams = false;
@@ -29,7 +29,7 @@ export default function TripDetail({ params }: { params: { slug: string } }) {
 
   return (
     <article>
-      <TextLink href="/trips" className="text-xs">
+      <TextLink href="/trips" className={`text-xs ${tapTarget}`}>
         ← All trips
       </TextLink>
 

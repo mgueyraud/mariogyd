@@ -26,7 +26,8 @@ export default function Trips() {
         className="mt-3.5 max-w-[52ch] text-subtle [text-wrap:pretty]"
       >
         I&apos;m not a photographer — just someone who travels a lot and takes
-        photos on his phone. Hover a dot for a city, or scan the list below.
+        photos on his phone. Press or hover a dot for a city, or scan the list
+        below.
       </Reveal>
 
       <Reveal step={3} className="mt-14">
@@ -39,7 +40,7 @@ export default function Trips() {
             key={trip.slug}
             href={`/trips/${trip.slug}`}
             prefetch
-            className="-mx-3.5 flex items-baseline gap-3 rounded-lg px-3.5 py-[11px] no-underline transition-colors hover:bg-hover"
+            className="-mx-3.5 flex min-h-11 items-baseline gap-3 rounded-lg px-3.5 py-[11px] no-underline transition-colors hoverable:bg-hover"
           >
             <span className="text-sm font-[550]">{trip.city}</span>
             <span className="text-[13px] text-faint">{trip.country}</span>

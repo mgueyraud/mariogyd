@@ -1,5 +1,5 @@
 import LorenzButterflies from "@/components/site/LorenzButterflies";
-import TextLink from "@/components/site/TextLink";
+import TextLink, { tapTarget } from "@/components/site/TextLink";
 
 export default function NotFound() {
   return (
@@ -19,7 +19,11 @@ export default function NotFound() {
           what happens, even the dead ends.
         </p>
 
-        <TextLink href="/" variant="underline" className="mt-8 text-[13px]">
+        <TextLink
+          href="/"
+          variant="underline"
+          className={`mt-8 text-[13px] ${tapTarget}`}
+        >
           Return home
         </TextLink>
       </div>

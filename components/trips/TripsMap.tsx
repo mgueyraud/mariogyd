@@ -7,6 +7,7 @@ import { DottedMap, type Marker } from "@/components/ui/dotted-map";
 // Type-only — importing a value from lib/trips-map would drag the map sampler
 // (and its world data) into this client bundle.
 import type { MapGeometry } from "@/lib/trips-map";
+import { useReducedMotion } from "@/lib/use-reduced-motion";
 
 const MIN_ZOOM = 1;
 const MAX_ZOOM = 6;
@@ -25,6 +26,10 @@ export default function TripsMap({ geometry }: { geometry: MapGeometry }) {
     () => pins.map((p) => ({ x: p.x, y: p.y, size: 0.9 })),
     [pins],
   );
+
+  // The pin pulse is SMIL (<animate>), which CSS media queries can't reach —
+  // it has to be switched off from JS.
+  const reducedMotion = useReducedMotion();
 
   const [zoom, setZoom] = useState(1);
   const [pan, setPan] = useState({ x: 0, y: 0 });
@@ -97,8 +102,10 @@ export default function TripsMap({ geometry }: { geometry: MapGeometry }) {
     setDragging(false);
   };
 
+  // 26px reads right next to the map but is untappable, so the buttons grow to
+  // 44px on a coarse pointer instead of being padded out everywhere.
   const btn =
-    "flex h-[26px] w-[26px] items-center justify-center rounded-md border border-[#E6E6DF] bg-paper text-sm leading-none text-subtle transition-colors hover:border-line-strong hover:text-ink disabled:opacity-40 disabled:hover:border-[#E6E6DF] disabled:hover:text-subtle";
+    "flex h-[26px] w-[26px] coarse:h-11 coarse:w-11 items-center justify-center rounded-md border border-[#E6E6DF] bg-paper text-sm leading-none text-subtle transition-colors hoverable:border-line-strong hoverable:text-ink disabled:opacity-40 disabled:hoverable:border-[#E6E6DF] disabled:hoverable:text-subtle";
 
   return (
     <div
@@ -126,7 +133,9 @@ export default function TripsMap({ geometry }: { geometry: MapGeometry }) {
         dotRadius={0.33}
         markers={markers}
         markerColor="#1C1C1A"
-        pulse
+        pulse={!reducedMotion}
+        role="img"
+        aria-label={`Dotted world map with ${pins.length} cities marked`}
         zoom={zoom}
         zoomOrigin={origin}
         pan={pan}
@@ -148,10 +157,15 @@ export default function TripsMap({ geometry }: { geometry: MapGeometry }) {
             onClick={(e) => {
               if (moved.current) e.preventDefault();
             }}
-            className="group absolute z-10 h-4 w-4 -translate-x-1/2 -translate-y-1/2 outline-none"
+            // The visible pin is drawn in the SVG underneath; this is only the
+            // hotspot, so it can grow to a thumb-sized 44px on touch without
+            // changing how the map looks.
+            className="group absolute z-10 h-4 w-4 coarse:h-11 coarse:w-11 -translate-x-1/2 -translate-y-1/2 outline-none"
             style={{ left: `${left}%`, top: `${top}%` }}
           >
-            <span className="pointer-events-none absolute bottom-full left-1/2 mb-1.5 -translate-x-1/2 whitespace-nowrap rounded bg-ink px-2 py-1 font-mono text-[11px] text-paper opacity-0 transition-opacity duration-150 group-hover:opacity-100 group-focus-visible:opacity-100">
+            {/* group-active covers touch: press and hold names the city before
+                the tap lands, since a thumb never gets the hover reveal. */}
+            <span className="pointer-events-none absolute bottom-full left-1/2 mb-1.5 -translate-x-1/2 whitespace-nowrap rounded bg-ink px-2 py-1 font-mono text-[11px] text-paper opacity-0 transition-opacity duration-150 group-hoverable:opacity-100 group-active:opacity-100 group-focus-visible:opacity-100">
               {trip.city}, {trip.country}
             </span>
           </Link>

@@ -1,4 +1,6 @@
 import type { ReactNode } from "react";
+import { linkStyles, tapTarget } from "@/components/site/TextLink";
+import { cn } from "@/lib/utils";
 
 type ElsewhereLink = {
   href: string;
@@ -91,7 +93,8 @@ export default function Elsewhere() {
       <h2 className="mb-5 font-mono text-[11px] font-normal tracking-[0.14em] text-faint">
         ELSEWHERE
       </h2>
-      <div className="flex flex-wrap gap-x-6 gap-y-3">
+      {/* gap-y clears the 44px tap targets so stacked rows can't overlap them. */}
+      <div className="flex flex-wrap gap-x-6 gap-y-6">
         {LINKS.map(({ href, label, aria, rel, target, icon }) => (
           <a
             key={aria}
@@ -99,7 +102,11 @@ export default function Elsewhere() {
             rel={rel}
             target={target}
             aria-label={aria}
-            className="inline-flex items-center gap-[7px] text-[13px] text-subtle no-underline transition-colors hover:text-ink"
+            className={cn(
+              "inline-flex items-center gap-[7px] text-[13px]",
+              linkStyles.muted,
+              tapTarget
+            )}
           >
             {icon}
             {label}

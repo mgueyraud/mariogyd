@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import { play } from "cuelume";
 import { WaveformLoader } from "@/components/ui/waveform-loader";
 import type { NowPlayingState } from "@/lib/spotify";
+import { useReducedMotion } from "@/lib/use-reduced-motion";
 
 // Type-only import above — erased at compile time, so no server code or env
 // access reaches the client bundle.
@@ -17,22 +18,10 @@ const MIN_SPACING_MS = 30_000;
 const GREEN = "oklch(0.65 0.15 150)";
 const GRAY = "#C9C9C0";
 
-function usePrefersReducedMotion() {
-  const [reduced, setReduced] = useState(false);
-  useEffect(() => {
-    const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
-    const update = () => setReduced(mq.matches);
-    update();
-    mq.addEventListener("change", update);
-    return () => mq.removeEventListener("change", update);
-  }, []);
-  return reduced;
-}
-
 export default function NowPlaying({ initial }: { initial: NowPlayingState }) {
   const [state, setState] = useState<NowPlayingState>(initial);
   const lastFetchedAt = useRef(Date.now());
-  const reducedMotion = usePrefersReducedMotion();
+  const reducedMotion = useReducedMotion();
 
   // The first paint must render the text opaque — server-side and during
   // hydration — so it's visible even if JS never runs. Only track *changes*
@@ -139,7 +128,7 @@ export default function NowPlaying({ initial }: { initial: NowPlayingState }) {
                 href={track.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="no-underline transition-colors hover:text-ink"
+                className="no-underline transition-colors hoverable:text-ink"
               >
                 {label}
               </a>

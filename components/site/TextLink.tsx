@@ -9,11 +9,22 @@ import { cn } from "@/lib/utils";
  */
 export const linkStyles = {
   /** Grey, colours in on hover. Secondary and navigational links. */
-  muted: "text-subtle no-underline transition-colors hover:text-ink",
+  muted: "text-subtle no-underline transition-colors hoverable:text-ink",
   /** Hairline underline that darkens on hover. Body and title links. */
   underline:
-    "underline decoration-line-strong underline-offset-[3px] transition-colors hover:decoration-ink",
+    "underline decoration-line-strong underline-offset-[3px] transition-colors hoverable:decoration-ink",
 } as const;
+
+/**
+ * Grows a standalone link or button to a 44px-tall touch target without
+ * touching layout — the pseudo-element does the catching, so the text keeps its
+ * own 13-19px line box and no margin needs compensating.
+ *
+ * Only for controls that stand on their own (nav items, "see all", pagination).
+ * Links inside a sentence inherit the line height around them and are exempt.
+ */
+export const tapTarget =
+  "relative before:absolute before:inset-x-0 before:top-1/2 before:h-11 before:-translate-y-1/2 before:content-['']";
 
 type Props = ComponentProps<typeof Link> & {
   variant?: keyof typeof linkStyles;

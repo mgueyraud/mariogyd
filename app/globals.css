@@ -43,6 +43,49 @@
   ::selection {
     background: #eaeae0;
   }
+  /* Kills the ~300ms double-tap-zoom wait on anything you can press. */
+  a,
+  button,
+  input,
+  select,
+  textarea,
+  summary,
+  [role="button"] {
+    touch-action: manipulation;
+  }
+
+  /*
+   * Focus ring in ink rather than the UA's blue. `currentColor` would be the
+   * tidier trick, but the subtle/faint greys most secondary links are drawn in
+   * don't clear 3:1 against paper — ink always does.
+   *
+   * Base layer, so any component that wants a different ring (the photo grid,
+   * the trips fan) still wins with a `focus-visible:` utility.
+   */
+  :focus-visible {
+    outline: 2px solid theme(colors.ink);
+    /* Breathing room so the ring never crowds the glyphs it's around. */
+    outline-offset: 3px;
+    /*
+     * An outline traces the element's own border-radius, and most focusable
+     * things here (text links, the experience rows) have none — so the ring
+     * would come out as a hard rectangle. This softens those.
+     *
+     * Base layer, so anything already carrying a `rounded-*` utility keeps its
+     * own radius: utilities are emitted after base and win the tie.
+     */
+    border-radius: 4px;
+  }
+
+  /*
+   * Ink on ink is invisible. `.bg-ink` is the dark canvas the lab demos render
+   * on — flipping the ring here keeps them focusable-and-visible without
+   * touching the demos themselves.
+   */
+  .bg-ink :focus-visible,
+  .bg-ink:focus-visible {
+    outline-color: theme(colors.paper);
+  }
 }
 
 @media (prefers-reduced-motion: no-preference) {
