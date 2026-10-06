@@ -13,6 +13,7 @@ import {
   EmailClient,
   FamilyTransaction,
   FamilyTray,
+  HairlineTypewriter,
   LoginLinkButton,
   MemoryCards,
   ReactEmailFolders,
@@ -41,6 +42,7 @@ const labComponents = {
   DynamicSettings,
   DynamicVercelToolbar,
   ShadowBorderButton,
+  HairlineTypewriter,
 };
 
 export default labComponents;
