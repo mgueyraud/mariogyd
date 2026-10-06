@@ -20,7 +20,7 @@ export const size = {
 
 export const contentType = "image/png";
 
-// Mirrors the `paper / ink / subtle / faint / line` palette in tailwind.config.ts
+// Mirrors the `paper / ink / subtle / faint / line` palette in the @theme block of app/globals.css
 const PAPER = "#FCFCFA";
 const INK = "#1C1C1A";
 const SUBTLE = "#75756E";

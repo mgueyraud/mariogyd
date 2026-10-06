@@ -22,7 +22,7 @@ export default function Pagination({
   const hasNext = pageNum < numOfPages;
 
   return (
-    <div className="mt-10 flex items-center gap-3.5 font-mono text-xs tracking-[0.05em] text-faint">
+    <div className="mt-10 flex items-center gap-3.5 font-mono text-xs tracking-wider text-faint">
       {hasPrev ? (
         <TextLink href={`?page=${pageNum - 1}`} scroll={false}>
           ‹ PREV

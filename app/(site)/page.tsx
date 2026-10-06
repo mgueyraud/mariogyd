@@ -38,7 +38,7 @@ export default async function Home() {
       <Reveal
         step={2}
         as="p"
-        className="mt-7 max-w-[52ch] text-subtle [text-wrap:pretty]"
+        className="mt-7 max-w-[52ch] text-subtle text-pretty"
       >
         Passionate digital experience creator learning design engineering.
         Focused on simplicity, modernist design, and{" "}

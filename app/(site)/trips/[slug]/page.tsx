@@ -43,7 +43,7 @@ export default function TripDetail({ params }: { params: { slug: string } }) {
         </div>
       </header>
 
-      <p className="mt-[22px] max-w-[52ch] text-subtle [text-wrap:pretty]">
+      <p className="mt-[22px] max-w-[52ch] text-subtle text-pretty">
         {trip.blurb}
       </p>
 

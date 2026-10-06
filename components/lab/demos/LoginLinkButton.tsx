@@ -27,7 +27,7 @@ export default function LoginLinkButton() {
   return (
     <ComponentWrapper>
       <button
-        className="h-8 font-semibold rounded-md w-36 text-xs bg-[#161615] hover:bg-[#1A1A19] outline outline-neutral-800 outline-offset-2 outline-1 relative overflow-hidden bg-gre"
+        className="h-8 font-semibold rounded-md w-36 text-xs bg-[#161615] hover:bg-[#1A1A19] outline-solid outline-neutral-800 outline-offset-2 outline-1 relative overflow-hidden bg-gre"
         onClick={handleSend}
         disabled={buttonState !== "idle"}
       >

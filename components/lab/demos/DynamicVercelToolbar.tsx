@@ -141,7 +141,7 @@ export default function DynamicVercelToolbar() {
                 <Command.Input
                   placeholder="What do you need?"
                   autoFocus
-                  className="bg-transparent border-b border-[#1b1a1b] pb-4 text-xl w-full outline-none mt-4 font-light placeholder:text-[#696869]"
+                  className="bg-transparent border-b border-[#1b1a1b] pb-4 text-xl w-full outline-hidden mt-4 font-light placeholder:text-[#696869]"
                 />
                 <Command.List>
                   <Command.Empty className="mt-4 text-[#a3a2a2]">

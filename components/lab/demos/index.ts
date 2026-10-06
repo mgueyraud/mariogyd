@@ -17,6 +17,7 @@ import {
   MemoryCards,
   ReactEmailFolders,
   ResendBentoGrid,
+  ShadowBorderButton,
   ShareInvite,
   Stepper,
   TagsUI,
@@ -39,6 +40,7 @@ const labComponents = {
   ResendBentoGrid,
   DynamicSettings,
   DynamicVercelToolbar,
+  ShadowBorderButton,
 };
 
 export default labComponents;

@@ -23,7 +23,7 @@ export default function Trips() {
       <Reveal
         step={2}
         as="p"
-        className="mt-3.5 max-w-[52ch] text-subtle [text-wrap:pretty]"
+        className="mt-3.5 max-w-[52ch] text-subtle text-pretty"
       >
         I&apos;m not a photographer — just someone who travels a lot and takes
         photos on his phone. Press or hover a dot for a city, or scan the list
@@ -45,7 +45,7 @@ export default function Trips() {
             <span className="text-sm font-[550]">{trip.city}</span>
             <span className="text-[13px] text-faint">{trip.country}</span>
             <span className="flex-1 -translate-y-1 border-b border-dotted border-line-strong" />
-            <span className="font-mono text-xs tracking-[0.05em] text-faint">
+            <span className="font-mono text-xs tracking-wider text-faint">
               {shortDate(trip.date)}
             </span>
           </Link>

@@ -105,7 +105,7 @@ export default function PhotoLightbox({
             type="button"
             onClick={() => open(i)}
             aria-label={`Open photo ${i + 1} of ${photos.length}`}
-            className="group relative cursor-zoom-in overflow-hidden rounded-sm outline-none transition-[outline] hoverable:outline hoverable:outline-1 hoverable:outline-line-strong focus-visible:outline focus-visible:outline-1 focus-visible:outline-ink"
+            className="group relative cursor-zoom-in overflow-hidden rounded-sm outline-hidden transition-[outline] hoverable:outline hoverable:outline-1 hoverable:outline-line-strong focus-visible:outline-solid focus-visible:outline-1 focus-visible:outline-ink"
             style={{
               gridColumn: `span ${photo.span}`,
               // Single-column cells share one 3:4 box so a row never goes
@@ -140,7 +140,7 @@ export default function PhotoLightbox({
           aria-modal="true"
           aria-label={`${city} photos`}
           tabIndex={-1}
-          className="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-[rgba(22,22,20,0.95)] px-6 py-12 outline-none"
+          className="fixed inset-0 z-100 flex flex-col items-center justify-center bg-[rgba(22,22,20,0.95)] px-6 py-12 outline-hidden"
         >
           <button
             type="button"

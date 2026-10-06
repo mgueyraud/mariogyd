@@ -222,7 +222,7 @@ export function Ring() {
           />
         </svg>
         {isSilent ? (
-          <div className="absolute inset-0 h-5 -translate-y-[5px] translate-x-[5px] rotate-[-40deg]">
+          <div className="absolute inset-0 h-5 translate-y-[-5px] translate-x-[5px] rotate-[-40deg]">
             <div className="h-4 w-fit rounded-full">
               <div className="flex h-full w-[3px] items-center justify-center rounded-full bg-[#FD4F30]">
                 <div className="h-full w-[0.75px] rounded-full bg-white" />

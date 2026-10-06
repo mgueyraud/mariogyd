@@ -29,3 +29,4 @@ export const DynamicSettings = dynamic(() => import("./DynamicSettings"));
 export const DynamicVercelToolbar = dynamic(
   () => import("./DynamicVercelToolbar")
 );
+export const ShadowBorderButton = dynamic(() => import("./ShadowBorderButton"));

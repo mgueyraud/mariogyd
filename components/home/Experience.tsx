@@ -52,7 +52,7 @@ export default function Experience({ roles }: { roles: Role[] }) {
                 aria-controls={`role-${id}`}
                 className="grid w-full grid-cols-1 gap-0.5 text-left sm:grid-cols-[104px_1fr] sm:gap-[18px]"
               >
-                <span className="whitespace-nowrap font-mono text-xs tracking-[0.05em] text-faint sm:pt-0.5">
+                <span className="whitespace-nowrap font-mono text-xs tracking-wider text-faint sm:pt-0.5">
                   {r.years}
                 </span>
                 <span className="block">
@@ -65,14 +65,14 @@ export default function Experience({ roles }: { roles: Role[] }) {
 
               <div
                 id={`role-${id}`}
-                className="grid grid-cols-1 transition-[grid-template-rows] [transition-duration:350ms] ease-in-out sm:grid-cols-[104px_1fr] sm:gap-x-[18px]"
+                className="grid grid-cols-1 transition-[grid-template-rows] duration-350 ease-in-out sm:grid-cols-[104px_1fr] sm:gap-x-[18px]"
                 style={{ gridTemplateRows: isOpen ? "1fr" : "0fr" }}
               >
                 {/* Spacer aligning the body with the company column — only exists
                     at sm+, since a second child would split the animated row. */}
                 <div aria-hidden className="hidden sm:block" />
                 <div className="min-h-0 overflow-hidden">
-                  <p className="mt-2 max-w-[46ch] text-[13px] leading-relaxed text-subtle [text-wrap:pretty]">
+                  <p className="mt-2 max-w-[46ch] text-[13px] leading-relaxed text-subtle text-pretty">
                     {r.desc}
                   </p>
                   <TextLink

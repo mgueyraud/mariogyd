@@ -21,8 +21,8 @@ export default function ResendBentoGrid() {
           onValueChange={(v) => setStatusTest(v as Status)}
         >
           <div className="border border-[#ddf3ff2f] rounded-lg overflow-hidden">
-            <div className="bg-gradient-to-b from-[rgba(255,255,255,0.12)] to-black px-2 pt-1 pb-1.5 flex justify-between md:w-[25.625rem]">
-              <Select.Trigger className="flex gap-2 items-center focus-visible:rounded-md focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#ddf3ff2f]">
+            <div className="bg-linear-to-b from-[rgba(255,255,255,0.12)] to-black px-2 pt-1 pb-1.5 flex justify-between md:w-102.5">
+              <Select.Trigger className="flex gap-2 items-center focus-visible:rounded-md focus-visible:outline-solid focus-visible:outline-2 focus-visible:outline-[#ddf3ff2f]">
                 <StatusBadge type={statusTest} />
                 <Select.Value asChild>
                   <span className="text-sm">{statusTest}@resend.com</span>
@@ -43,7 +43,7 @@ export default function ResendBentoGrid() {
                     <Select.Viewport>
                       <Select.Item
                         value="delivered"
-                        className="flex relative pl-12 gap-2 py-2 pr-10 outline-none rounded-md focus-within:bg-[rgba(235,236,237,.1)] hover:bg-[rgba(235,236,237,.1)]"
+                        className="flex relative pl-12 gap-2 py-2 pr-10 outline-hidden rounded-md focus-within:bg-[rgba(235,236,237,.1)] hover:bg-[rgba(235,236,237,.1)]"
                       >
                         <Select.ItemIndicator className="absolute top-1/2 -translate-y-1/2 left-4">
                           <IoMdCheckmark />
@@ -55,7 +55,7 @@ export default function ResendBentoGrid() {
                       </Select.Item>
                       <Select.Item
                         value="bounced"
-                        className="flex relative pl-12 gap-2 py-2 pr-10 outline-none rounded-md focus-within:bg-[rgba(235,236,237,.1)] hover:bg-[rgba(235,236,237,.1)]"
+                        className="flex relative pl-12 gap-2 py-2 pr-10 outline-hidden rounded-md focus-within:bg-[rgba(235,236,237,.1)] hover:bg-[rgba(235,236,237,.1)]"
                       >
                         <Select.ItemIndicator className="absolute top-1/2 -translate-y-1/2 left-4">
                           <IoMdCheckmark />
@@ -67,7 +67,7 @@ export default function ResendBentoGrid() {
                       </Select.Item>
                       <Select.Item
                         value="complained"
-                        className="flex relative pl-12 gap-2 py-2 pr-10 outline-none rounded-md focus-within:bg-[rgba(235,236,237,.1)] hover:bg-[rgba(235,236,237,.1)]"
+                        className="flex relative pl-12 gap-2 py-2 pr-10 outline-hidden rounded-md focus-within:bg-[rgba(235,236,237,.1)] hover:bg-[rgba(235,236,237,.1)]"
                       >
                         <Select.ItemIndicator className="absolute top-1/2 -translate-y-1/2 left-4">
                           <IoMdCheckmark />
@@ -143,7 +143,7 @@ export default function ResendBentoGrid() {
               </motion.div>
             ))}
           </AnimatePresence>
-          <div className="bg-gradient-to-b from-transparent to-ink absolute inset-0" />
+          <div className="bg-linear-to-b from-transparent to-ink absolute inset-0" />
         </div>
       </div>
     </ComponentWrapper>

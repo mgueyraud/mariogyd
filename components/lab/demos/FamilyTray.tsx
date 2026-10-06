@@ -148,7 +148,7 @@ const Menu = ({
 }) => {
   return (
     <div className="px-6 pb-6 pt-2.5">
-      <div className="flex h-[4.5rem] items-center border-b border-[#F7F7F7] mb-4">
+      <div className="flex h-18 items-center border-b border-[#F7F7F7] mb-4">
         <h2 className="font-medium text-[1.1875rem]">Options</h2>
       </div>
       <button

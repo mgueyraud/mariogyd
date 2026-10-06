@@ -36,7 +36,7 @@ export default function Lab({
       <Reveal
         step={2}
         as="p"
-        className="mt-3.5 max-w-[52ch] text-subtle [text-wrap:pretty]"
+        className="mt-3.5 max-w-[52ch] text-subtle text-pretty"
       >
         A creative hub for UI experiments, component explorations, and
         interaction design.
@@ -55,7 +55,7 @@ export default function Lab({
               aria-label={post.title}
               className="block overflow-hidden rounded-lg border border-line transition-colors hover:border-line-strong"
             >
-              <div className="aspect-[16/10] border-b border-line">
+              <div className="aspect-16/10 border-b border-line">
                 <LabVideo src={post.video} />
               </div>
               <div className="px-3.5 pb-3.5 pt-3">

@@ -65,7 +65,7 @@ export default function TrashInteraction() {
                             <div className="absolute inset-0.5 rounded-full bg-white" />
                             <svg
                               xmlns="http://www.w3.org/2000/svg"
-                              className="relative h-5 w-5 flex-shrink-0 rounded-full text-black"
+                              className="relative h-5 w-5 shrink-0 rounded-full text-black"
                               viewBox="0 0 24 24"
                               fill="none"
                             >
@@ -130,10 +130,10 @@ export default function TrashInteraction() {
                 className="absolute bottom-8 flex gap-1 rounded-xl p-1 shadow-[0_0_0_1px_rgba(255,255,255,0.3),0px_8px_8px_-8px_rgba(0,0,0,0.08)] will-change-transform"
               >
                 <div className="flex w-full justify-between gap-1">
-                  <button className="flex w-12 flex-col items-center gap-[1px] rounded-lg bg-zinc-900 pb-1 pt-[6px] text-[10px] font-medium text-white/60">
+                  <button className="flex w-12 flex-col items-center gap-px rounded-lg bg-zinc-900 pb-1 pt-[6px] text-[10px] font-medium text-white/60">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
-                      className="h-4 w-4 flex-shrink-0"
+                      className="h-4 w-4 shrink-0"
                       viewBox="0 0 24 24"
                       fill="none"
                     >
@@ -154,13 +154,13 @@ export default function TrashInteraction() {
                         setReadyToRemove(true);
                       }
                     }}
-                    className="flex w-12 flex-col items-center gap-[1px] rounded-lg bg-zinc-900 pb-1 pt-[6px] text-[10px] font-medium text-white/60 hover:bg-zinc-800 hover:text-red-500"
+                    className="flex w-12 flex-col items-center gap-px rounded-lg bg-zinc-900 pb-1 pt-[6px] text-[10px] font-medium text-white/60 hover:bg-zinc-800 hover:text-red-500"
                   >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       viewBox="0 0 24 24"
                       fill="none"
-                      className="h-4 w-4 flex-shrink-0"
+                      className="h-4 w-4 shrink-0"
                     >
                       <path
                         fillRule="evenodd"
@@ -171,7 +171,7 @@ export default function TrashInteraction() {
                     </svg>
                     Trash
                   </button>
-                  <button className="flex w-12 flex-col items-center gap-[1px] rounded-lg bg-zinc-900 pb-1 pt-[6px] text-[10px] font-medium text-white/60">
+                  <button className="flex w-12 flex-col items-center gap-px rounded-lg bg-zinc-900 pb-1 pt-[6px] text-[10px] font-medium text-white/60">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       className="h-4 w-4"
@@ -265,7 +265,7 @@ export default function TrashInteraction() {
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0, transition: { delay: 0, duration: 0.3 } }}
                   transition={{ delay: 0.175, duration: 0 }}
-                  className="absolute bottom-[0] left-[3px] h-full w-[90px]"
+                  className="absolute bottom-0 left-[3px] h-full w-[90px]"
                 >
                   <TrashFront />
                 </motion.div>

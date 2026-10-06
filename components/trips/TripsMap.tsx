@@ -160,7 +160,7 @@ export default function TripsMap({ geometry }: { geometry: MapGeometry }) {
             // The visible pin is drawn in the SVG underneath; this is only the
             // hotspot, so it can grow to a thumb-sized 44px on touch without
             // changing how the map looks.
-            className="group absolute z-10 h-4 w-4 coarse:h-11 coarse:w-11 -translate-x-1/2 -translate-y-1/2 outline-none"
+            className="group absolute z-10 h-4 w-4 coarse:h-11 coarse:w-11 -translate-x-1/2 -translate-y-1/2 outline-hidden"
             style={{ left: `${left}%`, top: `${top}%` }}
           >
             {/* group-active covers touch: press and hold names the city before

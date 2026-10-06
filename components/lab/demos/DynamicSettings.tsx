@@ -27,7 +27,7 @@ export default function DynamicSettings() {
               <div>
                 <motion.button
                   layoutId="dialog-button"
-                  className="relative text-sm text-white bg-[#161716] gap-2 w-36 h-14 border border-[#ffffff08] outline-none focus-visible:outline-1 focus-visible:outline-[#FDFF79]"
+                  className="relative text-sm text-white bg-[#161716] gap-2 w-36 h-14 border border-[#ffffff08] outline-hidden focus-visible:outline-1 focus-visible:outline-[#FDFF79]"
                   onClick={() => setOpen(true)}
                   style={{ borderRadius: 14 }}
                 >
@@ -64,7 +64,7 @@ export default function DynamicSettings() {
                 style={{ borderRadius: 14 }}
               >
                 <motion.button
-                  className="absolute z-10 top-2 right-2 p-2 outline-none focus-visible:outline-1 focus-visible:outline-[#FDFF79] focus-visible:outline-offset-4"
+                  className="absolute z-10 top-2 right-2 p-2 outline-hidden focus-visible:outline-1 focus-visible:outline-[#FDFF79] focus-visible:outline-offset-4"
                   layoutId="close-open-icon"
                   onClick={() => setOpen(false)}
                 >
@@ -94,7 +94,7 @@ export default function DynamicSettings() {
                     >
                       <Tabs.Trigger
                         value="dimensions"
-                        className="transition duration-500 text-[#929292] data-[state=active]:text-white px-2 py-[6px] relative outline-none focus-visible:outline-1 focus-visible:outline-[#FDFF79] focus-visible:outline-offset-4"
+                        className="transition duration-500 text-[#929292] data-[state=active]:text-white px-2 py-[6px] relative outline-hidden focus-visible:outline-1 focus-visible:outline-[#FDFF79] focus-visible:outline-offset-4"
                       >
                         <AnimatePresence mode="popLayout">
                           {tab === "dimensions" ? (
@@ -109,7 +109,7 @@ export default function DynamicSettings() {
                       </Tabs.Trigger>
                       <Tabs.Trigger
                         value="aspect-ratio"
-                        className="transition duration-500 text-[#929292] data-[state=active]:text-white px-2 py-[6px] relative outline-none focus-visible:outline-1 focus-visible:outline-[#FDFF79] focus-visible:outline-offset-4"
+                        className="transition duration-500 text-[#929292] data-[state=active]:text-white px-2 py-[6px] relative outline-hidden focus-visible:outline-1 focus-visible:outline-[#FDFF79] focus-visible:outline-offset-4"
                       >
                         <AnimatePresence mode="popLayout">
                           {tab === "aspect-ratio" ? (
@@ -124,7 +124,7 @@ export default function DynamicSettings() {
                       </Tabs.Trigger>
                       <Tabs.Trigger
                         value="prompt"
-                        className="transition duration-500 text-[#929292] data-[state=active]:text-white px-2 py-[6px] relative outline-none focus-visible:outline-1 focus-visible:outline-[#FDFF79] focus-visible:outline-offset-4"
+                        className="transition duration-500 text-[#929292] data-[state=active]:text-white px-2 py-[6px] relative outline-hidden focus-visible:outline-1 focus-visible:outline-[#FDFF79] focus-visible:outline-offset-4"
                       >
                         <AnimatePresence mode="popLayout">
                           {tab === "prompt" ? (
@@ -250,7 +250,7 @@ function AspectRatioTab() {
   return (
     <div>
       <div className="flex flex-wrap gap-x-3 gap-y-2">
-        <label className="cursor-pointer flex gap-[6px] items-center px-3 py-[6px] text-[#929292] text-sm rounded-md has-[:checked]:text-[#FDFF79] has-[:checked]:bg-[#191c0e] hover:text-[#FDFF79]">
+        <label className="cursor-pointer flex gap-[6px] items-center px-3 py-[6px] text-[#929292] text-sm rounded-md has-checked:text-[#FDFF79] has-checked:bg-[#191c0e] hover:text-[#FDFF79]">
           <svg
             width="20"
             height="20"
@@ -274,7 +274,7 @@ function AspectRatioTab() {
             defaultChecked
           />
         </label>
-        <label className="cursor-pointer flex gap-[6px] items-center px-3 py-[6px] text-[#929292] text-sm rounded-md has-[:checked]:text-[#FDFF79] has-[:checked]:bg-[#191c0e] hover:text-[#FDFF79]">
+        <label className="cursor-pointer flex gap-[6px] items-center px-3 py-[6px] text-[#929292] text-sm rounded-md has-checked:text-[#FDFF79] has-checked:bg-[#191c0e] hover:text-[#FDFF79]">
           <svg
             width="20"
             height="20"
@@ -297,7 +297,7 @@ function AspectRatioTab() {
             className="hidden"
           />
         </label>
-        <label className="cursor-pointer flex gap-[6px] items-center px-3 py-[6px] text-[#929292] text-sm rounded-md has-[:checked]:text-[#FDFF79] has-[:checked]:bg-[#191c0e] hover:text-[#FDFF79]">
+        <label className="cursor-pointer flex gap-[6px] items-center px-3 py-[6px] text-[#929292] text-sm rounded-md has-checked:text-[#FDFF79] has-checked:bg-[#191c0e] hover:text-[#FDFF79]">
           <svg
             width="20"
             height="20"
@@ -320,7 +320,7 @@ function AspectRatioTab() {
             className="hidden"
           />
         </label>
-        <label className="cursor-pointer flex gap-[6px] items-center px-3 py-[6px] text-[#929292] text-sm rounded-md has-[:checked]:text-[#FDFF79] has-[:checked]:bg-[#191c0e] hover:text-[#FDFF79]">
+        <label className="cursor-pointer flex gap-[6px] items-center px-3 py-[6px] text-[#929292] text-sm rounded-md has-checked:text-[#FDFF79] has-checked:bg-[#191c0e] hover:text-[#FDFF79]">
           <svg
             width="20"
             height="20"
@@ -343,7 +343,7 @@ function AspectRatioTab() {
             className="hidden"
           />
         </label>
-        <label className="cursor-pointer flex gap-[6px] items-center px-3 py-[6px] text-[#929292] text-sm rounded-md has-[:checked]:text-[#FDFF79] has-[:checked]:bg-[#191c0e] hover:text-[#FDFF79]">
+        <label className="cursor-pointer flex gap-[6px] items-center px-3 py-[6px] text-[#929292] text-sm rounded-md has-checked:text-[#FDFF79] has-checked:bg-[#191c0e] hover:text-[#FDFF79]">
           <svg
             width="20"
             height="20"
@@ -366,7 +366,7 @@ function AspectRatioTab() {
             className="hidden"
           />
         </label>
-        <label className="cursor-pointer flex gap-[6px] items-center px-3 py-[6px] text-[#929292] text-sm rounded-md has-[:checked]:text-[#FDFF79] has-[:checked]:bg-[#191c0e] hover:text-[#FDFF79]">
+        <label className="cursor-pointer flex gap-[6px] items-center px-3 py-[6px] text-[#929292] text-sm rounded-md has-checked:text-[#FDFF79] has-checked:bg-[#191c0e] hover:text-[#FDFF79]">
           <svg
             width="20"
             height="20"
@@ -413,7 +413,7 @@ function PromptTab() {
       <textarea
         placeholder="Add a new prompt"
         autoFocus
-        className="h-[120px] w-full resize-none rounded-[6px] bg-transparent px-2 py-[6px] text-sm text-white placeholder:text-white/30 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#FDFF79]"
+        className="h-[120px] w-full resize-none rounded-[6px] bg-transparent px-2 py-[6px] text-sm text-white placeholder:text-white/30 focus-visible:outline-solid focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#FDFF79]"
       />
       <div className="flex items-center justify-between mt-2">
         <div className="flex items-center gap-2">

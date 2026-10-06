@@ -44,7 +44,7 @@ export default function TripsFan({ trips }: { trips: FanCard[] }) {
             }}
           >
             <span
-              className="pointer-events-none absolute -top-[30px] left-1/2 -translate-x-1/2 whitespace-nowrap rounded bg-ink px-2 py-[3px] font-mono text-[11px] text-paper transition-opacity duration-150"
+              className="pointer-events-none absolute top-[-30px] left-1/2 -translate-x-1/2 whitespace-nowrap rounded bg-ink px-2 py-[3px] font-mono text-[11px] text-paper transition-opacity duration-150"
               style={{ opacity: isHovered ? 1 : 0 }}
             >
               {trip.city.toLowerCase()}
