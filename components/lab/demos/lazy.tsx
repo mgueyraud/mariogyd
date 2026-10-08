@@ -31,3 +31,4 @@ export const DynamicVercelToolbar = dynamic(
 );
 export const ShadowBorderButton = dynamic(() => import("./ShadowBorderButton"));
 export const HairlineTypewriter = dynamic(() => import("./HairlineTypewriter"));
+export const GoldenGateAscii = dynamic(() => import("./GoldenGateAscii"));

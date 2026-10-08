@@ -13,6 +13,7 @@ import {
   EmailClient,
   FamilyTransaction,
   FamilyTray,
+  GoldenGateAscii,
   HairlineTypewriter,
   LoginLinkButton,
   MemoryCards,
@@ -43,6 +44,7 @@ const labComponents = {
   DynamicVercelToolbar,
   ShadowBorderButton,
   HairlineTypewriter,
+  GoldenGateAscii,
 };
 
 export default labComponents;
