@@ -6,6 +6,7 @@
  */
 
 import {
+  DialkitSlider,
   DownloadInteraction,
   DynamicIsland,
   DynamicSettings,
@@ -45,6 +46,7 @@ const labComponents = {
   ShadowBorderButton,
   HairlineTypewriter,
   GoldenGateAscii,
+  DialkitSlider,
 };
 
 export default labComponents;
