@@ -18,6 +18,7 @@ import {
   HairlineTypewriter,
   LoginLinkButton,
   MemoryCards,
+  PadelMatch,
   ReactEmailFolders,
   ResendBentoGrid,
   ShadowBorderButton,
@@ -47,6 +48,7 @@ const labComponents = {
   HairlineTypewriter,
   GoldenGateAscii,
   DialkitSlider,
+  PadelMatch,
 };
 
 export default labComponents;

@@ -27,7 +27,7 @@ export function generateMetadata({
   const post = getAllLabMeta().find((p) => p.slug === params.slug);
   if (!post) return {};
   return {
-    title: `${post.title} — Lab — Mario Gueyraud`,
+    title: `${post.title} · Lab · Mario Gueyraud`,
     description: post.description,
   };
 }
