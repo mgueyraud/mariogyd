@@ -29,6 +29,13 @@ const COMMIT_VELOCITY = 500;
 
 const INSTANT: ValueAnimationTransition<number> = { duration: 0 };
 
+/**
+ * Where the blur starts and tops out, as a fraction of a viewport away from
+ * parked. Starting a little out keeps the last stretch of travel filter-free.
+ */
+const BLUR_START = 0.06;
+const BLUR_FULL = 0.6;
+
 export type MotionSettings = {
   /** Clicking an arrow or a dot: a quick response to a quick ask. */
   slide: ValueAnimationTransition<number>;
@@ -48,10 +55,10 @@ export type MotionSettings = {
  * controls (components/playground/KindWordsTuner) — tune there, copy here.
  */
 export const DEFAULT_MOTION: MotionSettings = {
-  slide: { type: "tween", duration: 0.6, ease: [0.19, 1, 0.22, 1] },
-  release: { type: "spring", duration: 0.55, bounce: 0 },
-  blur: 6,
-  fade: 1.25,
+  slide: { type: "tween", duration: 1, ease: [0.19, 1, 0.22, 1] },
+  release: { type: "spring", duration: 0.6, bounce: 0.2 },
+  blur: 3.5,
+  fade: 1,
 };
 
 /**
@@ -295,12 +302,17 @@ function Slide({
   // Gentle enough that a drag paused halfway still shows both neighbours
   // rather than a blank.
   const opacity = useTransform(away, (a) => Math.max(0, 1 - a * fade));
-  // Sharp when parked, softening as it leaves. `none` rather than blur(0)
-  // at rest, so the parked slide's text is never rasterised through a
-  // filter.
-  const filter = useTransform(away, (a) =>
-    blur && a > 0.002 ? `blur(${(Math.min(1, a) * blur).toFixed(2)}px)` : "none"
-  );
+  // Sharp when parked, softening as it leaves. The blur reaches zero while
+  // the slide is still a few percent out and the filter comes off there:
+  // Safari renders anything behind a filter — even blur(0.1px) — on a
+  // softer layer, and the ease-out and spring tails would otherwise keep
+  // that layer alive until the very last frame, then snap to crisp.
+  const filter = useTransform(away, (a) => {
+    const t = (Math.min(1, a) - BLUR_START) / (BLUR_FULL - BLUR_START);
+    if (!blur || t <= 0) return "none";
+    const eased = Math.min(1, t) ** 2 * (3 - 2 * Math.min(1, t));
+    return `blur(${(eased * blur).toFixed(2)}px)`;
+  });
 
   return (
     <motion.figure
