@@ -11,11 +11,11 @@ export type Role = {
 export const ROLES: Role[] = [
   {
     years: "2025 ··· 2026",
-    company: "Vibrant",
+    company: "Ultralight",
     role: "Senior Fullstack Engineer",
     desc: "Scheduling, real-time AI scribing, and clinical records for a healthcare platform. Grew from 6 to 65 practices in a year, through a $9M raise.",
-    site: "vibrantpractice.com",
-    url: "https://vibrantpractice.com",
+    site: "ultralighthealth.com",
+    url: "https://www.ultralighthealth.com",
   },
   {
     years: "2024",
