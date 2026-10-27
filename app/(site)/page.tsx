@@ -1,10 +1,12 @@
 import Elsewhere from "@/components/home/Elsewhere";
 import Experience from "@/components/home/Experience";
+import KindWords from "@/components/home/KindWords";
 import NowPlaying from "@/components/home/NowPlaying";
 import TripsFan from "@/components/home/TripsFan";
 import Reveal from "@/components/site/Reveal";
 import TextLink, { tapTarget } from "@/components/site/TextLink";
 import { ROLES } from "@/lib/experience";
+import { KIND_WORDS } from "@/lib/kind-words";
 import { getAllLabMeta } from "@/lib/lab-meta";
 import { getNowPlaying } from "@/lib/spotify";
 import { TRIPS, getFanCards } from "@/lib/trips";
@@ -49,7 +51,11 @@ export default async function Home() {
         <Experience roles={ROLES} />
       </Reveal>
 
-      <Reveal step={4} as="section" className={SECTION}>
+      <Reveal step={4}>
+        <KindWords items={KIND_WORDS} />
+      </Reveal>
+
+      <Reveal step={5} as="section" className={SECTION}>
         <div className="mb-6 flex items-baseline justify-between">
           <h2 className={SECTION_TITLE}>
             LAB <span className="text-ink">{labs.length}</span>
@@ -77,7 +83,7 @@ export default async function Home() {
         </div>
       </Reveal>
 
-      <Reveal step={5} as="section" className={SECTION}>
+      <Reveal step={6} as="section" className={SECTION}>
         <div className="mb-2 flex items-baseline justify-between">
           <h2 className={SECTION_TITLE}>
             TRIPS <span className="text-ink">{TRIPS.length}</span>
@@ -89,11 +95,11 @@ export default async function Home() {
         <TripsFan trips={getFanCards()} />
       </Reveal>
 
-      <Reveal step={6}>
+      <Reveal step={7}>
         <Elsewhere />
       </Reveal>
 
-      <Reveal step={7}>
+      <Reveal step={8}>
         <NowPlaying initial={nowPlaying} />
       </Reveal>
     </>
