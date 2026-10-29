@@ -1,10 +1,11 @@
-import { getSiteMarkdown } from "@/lib/site-markdown";
+import { getLlmsTxt } from "@/lib/llms-txt";
 
-// Same mirror as /index.md, at the path agents look for first.
+// The llmstxt.org index: what's here, when an agent should use it, and links
+// to every page. The home page's own markdown lives at /index.md.
 export const dynamic = "force-static";
 
 export function GET() {
-  return new Response(getSiteMarkdown(), {
+  return new Response(getLlmsTxt(), {
     headers: { "Content-Type": "text/plain; charset=utf-8" },
   });
 }

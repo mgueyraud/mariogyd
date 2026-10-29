@@ -8,6 +8,7 @@ import { getMapGeometry } from "@/lib/trips-map";
 export const metadata: Metadata = {
   title: "Trips — Mario Gueyraud",
   description: "Places I've been, and the photos my phone came home with.",
+  alternates: { canonical: "/trips" },
 };
 
 export default function Trips() {

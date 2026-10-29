@@ -20,6 +20,7 @@ export function generateMetadata({
   return {
     title: `${trip.city} — Trips — Mario Gueyraud`,
     description: trip.blurb,
+    alternates: { canonical: `/trips/${trip.slug}` },
   };
 }
 

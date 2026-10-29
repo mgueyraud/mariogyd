@@ -53,12 +53,15 @@ export default function TripsFan({ trips }: { trips: FanCard[] }) {
               className="relative block aspect-square w-full overflow-hidden"
               style={{ background: HATCH }}
             >
+              {/* Fixed 128px instead of `fill` + sizes: the card tops out at
+                  106px, so the 1x/2x candidates (128w, 256w) are the ones
+                  browsers chose anyway, and the markup is a tenth the size. */}
               <Image
                 src={trip.cover}
                 alt=""
-                fill
-                sizes="106px"
-                className="object-cover"
+                width={128}
+                height={128}
+                className="absolute inset-0 h-full w-full object-cover"
               />
             </span>
           </Link>

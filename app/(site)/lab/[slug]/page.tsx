@@ -29,6 +29,7 @@ export function generateMetadata({
   return {
     title: `${post.title} · Lab · Mario Gueyraud`,
     description: post.description,
+    alternates: { canonical: `/lab/${post.slug}` },
   };
 }
 

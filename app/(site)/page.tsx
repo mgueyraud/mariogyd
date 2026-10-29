@@ -7,6 +7,7 @@ import Reveal from "@/components/site/Reveal";
 import TextLink, { tapTarget } from "@/components/site/TextLink";
 import { ROLES } from "@/lib/experience";
 import { KIND_WORDS } from "@/lib/kind-words";
+import { getHomeJsonLd, jsonLdScript } from "@/lib/json-ld";
 import { getAllLabMeta } from "@/lib/lab-meta";
 import { getNowPlaying } from "@/lib/spotify";
 import { TRIPS, getFanCards } from "@/lib/trips";
@@ -28,6 +29,11 @@ export default async function Home() {
 
   return (
     <>
+      {/* Person / WebSite / ProfilePage structured data — see lib/json-ld.ts */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: jsonLdScript(getHomeJsonLd()) }}
+      />
       <Reveal step={1} as="header">
         <h1 className="text-[15px] font-semibold tracking-[-0.01em]">
           Mario Gueyraud

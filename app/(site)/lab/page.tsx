@@ -9,6 +9,7 @@ export const metadata: Metadata = {
   title: "Lab — Mario Gueyraud",
   description:
     "A creative hub for UI experiments, component explorations, and interaction design.",
+  alternates: { canonical: "/lab" },
 };
 
 // Reading `searchParams` opts this segment into dynamic rendering, so there is
