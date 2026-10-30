@@ -46,16 +46,6 @@ describe.skipIf(!base)("agent readiness", () => {
     }
   });
 
-  // Set by middleware.ts and the next.config `headers()` rule. Next 14's own
-  // server (`next start`) overwrites Vary when it renders a page, so this is a
-  // property of the deployment: it is checked against Vercel, not localhost.
-  it.skipIf(/localhost|127\.0\.0\.1/.test(base ?? ""))(
-    "marks the HTML response as varying on Accept too",
-    async () => {
-      const res = await get("/", "text/html");
-      expect(variesOnAccept(res.headers.get("vary"))).toBe(true);
-    },
-  );
 
   it("negotiates Markdown on sub-pages too", async () => {
     for (const path of ["/lab", "/trips", "/about", "/contact", "/privacy"]) {

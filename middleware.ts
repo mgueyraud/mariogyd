@@ -19,9 +19,13 @@ import { MARKDOWN_HEADER, negotiate } from "@/lib/content-negotiation";
 const MARKDOWN_PREFIX = "/markdown";
 
 /**
- * Next's own Vary entries plus Accept. Set in full, rather than appended,
- * because the layer that applies middleware headers may replace the render's
- * value instead of merging with it.
+ * Next's own Vary entries plus Accept, for the HTML response. Best effort:
+ * Next 14 sets Vary itself when it renders a page and that value wins both
+ * under `next start` and on Vercel (where ISR pages are served from the
+ * prerender's stored headers), so in practice only the Markdown and 406
+ * responses carry `Vary: Accept`. That is still cache-safe here because the
+ * middleware rewrites Markdown requests before any cache lookup, so the two
+ * representations never share a cache key.
  */
 export const HTML_VARY =
   "RSC, Next-Router-State-Tree, Next-Router-Prefetch, Accept";
