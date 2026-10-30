@@ -15,7 +15,7 @@ import {
 import { flushSync } from "react-dom";
 import MachineView from "@/components/site/MachineView";
 import { tapTarget } from "@/components/site/TextLink";
-import { useReducedMotion } from "@/lib/use-reduced-motion";
+import { useIsMobile, useReducedMotion } from "@/lib/use-reduced-motion";
 import { cn } from "@/lib/utils";
 
 /*
@@ -43,7 +43,8 @@ import { cn } from "@/lib/utils";
  *
  *   human → off → machine → on → human
  *
- * Reduced motion skips straight between `human` and `machine`.
+ * Reduced motion, and phones, skip straight between `human` and `machine`
+ * with no TV and no scramble: the page just becomes the mirror.
  *
  * The two views share one scroll offset. The page and the mirror are laid
  * out on the same grid, so carrying the offset across keeps the checkbox,
@@ -178,7 +179,10 @@ export function ViewModeProvider({
   // sequence once it has reopened. Separate from `phase` so the page can go
   // dark mid-sequence without a phase of its own.
   const [pictureHidden, setPictureHidden] = useState(false);
+  // No TV, no scramble: the views just swap.
   const reduced = useReducedMotion();
+  const mobile = useIsMobile();
+  const instant = reduced || mobile;
   const pathname = usePathname();
   const screenRef = useRef<HTMLDivElement>(null);
   const beamRef = useRef<HTMLDivElement>(null);
@@ -208,13 +212,13 @@ export function ViewModeProvider({
     (next: Mode) => {
       if (busy || next === mode) return;
       setCarried(next === "machine" ? window.scrollY : (mirrorRef.current?.scrollTop ?? 0));
-      if (reduced) {
+      if (instant) {
         setPhase(next);
         return;
       }
       setPhase(next === "machine" ? "off" : "on");
     },
-    [busy, mode, reduced]
+    [busy, mode, instant]
   );
 
   // Hand the carried offset over: onto the mirror as it mounts, back onto the
@@ -401,7 +405,7 @@ export function ViewModeProvider({
   // over from the overlay, so it must not blink. Layout effect so the first
   // painted frame is already at opacity 0.
   useLayoutEffect(() => {
-    if (phase !== "machine" || reduced) return;
+    if (phase !== "machine" || instant) return;
     const text = textRef.current;
     if (!text) return;
     const a = text.animate([{ opacity: 0 }, { opacity: 1 }], {
@@ -541,7 +545,7 @@ export function ViewModeProvider({
                 <MachineView
                   markdown={markdown}
                   scramble={
-                    reduced
+                    instant
                       ? undefined
                       : { duration: s.scramble, hold: s.hold, reroll: s.reroll, slant: s.slant }
                   }

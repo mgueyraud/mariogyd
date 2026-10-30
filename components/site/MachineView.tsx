@@ -146,21 +146,31 @@ export default function MachineView({
 
   return (
     <div>
-      <button
-        type="button"
-        onClick={copy}
+      {/* On phones the button is a bar pinned to the bottom of the screen,
+          over the text, in the mirror's own side gutters; from `md` up it
+          sits at the head of the text. */}
+      <div
         className={cn(
-          "w-full border px-3 py-3 font-mono text-[11px] tracking-[0.12em] text-paper transition-colors",
-          DARK.rule,
-          DARK.hover
+          "fixed inset-x-0 bottom-0 z-10 bg-ink px-[clamp(18px,5vw,24px)] pt-3 pb-[max(16px,env(safe-area-inset-bottom))]",
+          "md:static md:bg-transparent md:p-0"
         )}
       >
-        <span aria-live="polite">
-          {copied ? "✓ COPIED" : "⧉ COPY TO CLIPBOARD"}
-        </span>
-      </button>
+        <button
+          type="button"
+          onClick={copy}
+          className={cn(
+            "w-full border px-3 py-3 font-mono text-[11px] tracking-[0.12em] text-paper transition-colors",
+            DARK.rule,
+            DARK.hover
+          )}
+        >
+          <span aria-live="polite">
+            {copied ? "✓ COPIED" : "⧉ COPY TO CLIPBOARD"}
+          </span>
+        </button>
+      </div>
 
-      <div ref={linesRef} className="mt-[22px] font-mono text-xs leading-[1.75]">
+      <div ref={linesRef} className="font-mono text-xs leading-[1.75] md:mt-[22px]">
         {lines.map(({ prefix, text, className }, i) => (
           <div key={i} className="min-h-[1.75em] whitespace-pre-wrap break-words">
             <span className={DARK.prefix}>{prefix}</span>
