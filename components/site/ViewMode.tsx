@@ -3,6 +3,7 @@
 import { usePathname } from "next/navigation";
 import {
   createContext,
+  useCallback,
   useContext,
   useEffect,
   useLayoutEffect,
@@ -43,6 +44,10 @@ import { cn } from "@/lib/utils";
  *   human → off → machine → on → human
  *
  * Reduced motion skips straight between `human` and `machine`.
+ *
+ * The two views share one scroll offset. The page and the mirror are laid
+ * out on the same grid, so carrying the offset across keeps the checkbox,
+ * and the top of the text, exactly where they were.
  */
 
 type Mode = "human" | "machine";
@@ -184,6 +189,11 @@ export function ViewModeProvider({
   // mirror fades, background included, to uncover the light and the page.
   const textRef = useRef<HTMLDivElement>(null);
   const navToggleRef = useRef<HTMLDivElement>(null);
+  // The scroll offset the views share: read from whichever view is leaving
+  // when the switch is thrown, and put on the one coming up.
+  const [carried, setCarried] = useState(0);
+  const carriedRef = useRef(0);
+  carriedRef.current = carried;
 
   const s = { ...DEFAULT_CRT, ...settings };
   // Sequences read the latest numbers without restarting when they change.
@@ -194,14 +204,34 @@ export function ViewModeProvider({
   const mode: Mode = phase === "machine" || phase === "off" ? "machine" : "human";
   const busy = phase === "off" || phase === "on";
 
-  const setMode = (next: Mode) => {
-    if (busy || next === mode) return;
-    if (reduced) {
-      setPhase(next);
-      return;
+  const setMode = useCallback(
+    (next: Mode) => {
+      if (busy || next === mode) return;
+      setCarried(next === "machine" ? window.scrollY : (mirrorRef.current?.scrollTop ?? 0));
+      if (reduced) {
+        setPhase(next);
+        return;
+      }
+      setPhase(next === "machine" ? "off" : "on");
+    },
+    [busy, mode, reduced]
+  );
+
+  // Hand the carried offset over: onto the mirror as it mounts, back onto the
+  // page as the mirror leaves. Layout effect so the mirror never paints at the
+  // top, and so the page is in place before the on sequence measures the
+  // aperture. The document still scrolls programmatically with its overflow
+  // hidden, which is what the lock below relies on.
+  const prevPhase = useRef<Phase>("human");
+  useLayoutEffect(() => {
+    const was = prevPhase.current;
+    prevPhase.current = phase;
+    if (phase === "machine" && mirrorRef.current) {
+      mirrorRef.current.scrollTop = carriedRef.current;
+    } else if (was === "machine" && (phase === "on" || phase === "human")) {
+      window.scrollTo(0, carriedRef.current);
     }
-    setPhase(next === "machine" ? "off" : "on");
-  };
+  }, [phase]);
 
   // A nav click while the TV is off should land on the page, lit.
   useEffect(() => {
@@ -412,11 +442,11 @@ export function ViewModeProvider({
   useEffect(() => {
     if (phase !== "machine") return;
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") setPhase(reduced ? "human" : "on");
+      if (e.key === "Escape") setMode("human");
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, [phase, reduced]);
+  }, [phase, setMode]);
 
   const hidden = pictureHidden || phase === "machine";
   const beamShown = phase === "off" || phase === "on";
@@ -470,12 +500,17 @@ export function ViewModeProvider({
 
         {/* While the TV switches, the checkbox rides above everything in
             its nav position, already flipped, instead of going with the
-            picture and coming back with the text. `difference` keeps it
-            legible over paper, the flash and ink alike. */}
+            picture and coming back with the text. Shifted up by the carried
+            scroll so it sits exactly over the in-flow pair on both sides
+            (off screen if the nav is). `difference` keeps it legible over
+            paper, the flash and ink alike. */}
         {beamShown && (
           <div
-            className="pointer-events-none fixed inset-x-0 top-0 z-40 mix-blend-difference"
-            style={{ padding: "clamp(48px, 9vw, 88px) clamp(18px, 5vw, 24px) 0" }}
+            className="pointer-events-none fixed inset-x-0 z-40 mix-blend-difference"
+            style={{
+              top: -carried,
+              padding: "clamp(48px, 9vw, 88px) clamp(18px, 5vw, 24px) 0",
+            }}
           >
             <div
               className="flex min-h-[1lh] max-w-[600px] items-center justify-end text-[13px]"
