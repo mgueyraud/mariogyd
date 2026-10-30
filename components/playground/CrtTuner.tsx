@@ -50,6 +50,15 @@ const CONFIG = {
     in: [DEFAULT_CRT.textIn, 0, 1, 0.01],
     out: [DEFAULT_CRT.textOut, 0, 1, 0.01],
   },
+  scramble: {
+    // The mirror text coming out of noise. sweep: first glyph to last.
+    // hold: all noise before it. reroll: how often the noise changes.
+    // slant: 1 resolves row by row, 0 column by column, between is diagonal.
+    sweep: [DEFAULT_CRT.scramble, 0, 4, 0.05],
+    hold: [DEFAULT_CRT.hold, 0, 1, 0.01],
+    reroll: [DEFAULT_CRT.reroll, 16, 200, 1],
+    slant: [DEFAULT_CRT.slant, 0, 1, 0.01],
+  },
 } satisfies DialConfig;
 
 // DialKit's editor can flip an easing into a spring; the TV only speaks
@@ -87,6 +96,10 @@ export default function CrtTuner() {
         dark: p.off.dark,
         textIn: p.text.in,
         textOut: p.text.out,
+        scramble: p.scramble.sweep,
+        hold: p.scramble.hold,
+        reroll: p.scramble.reroll,
+        slant: p.scramble.slant,
         line: p.line.line,
         blur: p.line.blur,
         flash: p.line.flash,

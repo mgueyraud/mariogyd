@@ -21,7 +21,8 @@ import { cn } from "@/lib/utils";
  * HUMAN / MACHINE. The page is an old TV. Picking MACHINE switches it off: an
  * aperture over the page closes to a glowing line, the line shrinks to a dot,
  * the dot dies, and after a beat the mirror comes up as a dark page of its
- * own with no nav. HUMAN there (or Escape) runs it backwards.
+ * own with no nav: on the wrong channel at first, all noise, resolving from
+ * the top left (MachineView). HUMAN there (or Escape) runs it backwards.
  *
  * The page never deforms. The aperture is a clip-path inset on the page
  * wrapper (a mask in page coordinates, so it tracks the scroll position). The
@@ -66,6 +67,11 @@ export type CrtSettings = {
   /** Mirror text fade, seconds. */
   textIn: number;
   textOut: number;
+  /** The mirror text resolving out of noise: the sweep and the all-noise hold before it (seconds), how often the noise re-rolls (ms), and the slant of the front (0–1, see MachineView). */
+  scramble: number;
+  hold: number;
+  reroll: number;
+  slant: number;
   /** Line thickness, px. */
   line: number;
   /** Page brightness at the moment it becomes the line. */
@@ -90,8 +96,12 @@ export const DEFAULT_CRT: CrtSettings = {
   grow: { duration: 0.4, ease: [0.22, 1, 0.36, 1] },
   fade: 0.22,
   dark: 0.25,
-  textIn: 0.22,
+  textIn: 0,
   textOut: 0.14,
+  scramble: 2.35,
+  hold: 0.39,
+  reroll: 60,
+  slant: 0.55,
   line: 6,
   blur: 2,
   flash: 4.1,
@@ -493,7 +503,14 @@ export function ViewModeProvider({
                 <ViewModeToggle tone="dark" />
               </div>
               <div ref={textRef}>
-                <MachineView markdown={markdown} />
+                <MachineView
+                  markdown={markdown}
+                  scramble={
+                    reduced
+                      ? undefined
+                      : { duration: s.scramble, hold: s.hold, reroll: s.reroll, slant: s.slant }
+                  }
+                />
               </div>
             </div>
           </section>
