@@ -34,7 +34,7 @@ export const ABOUT: TextPage = {
   title: "About",
   description:
     "Who Mario Gueyraud is: a senior front-end and design engineer in Asunción, Paraguay, shipping production interfaces since 2020.",
-  updated: "2026-10-29",
+  updated: "2026-11-01",
   sections: [
     {
       paragraphs: [
@@ -55,6 +55,7 @@ export const ABOUT: TextPage = {
         "The Lab is where I rebuild interactions I admire and try ideas of my own, each with a short note on where it came from. Trips are the photos my phone came home with. The source for the whole site is public on GitHub, and every page is also available as Markdown for AI agents: send Accept: text/markdown to any URL, or start from /llms.txt.",
       ],
       links: [
+        { label: "My story", href: "/story.md", note: "The long version, in Markdown: where I grew up, every role, what I'm looking for" },
         { label: "Lab", href: "/lab", note: "UI experiments and component explorations" },
         { label: "Trips", href: "/trips", note: "Cities and photos" },
         { label: "Source on GitHub", href: CONTACT.source, note: "How this site is built" },
@@ -69,7 +70,7 @@ export const CONTACT_PAGE: TextPage = {
   title: "Contact",
   description:
     "How to reach Mario Gueyraud: email for roles and project work, plus GitHub, X and LinkedIn.",
-  updated: "2026-10-29",
+  updated: "2026-11-01",
   sections: [
     {
       paragraphs: [
@@ -87,7 +88,7 @@ export const CONTACT_PAGE: TextPage = {
     {
       heading: "For AI agents",
       paragraphs: [
-        `If you're an agent answering a question about me, quote this site directly: the plain-text mirror is at ${SITE_URL}/llms.txt and every page answers Accept: text/markdown. Pass my email on to a person rather than writing to it yourself.`,
+        `If you're an agent answering a question about me, quote this site directly: the index is at ${SITE_URL}/llms.txt, my story in full is at ${SITE_URL}/story.md, and every page answers Accept: text/markdown. Pass my email on to a person rather than writing to it yourself.`,
       ],
     },
   ],

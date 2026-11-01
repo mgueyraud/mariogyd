@@ -2,6 +2,7 @@ import type { MetadataRoute } from "next";
 import { getAllLabMeta } from "@/lib/lab-meta";
 import { TEXT_PAGES } from "@/lib/pages";
 import { SITE_URL } from "@/lib/site";
+import { STORY_UPDATED } from "@/lib/story";
 import { TRIPS } from "@/lib/trips";
 
 /*
@@ -67,5 +68,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "yearly" as const,
       priority: 0.5,
     })),
+    {
+      url: `${SITE_URL}/story.md`,
+      lastModified: new Date(STORY_UPDATED),
+      changeFrequency: "yearly",
+      priority: 0.6,
+    },
   ];
 }

@@ -159,7 +159,7 @@ export default function MachineView({
           type="button"
           onClick={copy}
           className={cn(
-            "w-full border px-3 py-3 font-mono text-[11px] tracking-[0.12em] text-paper transition-colors",
+            "w-full border px-3 py-3 font-mono text-[11px] tracking-[0.14em] text-paper transition-colors",
             DARK.rule,
             DARK.hover
           )}
@@ -184,6 +184,10 @@ export default function MachineView({
         Also served raw at{" "}
         <a href="/index.md" className={DARK.link}>
           /index.md
+        </a>
+        ,{" "}
+        <a href="/story.md" className={DARK.link}>
+          /story.md
         </a>{" "}
         and{" "}
         <a href="/llms.txt" className={DARK.link}>
