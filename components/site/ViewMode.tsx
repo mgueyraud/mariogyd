@@ -518,7 +518,7 @@ export function ViewModeProvider({
           >
             <div
               className="flex min-h-[1lh] max-w-[600px] items-center justify-end text-[13px]"
-              style={{ marginLeft: "clamp(0px, 30vw - 210px, 260px)" }}
+              style={{ marginLeft: "var(--column-offset)" }}
             >
               <ViewModeToggle tone="blend" />
             </div>
@@ -535,7 +535,7 @@ export function ViewModeProvider({
           >
             <div
               className="max-w-[600px]"
-              style={{ marginLeft: "clamp(0px, 30vw - 210px, 260px)" }}
+              style={{ marginLeft: "var(--column-offset)" }}
             >
               {/* Same row metrics as the nav so the checkbox stays put between views. */}
               <div className="mb-[clamp(56px,10vw,84px)] flex min-h-[1lh] items-center justify-end text-[13px]">
@@ -572,7 +572,7 @@ const TONES = {
 };
 
 /**
- * The `[x] HUMAN  [ ] MACHINE` pair. In the nav on paper, on the mirror in
+ * The `(•) HUMAN  ( ) MACHINE` pair. In the nav on paper, on the mirror in
  * ink, and blended over both while the TV switches; the in-flow pair hides
  * then so there is only ever one on screen.
  */
@@ -587,7 +587,7 @@ export function ViewModeToggle({ tone = "light" }: { tone?: keyof typeof TONES }
       aria-label="Read as"
       aria-busy={busy || undefined}
       className={cn(
-        "flex gap-3.5 font-mono text-[11px] tracking-[0.06em]",
+        "flex gap-3.5 font-mono text-xs tracking-wider",
         busy && tone !== "blend" && "invisible"
       )}
     >
@@ -601,11 +601,11 @@ export function ViewModeToggle({ tone = "light" }: { tone?: keyof typeof TONES }
             aria-pressed={active}
             className={cn(
               tapTarget,
-              "whitespace-nowrap transition-colors",
+              "whitespace-nowrap transition-colors focus-visible:outline-1",
               active ? colors.on : colors.off
             )}
           >
-            <span aria-hidden>{active ? "[x]" : "[ ]"}</span> {label}
+            <span aria-hidden>{active ? "(•)" : "( )"}</span> {label}
           </button>
         );
       })}

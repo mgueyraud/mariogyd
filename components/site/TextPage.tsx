@@ -57,7 +57,7 @@ export default function TextPage({ page }: { page: TextPageData }) {
         </Reveal>
       ))}
 
-      <Reveal step={step++} className="mt-12 font-mono text-[11px] tracking-[0.08em] text-faint">
+      <Reveal step={step++} className="mt-12 font-mono text-[11px] tracking-[0.14em] text-faint">
         LAST UPDATED {page.updated}
       </Reveal>
     </article>

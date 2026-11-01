@@ -31,7 +31,7 @@ export default function Lab({
         <h1 className="font-serif text-[32px] font-medium tracking-[-0.01em]">
           Lab
         </h1>
-        <span className="font-mono text-xs text-faint">{total}</span>
+        <span className="font-mono text-xs tracking-wider text-faint">{total}</span>
       </Reveal>
 
       <Reveal

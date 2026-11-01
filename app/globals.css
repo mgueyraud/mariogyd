@@ -112,6 +112,17 @@
   * {
     @apply border-border;
   }
+  /*
+   * Left offset of the 600px content column (app/(site)/layout.tsx and the
+   * mirror in components/site/ViewMode.tsx share it). Flush left on phones,
+   * then sitting left of centre, until 1400px, where it slides across and
+   * is dead-centre from 1600px: on a wide screen the offset read as an
+   * accident rather than a choice. 324px is half the column plus the 24px
+   * page gutter at those widths.
+   */
+  :root {
+    --column-offset: max(0px, 30vw - 210px, min(50vw - 324px, 133vw - 1652px));
+  }
   body {
     font-size: 14px;
     line-height: 1.6;

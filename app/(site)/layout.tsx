@@ -20,7 +20,7 @@ export default function SiteLayout({
       <div style={{ padding: "clamp(48px, 9vw, 88px) clamp(18px, 5vw, 24px) 96px" }}>
         <div
           className="max-w-[600px]"
-          style={{ marginLeft: "clamp(0px, 30vw - 210px, 260px)" }}
+          style={{ marginLeft: "var(--column-offset)" }}
         >
           <Nav />
           {children}

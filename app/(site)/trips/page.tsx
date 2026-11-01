@@ -18,7 +18,7 @@ export default function Trips() {
         <h1 className="font-serif text-[32px] font-medium tracking-[-0.01em]">
           Trips
         </h1>
-        <span className="font-mono text-xs text-faint">{TRIPS.length}</span>
+        <span className="font-mono text-xs tracking-wider text-faint">{TRIPS.length}</span>
       </Reveal>
 
       <Reveal

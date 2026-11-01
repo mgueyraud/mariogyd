@@ -1,3 +1,5 @@
+import Image from "next/image";
+import Link from "next/link";
 import Elsewhere from "@/components/home/Elsewhere";
 import Experience from "@/components/home/Experience";
 import KindWords from "@/components/home/KindWords";
@@ -70,21 +72,31 @@ export default async function Home() {
             All experiments ↗
           </TextLink>
         </div>
-        <div className="grid grid-cols-[repeat(auto-fit,minmax(200px,1fr))] gap-x-9 gap-y-5">
+        <div className="grid grid-cols-[repeat(auto-fit,minmax(200px,1fr))] gap-x-9 gap-y-7">
           {labPreview.map((lab) => (
-            <div key={lab.slug}>
-              <TextLink
-                href={`/lab/${lab.slug}`}
-                prefetch
-                variant="underline"
-                className="text-sm"
-              >
-                {lab.title}
-              </TextLink>
-              <p className="mt-[3px] text-[13px] text-subtle">
+            <Link
+              key={lab.slug}
+              href={`/lab/${lab.slug}`}
+              prefetch
+              className="group block no-underline"
+            >
+              {lab.poster && (
+                <span className="mb-3 block aspect-16/10 overflow-hidden rounded-md border border-line bg-hover transition-colors group-hoverable:border-line-strong">
+                  <Image
+                    src={lab.poster}
+                    alt=""
+                    width={640}
+                    height={400}
+                    sizes="(min-width: 640px) 282px, 100vw"
+                    className="h-full w-full object-cover"
+                  />
+                </span>
+              )}
+              <span className="block text-sm font-[550]">{lab.title}</span>
+              <span className="mt-[3px] block text-[13px] text-subtle">
                 {lab.description}
-              </p>
-            </div>
+              </span>
+            </Link>
           ))}
         </div>
       </Reveal>

@@ -17,7 +17,9 @@ export default function TripsFan({ trips }: { trips: FanCard[] }) {
   return (
     <div
       onMouseLeave={() => setActive(-1)}
-      className="relative flex min-h-[170px] max-w-full flex-nowrap items-center pl-[26px] pt-11 pb-[26px]"
+      // Centred on the column with a 14px bleed each side, echoing the
+      // experience rows. The cards shrink to fit when the row is wider.
+      className="relative -mx-3.5 flex min-h-[170px] flex-nowrap items-center justify-center pt-11 pb-[26px]"
     >
       {trips.map((trip, i) => {
         const isHovered = active === i;
@@ -37,7 +39,7 @@ export default function TripsFan({ trips }: { trips: FanCard[] }) {
             onFocus={() => setActive(i)}
             onBlur={() => setActive(-1)}
             aria-label={trip.city}
-            className="relative block w-[clamp(76px,17vw,106px)] min-w-0 flex-[0_1_auto] ml-[clamp(-42px,-8vw,-28px)] bg-white px-[7px] pt-[7px] pb-6 no-underline shadow-[0_1px_3px_rgba(28,28,26,0.14),0_10px_24px_rgba(28,28,26,0.07)] transition-transform duration-300 ease-[cubic-bezier(0.2,0.7,0.3,1)] motion-reduce:transition-none"
+            className="relative block w-[clamp(76px,17vw,106px)] min-w-0 flex-[0_1_auto] ml-[clamp(-42px,-8vw,-28px)] first:ml-0 bg-white px-[7px] pt-[7px] pb-6 no-underline shadow-[0_1px_3px_rgba(28,28,26,0.14),0_10px_24px_rgba(28,28,26,0.07)] transition-transform duration-300 ease-[cubic-bezier(0.2,0.7,0.3,1)] motion-reduce:transition-none"
             style={{
               transform,
               zIndex: isHovered ? 20 : i + 1,

@@ -24,9 +24,13 @@ export type LabMeta = {
   title: string;
   description: string;
   video: string;
+  /** Still frame for previews — public/images/lab/<slug>.jpg, when one exists. */
+  poster?: string;
   publishedDate: string;
   githubLink?: string;
 };
+
+const posterDir = path.join(process.cwd(), "public/images/lab");
 
 // Minimal frontmatter reader — fields are simple `key: "value"` pairs.
 // Avoids compiling MDX bodies just to build the index / home preview.
@@ -50,6 +54,9 @@ function readMeta(slug: string): LabMeta {
     title: fm.title ?? slug,
     description: fm.description ?? "",
     video: fm.video ?? "",
+    poster: fs.existsSync(path.join(posterDir, slug + ".jpg"))
+      ? `/images/lab/${slug}.jpg`
+      : undefined,
     publishedDate: fm.publishedDate ?? "",
     githubLink: fm.githubLink,
   };

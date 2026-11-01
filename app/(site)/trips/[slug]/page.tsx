@@ -38,7 +38,7 @@ export default function TripDetail({ params }: { params: { slug: string } }) {
         <h1 className="font-serif text-[34px] font-medium tracking-[-0.01em]">
           {trip.city}
         </h1>
-        <div className="mt-2 font-mono text-xs tracking-[0.08em] text-faint">
+        <div className="mt-2 font-mono text-xs tracking-wider text-faint">
           {longDate(trip.date)} · {trip.country.toUpperCase()} ·{" "}
           {trip.photos.length} PHOTOS
         </div>

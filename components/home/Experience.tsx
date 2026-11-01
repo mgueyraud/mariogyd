@@ -96,7 +96,7 @@ export default function Experience({ roles }: { roles: Role[] }) {
         onClick={() => setShowOlder((v) => !v)}
         aria-expanded={showOlder}
         className={cn(
-          "mt-3.5 border-b border-dotted border-line-strong font-mono text-xs text-faint transition-colors hoverable:border-ink hoverable:text-ink",
+          "mt-3.5 border-b border-dotted border-line-strong font-mono text-xs tracking-wider text-faint transition-colors hoverable:border-ink hoverable:text-ink",
           tapTarget
         )}
       >

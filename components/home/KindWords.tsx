@@ -86,7 +86,7 @@ const LINKEDIN = (
  * app/(site)/layout.tsx), so the parked slide stays flush with everything
  * else and the fade only touches a slide that's on its way in or out.
  */
-const EDGE = "min(clamp(18px, 5vw, 24px) + max(0px, 30vw - 210px), 48px)";
+const EDGE = "min(clamp(18px, 5vw, 24px) + var(--column-offset), 48px)";
 
 /**
  * A mask rather than a painted gradient, so the fade goes to whatever is
@@ -189,7 +189,7 @@ export default function KindWords({
         </h2>
         <div className="flex items-center gap-2.5">
           <span
-            className="min-w-[34px] text-right font-mono text-[11px] tabular-nums text-faint"
+            className="min-w-[38px] text-right font-mono text-xs tracking-wider tabular-nums text-faint"
             aria-live="polite"
           >
             {index + 1} / {count}
@@ -325,8 +325,14 @@ function Slide({
       style={{ opacity, filter }}
       className="min-w-0 flex-[0_0_100%] pr-1"
     >
-      <blockquote className="max-w-[30ch] font-serif text-[clamp(20px,3.4vw,24px)] italic leading-[1.35] tracking-[-0.01em] text-balance">
-        “{t.highlight}”
+      <blockquote className="relative max-w-[30ch] font-serif text-[clamp(20px,3.4vw,24px)] italic leading-[1.35] tracking-[-0.01em] text-balance">
+        {/* Hung in the margin so the first line's text starts flush with the
+            lines below it, in every browser rather than only where
+            `hanging-punctuation` is supported. */}
+        <span aria-hidden className="absolute right-full">
+          “
+        </span>
+        {t.highlight}”
       </blockquote>
 
       <figcaption className="mt-[18px] flex items-center gap-3">
@@ -380,7 +386,7 @@ function Slide({
         aria-expanded={open}
         aria-controls={`kind-words-${t.key}`}
         className={cn(
-          "ml-12 mt-3 border-b border-dotted border-line-strong font-mono text-[11px] text-faint transition-colors hoverable:border-ink hoverable:text-ink",
+          "ml-12 mt-3 border-b border-dotted border-line-strong font-mono text-xs tracking-wider text-faint transition-colors hoverable:border-ink hoverable:text-ink",
           tapTarget
         )}
       >

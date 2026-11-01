@@ -182,7 +182,7 @@ export default function PhotoLightbox({
             priority
             className="max-h-[72vh] w-[min(820px,84vw)] rounded-sm object-contain"
           />
-          <div className="mt-4 font-mono text-xs text-[#B9B9B2]">
+          <div className="mt-4 font-mono text-xs tracking-wider tabular-nums text-[#B9B9B2]">
             {index + 1} / {photos.length}
           </div>
 

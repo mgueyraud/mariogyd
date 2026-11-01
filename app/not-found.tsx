@@ -8,7 +8,7 @@ export default function NotFound() {
       <LorenzButterflies className="pointer-events-none absolute left-1/2 top-1/2 aspect-square w-[min(115vmin,900px)] -translate-x-1/2 -translate-y-1/2 opacity-70 mask-[radial-gradient(ellipse_42%_30%_at_50%_50%,transparent_20%,black_100%)]" />
 
       <div className="relative flex flex-col items-center">
-        <div className="font-mono text-xs tracking-[0.14em] text-faint">404</div>
+        <div className="font-mono text-[11px] tracking-[0.14em] text-faint">404</div>
 
         <h1 className="mt-5 font-serif text-[clamp(34px,9vw,44px)] font-medium italic leading-tight tracking-[-0.01em]">
           Amor fati<span className="animate-breathe">.</span>
@@ -28,7 +28,7 @@ export default function NotFound() {
         </TextLink>
       </div>
 
-      <div className="absolute bottom-6 font-mono text-[10px] tracking-widest text-line-strong">
+      <div className="absolute bottom-6 font-mono text-[11px] tracking-[0.14em] text-line-strong">
         NIETZSCHE, PROBABLY EXPECTING THIS
       </div>
     </main>
