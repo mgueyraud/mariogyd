@@ -394,7 +394,7 @@ function Slide({
       </button>
       <div
         id={`kind-words-${t.key}`}
-        className="grid pl-12 transition-[grid-template-rows] duration-350 ease-in-out motion-reduce:transition-none"
+        className="grid pl-12 transition-[grid-template-rows] duration-200 ease-out motion-reduce:transition-none"
         style={{ gridTemplateRows: open ? "1fr" : "0fr" }}
       >
         <div className="min-h-0 overflow-hidden">

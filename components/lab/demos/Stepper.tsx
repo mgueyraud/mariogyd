@@ -23,7 +23,7 @@ export default function Stepper() {
         <button
           className="size-7 rounded-full bg-neutral-700 grid place-items-center disabled:opacity-40 transition-opacity"
           onClick={() => handleCount(-1)}
-          aria-label="Add 1 to counter"
+          aria-label="Subtract 1 from the counter"
           disabled={counter - 1 < 0}
         >
           <LuMinus />
@@ -74,7 +74,7 @@ export default function Stepper() {
         <button
           className="size-7 rounded-full bg-neutral-700 grid place-items-center"
           onClick={() => handleCount(1)}
-          aria-label="Subtract 1 from the counter"
+          aria-label="Add 1 to the counter"
         >
           <LuPlus />
         </button>

@@ -35,6 +35,7 @@ export default function EmailClient() {
             <div className="flex justify-between py-2 text-right">
               <button
                 onClick={addMessage}
+                aria-label="New message"
                 className="-mx-2 rounded px-2 py-1 text-slate-400 hover:text-slate-500 active:bg-slate-200"
               >
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">

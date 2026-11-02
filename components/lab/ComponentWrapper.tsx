@@ -26,7 +26,7 @@ const ComponentWrapper = forwardRef<HTMLDivElement, Props>(function Wrapper(
   return (
     <div
       className={clsx(
-        "border p-5 rounded-md aspect-square flex justify-center items-center my-6 relative transition",
+        "border p-5 rounded-md aspect-square flex justify-center items-center my-6 relative",
         // Demos are built for a dark canvas, so the wrapper owns the text color
         // too — children that don't set one would otherwise inherit the page's
         // `text-ink` and disappear against the dark background.
@@ -37,7 +37,12 @@ const ComponentWrapper = forwardRef<HTMLDivElement, Props>(function Wrapper(
       ref={ref}
     >
       {hasLightMode ? (
-        <button className="absolute top-5 right-6 z-50" onClick={toggleTheme}>
+        <button
+          type="button"
+          className="absolute top-5 right-6 z-50"
+          onClick={toggleTheme}
+          aria-label={theme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
+        >
           <div className="relative">
             <AnimatePresence initial={false} mode="wait">
               <motion.span

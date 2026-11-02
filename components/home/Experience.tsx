@@ -65,7 +65,7 @@ export default function Experience({ roles }: { roles: Role[] }) {
 
               <div
                 id={`role-${id}`}
-                className="grid grid-cols-1 transition-[grid-template-rows] duration-350 ease-in-out sm:grid-cols-[104px_1fr] sm:gap-x-[18px]"
+                className="grid grid-cols-1 transition-[grid-template-rows] duration-200 ease-out sm:grid-cols-[104px_1fr] sm:gap-x-[18px]"
                 style={{ gridTemplateRows: isOpen ? "1fr" : "0fr" }}
               >
                 {/* Spacer aligning the body with the company column — only exists
